@@ -7,11 +7,58 @@
 			body {
 				margin: 0%;
 			}
+
 			.main-parent {
 				display: flex;
 				background-color: dimgray;
 				width: 100%;
-				height: 150px;
+				height: 100px;
+			}
+
+			.header-row {
+				display: flex;
+				width: 100%;
+				align-items: center;
+			}
+
+			#header-logo {
+				display: flex;
+				width: 25%;
+				justify-content: center;
+			}
+
+			.header-menu {
+				display: flex;
+				width: 50%;
+				justify-content: center;
+			}
+
+			.header-menu > p {
+				font-size: 30px;
+				margin-right: 25px;
+				padding: 5px;
+				padding-left: 15px;
+				padding-right: 15px;
+    			transition: color 0.3s; /* Smooth transition */
+			}
+
+			.header-menu > p:hover {
+				color: #fff; /* Text color on hover */
+				background-color: #333; /* Background color on hover */
+				border-radius: 20px;
+			}
+
+			.header-icons {
+				display: flex;
+				width: 25%;
+				justify-content: right;
+			}
+
+			.header-icons > img {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				border-radius: 10px;
 			}
 		</style>
 	</head>
@@ -19,7 +66,7 @@
 		<div class="main-parent">
 			<div class="header-row">
 				<div id="header-logo">
-					<img src="">
+					<img src="" alt="logo image here">
 				</div>
 
 				<div class="header-menu">
@@ -29,9 +76,9 @@
 				</div>
 
 				<div class="header-icons">
-					<img src="">
-					<img src="">
-					<img src="">
+					<img src="/images/facebook-icon.png">
+					<img src="/images/instagram-icon.png">
+					<img src="/images/tiktok-icon.png">
 				</div>
 			</div>
 		</div>
