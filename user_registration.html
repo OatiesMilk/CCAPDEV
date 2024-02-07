@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Registration Form</title>
+<style>
+  body {
+    font-family: arapey;
+    background: url('https://www.wallpapers13.com/wp-content/uploads/2016/01/Cool-and-Beautiful-Nature-desktop-wallpaper-image-2560X1600-1600x1200.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  .registration-container {
+    width: 600px;
+    background-color: #000000;
+    padding: 20px;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  .header {
+    color: #ffffff;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .checker{
+  	font-size: 12px;
+  	color: #ffffff;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .registration-form {
+  	color: #ffffff;
+  	font-size: 9px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .form-column {
+    width: 48%;
+  }
+  .form-control {
+    margin-bottom: 10px;
+  }
+  .form-control input, .form-control label 	{
+    width: 100%;
+  }
+  .form-control label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .register-btn {
+    font-family: arapey;
+  	font-size: 9px;
+    width: 15%;
+  	display: block;
+  	margin: 20px auto;
+    padding: 10px;
+    background-color: #ffff;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+  }
+  .register-btn:hover {
+    background-color: #fffff;
+  }
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="registration-container">
+  <div class="header">
+    <img src="your-logo-image.png" alt="Logo" style="height:50px;"> 
+    <h2>User Registration</h2>
+  </div>
+  
+  <form>
+    <div class="registration-form">
+      <!-- Right Column Inputs -->
+      <div class="form-column">
+        <div class="form-control">
+          <label for="email">E-MAIL</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-control">
+          <label for="username">USERNAME</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-control">
+          <label for="password">PASSWORD</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+      </div>
+
+      <!-- Left Column Inputs -->
+      <div class="form-column">
+        <div class="form-control">
+          <label for="firstname">FIRST NAME</label>
+          <input type="text" id="firstname" name="firstname" required>
+        </div>
+        
+        <div class="form-control">
+          <label for="lastname">LAST NAME</label>
+          <input type="text" id="lastname" name="lastname" required>
+        </div>
+        
+        <div class="form-control">
+          <label for="confirm-password">CONFIRM PASSORD</label>
+          <input type="password" id="confirm-password" name="confirm-password" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="checker">
+      <input type="checkbox" id="terms" name="terms" required>
+      <label for="terms">I agree to the Terms and Service</label>
+    </div>
+    
+    <div class="error">
+
+    </div>
+    
+    <button type="submit" class="register-btn">REGISTER</button>
+  </form>
+</div>
+
+</body>
+</html>
