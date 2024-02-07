@@ -18,16 +18,27 @@
   }
   
   .login-container {
-  	background-color: rgba(0, 0, 0, 0.8);
-    width: 400px;
+  	background-color: rgba(0, 0, 0, 1);
+    width: 300px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .login-backdrop{
+  	background-color: white;
+    
   }
 
   .login-header {
     color: #ffffff;
     padding: 10px;
     text-align: center;
+    margin-bottom: -30px;
+  }
+  .login-backdrop {
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 1000px;
+    display: inline-block;
+    backdrop-filter: blur(3px);
   }
 
   .form-group {
@@ -38,6 +49,7 @@
   }
   
   .form-checker-text{
+  	font-size: 12px;
   	align-items: center;
     justify-content: center;
   	color: #ffffff;
@@ -58,13 +70,13 @@
   }
 
   .input-submit {
+  	font-family: arapey;
   	display: block;
   	margin: 20px auto; 
-    width: 20%;
-    padding: 10px;
+    width: 25%;
+    padding: 5px;
     border: none;
     background: #ffff;
-    color: #00000;
     cursor: pointer;
   }
 
@@ -73,12 +85,15 @@
   }
 
   .login-footer {
+  	font-size: 12px;
   	color: #ffffff;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
   }
 
   .error {
+  	font-size: 11px;
     color: red;
     text-align: center;
   }
@@ -86,32 +101,34 @@
 </head>
 <body>
 
-<div class="login-container">
-  <div class="login-header">
-  <img src="https://github.com/OatiesMilk/CCAPDEV/blob/main/images/Logo_White.png?raw=true" alt="Logo" style="height:50px;"> 
-  <h2>User Log-in</h2>
-</div>
-  <form>
-    <div class="form-group">
-      <label for="username" class="label">USERNAME</label>
-      <input type="text" id="username" name="username" class="input-text">
+<div class="login-backdrop">
+  <div class="login-container">
+    <div class="login-header">
+      <img src="https://github.com/OatiesMilk/CCAPDEV/blob/main/images/Logo_White.png?raw=true" alt="Logo" style="height:50px;"> 
+      <h2>User Log-in</h2>
     </div>
-    <div class="form-group">
-      <label for="password" class="label">PASSWORD</label>
-      <input type="password" id="password" name="password" class="input-password" required>
-    </div>
-    <div class="form-checker-text">
-      <label><input type="checkbox" name="remember"> Remember me</label>
-    </div>
+    <form>
+      <div class="form-group">
+        <label for="username" class="label">USERNAME</label>
+        <input type="text" id="username" name="username" class="input-text">
+      </div>
+      <div class="form-group">
+        <label for="password" class="label">PASSWORD</label>
+        <input type="password" id="password" name="password" class="input-password" required>
+      </div>
+      <div class="form-checker-text">
+        <label><input type="checkbox" name="remember"> Remember me</label>
+      </div>
       <div class="error">
-    <p>Username and Password does not match.</p>
-  </div>
-    <div class="form-group">
-      <input type="submit" value="LOG IN" class="input-submit">
+        <p>Username and Password does not match.</p>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="LOG IN" class="input-submit">
+      </div>
+    </form>
+    <div class="login-footer">
+      <p>Don't have an account yet? <a href="--------------------PUT LINK ----------------">Register</a></p>
     </div>
-  </form>
-  <div class="login-footer">
-    <p>Don't have an account yet? <a href="--------------------PUT LINK ----------------">Register</a></p>
   </div>
 </div>
 
