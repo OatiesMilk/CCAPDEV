@@ -1,127 +1,177 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Web Application</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<style>
-			body {
-				margin: 0%;
-			}
+<head>
+    <title>Web Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0%;
+        }
 
-			.main-parent {
-				width: 100%;
-				height: 1060px;
-				position: relative;
-			}
+        .main-parent {
+            width: 100%;
+            position: relative;
+        }
 
-			.header-row {
-				display: flex;
-				background-color: rgba(0, 0, 0, 0.7);
-				height: 125px;
-				width: 100%;
-				align-items: center;
-				justify-content: center;
-				position: fixed;
-			}
+        .header-row {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 125px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 1;
+        }
 
-			#header-logo > img {
-				width: 170px;
-				height: 170px;
-				transition: transform 0.3s;
-			}
+        #header-logo > img {
+            width: 170px;
+            height: 170px;
+            transition: transform 0.3s;
+        }
 
-			#header-logo > img:hover {
-    			transform: scale(1.1); /* Increase size on hover */
-			}
+        #header-logo > img:hover {
+            transform: scale(1.1); /* Increase size on hover */
+        }
 
-			.header-menu {
-				display: flex;
-				margin: 150px;
-			}
+        .header-menu {
+            display: flex;
+            margin: 150px;
+        }
 
-			.header-menu > p {
-				color: white;
-				font-size: 30px;
-				margin-right: 25px;
-				padding: 5px;
-				padding-left: 15px;
-				padding-right: 15px;
-    			transition: color 0.3s; /* Smooth transition */
-			}
+        .header-menu > p {
+            color: white;
+            font-size: 30px;
+            margin-right: 25px;
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            transition: color 0.3s; /* Smooth transition */
+        }
 
-			.header-menu > p:hover {
-				color: black; /* Text color on hover */
-				background-color: white; /* Background color on hover */
-				border-radius: 20px;
-			}
+        .header-menu > p:hover {
+            color: black; /* Text color on hover */
+            background-color: white; /* Background color on hover */
+            border-radius: 20px;
+        }
 
-			.header-icons > img {
-				width: 35px;
-				height: 35px;
-				margin-right: 10px;
-				border-radius: 10px;
-				transition: transform 0.3s;
-				border: 2px solid white;
-			}
+        .header-icons > img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            border: 2px solid white;
+        }
 
-			.header-icons > img:hover {
-    			transform: scale(1.2); /* Increase size on hover */
-			}
+        .header-icons > img:hover {
+            transform: scale(1.2); /* Increase size on hover */
+        }
 
-			.main-content {
-				display: flex;
-				width: 100%;
-				height: 1070px;
-			}
+        .main-content {
+            width: 100%;
+            height: 1070px;
+        }
 
-			.homepage-content > img {
-				width: 100%;
-			}
+        .homepage-img {
+            position: relative;
+        }
 
-			.copyrights {
-				display: flex;
-				width: 100%;
-				background-color: black;
-				justify-content: center;
-			}
+        .homepage-img > img {
+            width: 100%;
+        }
 
-			.copyrights > pre {
-				font-family:'Franklin Gothic Medium';
-				font-size: 15px;
-				color: white;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="main-parent">
-			<div class="header-row">
-				<div id="header-logo">
-					<img src="images/logo-icon-white.png" alt="logo image here">
-				</div>
+        .homepage-searchbar {
+            position: fixed;
+            top: 150px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
 
-				<div class="header-menu">
-					<p>about us</p>
-					<p>restaurants</p>
-					<p>order now</p>
-				</div>
+		#find {
+			padding: 0;
+			border: none;
+			background: none;
+			width: 50px;
+			height: 50px;
+			background-color: transparent;
+			transition: transform 0.3s;
+		}
 
-				<div class="header-icons">
-					<img src="images/facebook-icon.png">
-					<img src="images/instagram-icon.png">
-					<img src="images/tiktok-icon.png">
-				</div>
-			</div>
+		#find > img:hover {
+            transform: scale(1.2); /* Increase size on hover */
+        }
 
-			<div class="main-content">
-				<div class="homepage-content">
-					<img src="images/background-image.png" alt="background image here">
-				</div>
-			</div>
+		#find > img {
+			width: 100%;
+			height: 100%;
+		}
 
-			<div class="copyrights">
-				<pre>Copyright © 2024 - sulEAT FOOD BITES  |  Policy</pre>
-			</div>
-		</div>
-		<script src=""></script>
-	</body>
+        #searchbar {
+			border: 2px solid black;
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 50px;
+			margin-right: 10px;
+        }
+
+		*:focus {
+			outline: none;
+		}
+
+        .copyrights {
+            width: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+
+		.copyrights > pre {
+			font-family:'Franklin Gothic Medium';
+			font-size: 15px;
+		}
+    </style>
+</head>
+<body>
+    <div class="main-parent">
+        <div class="header-row">
+            <div id="header-logo">
+                <img src="images/logo-icon-white.png" alt="logo image here">
+            </div>
+
+            <div class="header-menu">
+                <p>About Us</p>
+                <p>Restaurants</p>
+                <p>Order Now</p>
+            </div>
+
+            <div class="header-icons">
+                <img src="images/facebook-icon.png">
+                <img src="images/instagram-icon.png">
+                <img src="images/tiktok-icon.png">
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="homepage-img">
+                <img src="images/background-image.png" alt="background image here">
+
+                <div class="homepage-searchbar">
+                    <input type="text" placeholder="Search Restaurants" id="searchbar">
+					<button id="find">
+						<img src="images/find-icon.png" alt="search icon here">
+					</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyrights">
+            <pre>Copyright © 2024 - sulEAT FOOD BITES  |  Policy</pre>
+        </div>
+    </div>
+    <script src=""></script>
+</body>
 </html>
