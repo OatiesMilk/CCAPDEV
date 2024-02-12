@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0%;
+            background-image: url("images/background-image.png");
+        }
+
+        .main-parent {
+            width: 100%;
+            position: relative;
+        }
+
+        .header-row {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 125px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 1;
+        }
+
+        #header-logo > img {
+            width: 170px;
+            height: 170px;
+            transition: transform 0.3s;
+			padding-right: 10px;
+        }
+
+        #header-logo > img:hover {
+            transform: scale(1.1); /* Increase size on hover */
+        }
+
+        .header-menu {
+            display: flex;
+            margin: 150px;
+			padding-left: 5px;
+        }
+
+        .header-menu > p {
+            color: white;
+            font-size: 25px;
+            margin-right: 25px;
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            transition: color 0.5s;
+        }
+
+        .header-menu > p:hover {
+            color: black; /* Text color on hover */
+            background-color: white; /* Background color on hover */
+            border-radius: 20px;
+        }
+
+        .header-icons > img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            border: 2px solid white;
+        }
+
+        .header-icons > img:hover {
+            transform: scale(1.2); /* Increase size on hover */
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 1070px;
+            align-items: center;
+            justify-content: center;
+            font-family:'Franklin Gothic Medium';
+        }
+
+        .profile-info {
+            display: flex;
+            width: 50%;
+            align-items: center;
+            height: 150px;
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        .profile-image {
+            margin-left: 20px;
+            margin-right: 20px;
+            display: flex;
+            width: 10%;
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+        }
+
+        .profile-image > img {
+            width: 100px;
+            height: 100px;
+        }
+
+        #profile-name, #bio-title {
+            font-size: 30px;
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .profile-icons > img {
+            margin-top: 10px;
+            width: 35px;
+        }
+
+        .profile-setting {
+            display: flex;
+            width: 10%;
+            height: 100%;
+            justify-content: end;
+            align-items: baseline;
+        }
+
+        .profile-setting > img {
+            width: 35px;
+        }
+
+        .profile-bio {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            width: 50%;
+            border: 2px solid black;
+            background-color: white;
+            height: 100px;
+        }
+
+        .bio {
+            display: flex;
+            width: 20%;
+            border-right: 4px solid black;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bio-info {
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 80%;
+        }
+
+        .profile-last {
+            display: flex;
+            margin-top: 10px;
+            width: 50%;
+            height: 300px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            height: 20%;
+        }
+
+        #review-title {
+            color: white;
+            font-size: 25px;
+            margin-left: 5%;
+        }
+
+        .resto-name {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .restaurants-list {
+            display: flex;
+            height: 80%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .restaurant-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .restaurant-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20%;
+            height: 100%;
+        }
+
+        .restaurant-reviews {
+            display: flex;
+            flex-direction: column;
+            background-color: #242424;
+            height: 100%;
+            width: 70%;
+            margin-right: 10px;
+        }
+
+        .restaurant-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 60%;
+            height: 100%;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .restaurant-item {
+            display: flex;
+            width: 90%;
+            height: 80%;
+            background-color: white;
+        }
+
+        .restaurant-rating {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 30%;
+            height: 100%;
+        }
+
+        .more-reviews {
+            display: flex;
+            height: 50px;
+            width: 90%;
+            background-color: #242424;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .more-reviews > label {
+            color: white;
+        }
+
+        .more-reviews > img {
+            width: 30px;
+            margin-left: 5px;
+            color: white;
+        }
+
+        #SE {
+            margin-left: 5px;
+        }
+
+        .user-statistics {
+            display: flex;
+            background-color: #242424;
+            height: 100%;
+            width: 30%;
+        }
+
+		#find {
+			padding: 0;
+			border: none;
+			background: none;
+			width: 50px;
+			height: 50px;
+			background-color: transparent;
+		}
+
+		#find > img:hover {
+            transition: transform 0.3s;
+            transform: scale(1.2); /* Increase size on hover */
+        }
+
+		#find > img {
+			width: 100%;
+			height: 100%;
+		}
+
+        #searchbar {
+			border: 2px solid black;
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 50px;
+			margin-right: 10px;
+        }
+
+		*:focus {
+			outline: none;
+		}
+
+        .copyrights {
+            width: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+
+		.copyrights > pre {
+			font-family:'Franklin Gothic Medium';
+			font-size: 15px;
+		}
+
+        .user-statistics {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats-header {
+            display: flex;
+            height: 25%;
+            align-items: center;
+        }
+
+        #stats-header-text {
+            color: white;
+            font-size: 25px;
+            margin-left: 20px;
+        }
+
+        .stats-content {
+            display: flex;
+            align-items: center;
+            height: 70%;
+            justify-content: center;
+        }
+
+        .stats-text {
+            color: white;
+            font-size: 15px;
+        }
+
+        .spacer {
+            height: 80%;
+            border: 2px solid white;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .review-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reviews {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-left: 10px;
+            margin: 5px;
+        }
+
+        .reviews > img {
+            width: 40px;
+            margin-right: 5px;
+        }
+		
+    </style>
+</head>
+<body>
+    <div class="main-parent">
+        <div class="header-row">
+            <div id="header-logo">
+                <img src="images/logo-icon-white.png" alt="logo image here">
+            </div>
+			
+			<div class="header-icons">
+                <img src="images/facebook-icon.png">
+                <img src="images/instagram-icon.png">
+                <img src="images/tiktok-icon.png">
+            </div>
+
+            <div class="header-menu">
+				<p>Home</p>
+                <p>About Us</p>
+                <p>Restaurants</p>
+                <p>Profile</p>
+				<p>Logout</p>
+            </div>
+
+
+        </div>
+
+        <div class="main-content">
+            <div class="profile-info">
+                <div class="profile-image">
+                    <img src="images/profile-icon.png" alt="profile icon">
+                </div>
+                
+                <div class="profile-content">
+                    <div class="profile-labels">
+                        <label id="profile-name">Juan Dela Cruz</label></br>
+                        <label id="profile-tag">@juan_dela_cruz</label>
+                    </div>
+
+                    <div class="profile-icons">
+                        <img src="images/facebook-icon.png" alt="setting icon">
+                        <img src="images/twitter-icon.png" alt="setting icon">
+                        <img src="images/instagram-icon.png" alt="setting icon">
+                        <img src="images/phone-icon.png" alt="setting icon">
+                        <img src="images/message-icon.png" alt="setting icon">
+                    </div>
+                </div>
+
+                <div class="profile-setting">
+                    <img src="images/setting-icon.png" alt="setting icon">
+                </div>
+            </div>
+
+            <div class="profile-bio">
+                <div class="bio">
+                    <label id="bio-title">USER BIO</label>
+                </div>
+                
+                <div class="bio-info">
+                    <label id="bio-text">
+                        Dela Cruz is a food critic based in Manila, Philippines.
+                        He finished Culinary Arts in London and is a huge avid fan of discovering Asian cuisine,
+                        exploring each of their cultures.
+                    </label>
+                </div>
+            </div>
+
+            <div class="profile-last">
+                <div class="restaurant-reviews">
+                    <div class="review-header">
+                        <label id="review-title">PREVIOUS RESTAURANT REVIEWS</label>
+                    </div>
+
+                    <div class="restaurants-list">
+                        <div class="restaurant-item">
+                            <div class="restaurant-logo">
+                                <img src="" alt="logo">
+                            </div>
+
+                            <div class="restaurant-info">
+                                <div class="resto-name">
+                                    <label class="restaurant-name">Sinangag Express</label>
+                                </div>
+
+                                <div class="resto-info">
+                                    <label class="restaurant-text">
+                                        Amazing. Life-changing cuisine. Breathtaking. Extraordinary. orem ipsum dolor sit amet, 
+                                        consectetur adipiscing elit. Nunc convallis ipsum quam, ut sollicitudin felis fringilla eget
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="restaurant-rating">
+                                <div class="more-reviews">
+                                    <label>More Reviews</label>
+                                    <img src="images/play-icon.png" alt="goto">
+                                </div>
+
+                                <div class="meter-rating">
+                                    <label for="SE">4.0 / 5.0</label>
+                                    <meter id="SE" value="4" min="0" max="5">4 out of 5</meter>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-statistics">
+                    <div class="stats-header">
+                        <label id="stats-header-text">USER STATISTICS</label>
+                    </div>
+
+                    <div class="stats-content">
+                        <div class="spacer"></div>
+
+                        <div class="review-container">
+                            <div class="reviews">
+                                <img src="images/thumbsup-icon.png" alt="thumbs up">
+                                <label class="stats-text">Helpful Reviews (53)</label>
+                            </div>
+    
+                            <div class="reviews">
+                                <img src="images/thumbsdown-icon.png" alt="thumbs down">
+                                <label class="stats-text">Non-Helpful Reviews (10)</label>
+                            </div>
+    
+                            <div class="reviews">
+                                <img src="images/review-icon.png" alt="total reviews">
+                                <label class="stats-text">Total Reviews (127)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyrights">
+            <pre>Copyright © 2024 - sulEAT FOOD BITES  |  Policy</pre>
+        </div>
+    </div>
+    <script src=""></script>
+</body>
+</html>
