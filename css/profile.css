@@ -22,16 +22,16 @@
 
         .profile-info {
             display: flex;
-            width: 50%;
+            width: 80%;
             align-items: center;
-            height: 150px;
+            height: 230px;
             background-color: white;
-            border: 2px solid black;
+
         }
 
         .profile-image {
-            margin-left: 20px;
-            margin-right: 20px;
+            margin-left: 80px;
+            margin-right: 70px;
             display: flex;
             width: 10%;
             justify-content: center;
@@ -40,12 +40,16 @@
         }
 
         .profile-image > img {
-            width: 100px;
-            height: 100px;
+            width: 200px;
         }
 
-        #profile-name, #bio-title {
-            font-size: 30px;
+        #profile-name {
+            font-size: 50px;
+        }
+
+        #bio-title {
+            font-size: 40px;
+            font-family: 'Bebas Neue';
         }
 
         .profile-content {
@@ -54,6 +58,15 @@
             width: 80%;
             height: 100%;
             justify-content: center;
+        }
+
+        .profile-icons {
+            background-color: #242424;
+            border-radius: 10px;
+            margin-top: 5px;
+            padding: 10px;
+            width: 290px;
+            align-items: center;
         }
 
         .profile-icons > img {
@@ -65,20 +78,22 @@
             display: flex;
             width: 10%;
             height: 100%;
+            margin-top: 50px;
+            margin-right: 30px;
             justify-content: end;
             align-items: baseline;
         }
 
-        .profile-setting > img {
-            width: 35px;
+        .profile-setting > a > img {
+            width: 55px;
+            margin-left: 20px;
         }
 
         .profile-bio {
             display: flex;
             align-items: center;
             margin-top: 10px;
-            width: 50%;
-            border: 2px solid black;
+            width: 80%;
             background-color: white;
             height: 100px;
         }
@@ -101,7 +116,7 @@
         .profile-last {
             display: flex;
             margin-top: 10px;
-            width: 50%;
+            width: 80%;
             height: 300px;
         }
 
@@ -113,13 +128,16 @@
 
         #review-title {
             color: white;
-            font-size: 25px;
-            margin-left: 5%;
+            font-size: 55px;
+            margin-left: 35px;
+            margin-top: 40px;
+            margin-bottom: 5px;
+            font-family: 'Bebas Neue';
         }
 
         .resto-name {
-            font-size: 25px;
-            font-weight: bold;
+            font-size: 45px;
+            font-family: 'Bebas Neue';
         }
 
         .restaurants-list {
@@ -139,8 +157,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 20%;
+            width: 30%;
             height: 100%;
+        }
+
+        .restaurant-logo > img {
+            height: 150px;
         }
 
         .restaurant-reviews {
@@ -182,15 +204,24 @@
             display: flex;
             height: 50px;
             width: 90%;
-            background-color: #242424;
-            border-radius: 10px;
             justify-content: center;
             align-items: center;
             margin-bottom: 10px;
         }
 
-        .more-reviews > label {
-            color: white;
+        .reviews > meter {
+            margin-right: 20px;
+        }
+
+        .show-reviews-btn {
+            padding: 8px;
+            margin-left: 10px;
+            background-color: #242424;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100px;
         }
 
         .more-reviews > img {
@@ -268,8 +299,10 @@
 
         #stats-header-text {
             color: white;
-            font-size: 25px;
-            margin-left: 20px;
+            font-size: 50px;
+            margin-left: 30px;
+            margin-top: 20px;
+            font-family: 'Bebas Neue';
         }
 
         .stats-content {
@@ -277,6 +310,7 @@
             align-items: center;
             height: 70%;
             justify-content: center;
+            margin-left: -2px;
         }
 
         .stats-text {
@@ -310,4 +344,6 @@
             width: 40px;
             margin-right: 5px;
         }
+
+        
 		

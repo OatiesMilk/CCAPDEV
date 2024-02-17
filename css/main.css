@@ -1,28 +1,32 @@
         body {
-            margin: 0%;
-            background-image: url("../images/background-image.png");
+            margin: 0px;
+            background-image: url("../images/background-image.png") no-repeat center center fixed;
         }
 
         .main-parent {
             width: 100%;
-            position: relative;
         }
+
+        /**Header**/
 
         .header-row {
             display: flex;
-            background-color: rgba(0, 0, 0, 0.7);
-            height: 125px;
+            background-color: #242424;
+            height: 90px;
             width: 100%;
             align-items: center;
             justify-content: center;
             position: fixed;
             z-index: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         #header-logo > img {
-            width: 170px;
-            height: 170px;
+            height: 120px;
             transition: transform 0.3s;
+            padding: 10px;
+            padding-right: 30px;
         }
 
         #header-logo > img:hover {
@@ -32,11 +36,12 @@
         .header-menu {
             display: flex;
             margin: 150px;
+            margin-right: 20px;
         }
 
         .header-menu > p a {
             color: white;
-            font-size: 25px;
+            font-size: 22px;
             margin-right: 25px;
             padding: 5px;
             padding-left: 15px;
@@ -47,25 +52,36 @@
         .header-menu > p:hover a:hover{
             color: black; /* Text color on hover */
             background-color: white; /* Background color on hover */
-            border-radius: 20px;
+            border-radius: 10px;
         }
 
-        .header-icons > img {
+        .header-icons > a > img {
             width: 35px;
             height: 35px;
             margin-right: 10px;
-            border-radius: 10px;
             transition: transform 0.3s;
-            border: 2px solid white;
         }
 
-        .header-icons > img:hover {
+        .profile-icons > a > img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+
+        .header-icons > a > img:hover {
             transform: scale(1.2); /* Increase size on hover */
         }
 
+        .profile-icons > a > img:hover {
+            transform: scale(1.2); /* Increase size on hover */
+        }
+
+        /****/
+
         .main-content {
-            width: 100%;
-            height: 1070px;
+            margin: 0px;
+            padding-bottom: 0px;
         }
 
         .homepage-img {
@@ -74,6 +90,7 @@
 
         .homepage-img > img {
             width: 100%;
+            margin-bottom: 0px;
         }
 
         .homepage-searchbar {
@@ -118,10 +135,11 @@
 
         .copyrights {
             width: 100%;
-            background-color: black;
+            background-color: #242424;
             display: flex;
             justify-content: center;
             color: white;
+            margin-top: -5px;
         }
 
 		.copyrights > pre {

@@ -1,6 +1,6 @@
 body {
     font-family: arapey;
-    background: url('profile-background-image.png') no-repeat center center fixed;
+            background-image: url("../images/profile-background-image.png");
     background-size: 100%;
     padding: 0;
     margin: 0;

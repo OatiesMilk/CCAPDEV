@@ -97,3 +97,10 @@
 			color: red;
 			margin-bottom: 10px;
 		  }
+
+		  .sign-in-link {
+			color: #ffffff;
+			text-align: center;
+			display: block;
+			margin-top: 20px;
+		  }
