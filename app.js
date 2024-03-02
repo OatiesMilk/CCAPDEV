@@ -28,7 +28,7 @@ const accountsSchema = new mongoose.Schema({
   pass: { type: String }
 }, { versionKey: false });
 
-const loginModel = mongoose.model('accounts', accountsSchema);
+const loginModel = mongoose.model('account', accountsSchema);
 
 function errorFn(err){
     console.log('Error found. Please trace!');
@@ -40,32 +40,45 @@ function successFn(res){
 }
 
 server.get('/', function(req, resp){
-	resp.render('main',{
+	resp.render('main', {
         layout: 'index',
         title: 'SulEAT Food Bites',
         css: 'main'
     });
 });
 
-server.post('/create-user', function(req, resp) {
-    //Creating a new instance can be made this way.
-    const loginInstance = loginModel({
-        user: req.body.user,
-        pass: req.body.pass
-    });
-
-    //to save this into the database, call the instance's save function.
-    //it will have a call-back to check if it worked.
-    loginInstance.save().then(function(accounts) {
-        console.log('Account created');
-        //change in interface is placed here as only when the query is
-        //successful do we update the interface.
-        resp.render('result',{
+server.post('/', function(req, resp){
+    resp.render('main', {
         layout: 'index',
-        msg:  'Account created successfully'
-        });
-    }).catch(errorFn);
+        title: 'SulEAT Food Bites',
+        css: 'main'
+    });
 });
+
+server.post('/gotoAboutUs', function(req, resp){
+    resp.render('aboutUs', {
+        layout: 'index',
+        title: 'About Us',
+        css: 'about_us'
+    });
+});
+
+server.post('/gotoRestaurants', function(req, resp){
+    resp.render('restaurants', {
+        layout: 'index',
+        title: 'Restaurants',
+        css: 'restaurant'
+    });
+});
+
+server.post('/gotoLogin', function(req, resp){
+    resp.render('login', {
+        layout: 'index',
+        title: 'Login',
+        css: 'login'
+    });
+});
+
 
 //Only at the very end should the database be closed.
 function finalClose(){

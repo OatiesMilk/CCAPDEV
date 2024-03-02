@@ -11,9 +11,20 @@
     </div>
 
     <div class="header-menu">
-        <p><a href="main.html">Home</a></p>
-        <p><a href="about_us.html">About Us</a></p>
-        <p><a href="restaurants.html">Restaurants</a></p>
-        <p><a href="login.html">Log In</a></p>
+        <form action="/" method="post">
+            <button type="submit">Home</button>
+        </form>
+
+        <form action="/gotoAboutUs" method="post">
+            <button type="submit">About Us</button>
+        </form>
+
+        <form action="/gotoRestaurants" method="post">
+            <button type="submit">Restaurants</button>
+        </form>
+
+        <form action="/gotoLogin" method="post">
+            <button type="submit">Log In</button>
+        </form>
     </div>
 </div>
