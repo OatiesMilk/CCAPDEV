@@ -62,15 +62,15 @@
             transition: transform 0.3s;
         }
 
+        .header-icons > a > img:hover {
+            transform: scale(1.2); /* Increase size on hover */
+        }
+
         .profile-icons > a > img {
             width: 35px;
             height: 35px;
             margin-right: 10px;
             transition: transform 0.3s;
-        }
-
-        .header-icons > a > img:hover {
-            transform: scale(1.2); /* Increase size on hover */
         }
 
         .profile-icons > a > img:hover {
