@@ -1,12 +1,20 @@
-<form name="create-user" action="create-user" method="post">
-    <table>
-      <tr>
-        <td><label>Username: </label></td>
-        <td><input name="user" type="text"></input></td>
-      </tr><tr>
-        <td><label>Password: </label></td>
-        <td><input name="pass" type="password"></input></td>
-      </tr>
-    </table>
-    <input type="submit" value="submit"></input>
-  </form>
+<div class="main-parent">
+    {{> header}}
+
+    <div class="main-content">
+        <div class="homepage-img">
+            <img src="/common/images/background-image.png" alt="background image here">
+
+            <div class="homepage-searchbar">
+                <input type="text" placeholder="Search Restaurants" id="searchbar">
+                <button id="find">
+                    <img src="/common/images/find-icon.png" alt="search icon here">
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copyrights">
+        <pre>Copyright © 2024 - sulEAT FOOD BITES  |  Policy</pre>
+    </div>
+</div>

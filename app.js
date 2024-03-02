@@ -42,7 +42,8 @@ function successFn(res){
 server.get('/', function(req, resp){
 	resp.render('main',{
         layout: 'index',
-        title: 'SulEAT Food Bites'
+        title: 'SulEAT Food Bites',
+        css: 'main'
     });
 });
 
