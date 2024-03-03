@@ -67,7 +67,7 @@ server.post('/gotoRestaurants', function(req, resp){
     resp.render('restaurants', {
         layout: 'index',
         title: 'Restaurants',
-        css: 'restaurant'
+        css: 'restaurants'
     });
 });
 

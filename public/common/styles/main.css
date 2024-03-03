@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    background-image: url("../images/background-image.png");
 }
 
 .main-parent {
@@ -14,8 +15,6 @@ body {
     width: 100%;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    z-index: 1;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -83,17 +82,8 @@ body {
     padding-bottom: 0px;
 }
 
-.homepage-img {
-    position: relative;
-}
-
-.homepage-img > img {
-    width: 100%;
-    margin-bottom: 0px;
-}
-
 .homepage-searchbar {
-    position: fixed;
+    margin-top: 100px;
     top: 150px;
     width: 100%;
     display: flex;
@@ -128,6 +118,7 @@ body {
     margin-right: 10px;
 }
 
+/** footer **/
 *:focus {
     outline: none;
 }
@@ -138,7 +129,9 @@ body {
     display: flex;
     justify-content: center;
     color: white;
-    margin-top: -5px;
+    position: fixed;
+    bottom: 0;
+    align-items: baseline;
 }
 
 .copyrights > pre {
@@ -163,3 +156,4 @@ a:active {
     background-color: transparent;
     text-decoration: none;
 }
+/** end of footer **/

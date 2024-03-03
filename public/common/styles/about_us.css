@@ -7,7 +7,7 @@ body {
     width: 100%;
 }
 
-/**Header**/
+/** header **/
 .header-row {
     display: flex;
     background-color: #242424;
@@ -76,7 +76,9 @@ body {
 .profile-icons > a > img:hover {
     transform: scale(1.2); /* Increase size on hover */
 }
+/** end of header **/
 
+/** footer **/
 *:focus {
     outline: none;
 }
@@ -114,6 +116,7 @@ a:active {
     background-color: transparent;
     text-decoration: none;
 }
+/** end of footer **/
 
 .about-container {
     margin-top: 60px;
