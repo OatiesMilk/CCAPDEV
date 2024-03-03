@@ -1,0 +1,18 @@
+<div class="restaurants-list">
+    {{#each restaurant_list}}
+    <div class="restaurant-item">
+        <img class="restaurant-logo" src="/common/images/{{name}}-logo.png" alt="restaurant logo">
+        <div class="restaurant-info">
+            <h2>{{name}}</h2>
+            <div class="restaurant-rating">
+                <meter value="{{rating}}" min="0" max="5">{{rating}}</meter>
+                <span>{{rating}}</span>
+            </div>
+            <p class="restaurant-description">{{description}}</p>
+        </div>
+        <form action="/gotoReviews" method="post">
+            <button type="submit" class="show-reviews-btn">Reviews ►</button>
+        </form>
+    </div>
+    {{/each}}
+</div>

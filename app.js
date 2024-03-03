@@ -28,7 +28,15 @@ const accountsSchema = new mongoose.Schema({
   pass: { type: String }
 }, { versionKey: false });
 
+const restaurantsSchema = new mongoose.Schema({
+    name: { type: String },
+    description: { type: String },
+    rating: { type: Number }
+    // logo: { type: Image }
+}, { versionKey: false });
+
 const loginModel = mongoose.model('account', accountsSchema);
+const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
 
 function errorFn(err){
     console.log('Error found. Please trace!');
@@ -36,15 +44,31 @@ function errorFn(err){
 }
 
 function successFn(res){
-    console.log('Database query successful!');
+    console.log('Database connection successful!');
+    console.log(res);
 }
 
+const resto_list = [];
+restaurantModel.find({}).then(function(restaurants){
+    for (const item of restaurants) {
+        resto_list.push({
+            _id: item._id.toString(),
+            name: item.name,
+            description: item.description,
+            rating: item.rating.toString()
+        });
+    }
+
+    console.log(resto_list);
+}).catch(errorFn);
+
 server.get('/', function(req, resp){
-	resp.render('main', {
-        layout: 'index',
-        title: 'SulEAT Food Bites',
-        css: 'main'
-    });
+        resp.render('main', {
+            layout: 'index',
+            title: 'SulEAT Food Bites',
+            css: 'main',
+            restaurant_list: resto_list
+        });
 });
 
 server.post('/', function(req, resp){
@@ -56,7 +80,7 @@ server.post('/', function(req, resp){
 });
 
 server.post('/gotoAboutUs', function(req, resp){
-    resp.render('aboutUs', {
+    resp.render('about_us', {
         layout: 'index',
         title: 'About Us',
         css: 'about_us'
@@ -67,7 +91,16 @@ server.post('/gotoRestaurants', function(req, resp){
     resp.render('restaurants', {
         layout: 'index',
         title: 'Restaurants',
+        restaurant_list: resto_list,
         css: 'restaurants'
+    });
+});
+
+server.post('/gotoProfile', function(req, resp){
+    resp.render('user_profile', {
+        layout: 'index',
+        title: 'Profile | SulEAT Food Bites',
+        css: 'profile'
     });
 });
 
@@ -76,6 +109,48 @@ server.post('/gotoLogin', function(req, resp){
         layout: 'index',
         title: 'Login',
         css: 'login'
+    });
+});
+
+server.post('/gotoLogout', function(req, resp){
+    resp.render('main', {
+        layout: 'index',
+        title: 'SulEAT Food Bites',
+        css: 'main'
+    });
+});
+
+server.post('/gotoRestaurantRegistration', function(req, resp){
+    resp.render('register_restaurant', {
+        layout: 'index',
+        title: 'Restaurant Registration',
+        css: 'res_registration'
+    });
+});
+
+server.post('/registerRestaurant', function(req, resp){
+    const registerInstance = restaurantModel({
+        name: req.body.res_name,
+        description: req.body.res_description,
+        rating: req.body.res_rating
+        // image: req.body.res_logo
+    });
+
+    registerInstance.save().then(function(restaurant){
+        resp.render('register_restaurant', {
+            layout: 'index',
+            title: 'Restaurant Registration',
+            css: 'res_registration'
+        });
+        console.log("Successfully registered!");
+    }).catch(errorFn);
+});
+
+server.post('/verifyLogin', function(req, resp){
+    resp.render('main', {
+        layout: 'index',
+        title: 'SulEAT Food Bites',
+        css: 'main'
     });
 });
 

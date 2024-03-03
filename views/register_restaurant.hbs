@@ -1,0 +1,28 @@
+<div class="main-parent">
+    {{> header}}
+
+    <div class="container">
+        <form action="/registerRestaurant" method="post">
+                <table>
+                <tr>
+                    <td><label>Name of Restaurant:</label></td>
+                    <td><input name="res_name" type="text"></input></td>
+                </tr>
+
+                <tr>
+                    <td><label>Description:</label></td>
+                    <td><input name="res_description" type="text"></input></td>
+                </tr>
+
+                <tr>
+                    <td><label>Rating:</label></td>
+                    <td><input name="res_rating" type="text"></input></td>
+                </tr>
+                </table>
+            <input type="submit" value="submit"></input>
+        </form>
+    </div>
+
+    {{> footer}}
+</div>
+

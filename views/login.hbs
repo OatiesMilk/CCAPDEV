@@ -4,7 +4,7 @@
       <img src="images/logo-icon-white.png" alt="Logo" style="height:200px;"> 
       <h2>User Log-in</h2>
     </div>
-    <form>
+    <form action="/verifyLogin" method="post">
       <div class="form-group">
         <label for="username" class="label">USERNAME</label>
         <input type="text" id="username" name="username" class="input-text">
@@ -20,7 +20,7 @@
         <p>Username and Password does not match.</p>
       </div>
       <div class="form-group">
-        <input type="submit" value="LOG IN" class="input-submit" onclick="redirect()">
+        <input type="submit" value="LOG IN" class="input-submit">
       </div>
     </form>
     <div class="login-footer">

@@ -16,43 +16,13 @@
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
             </select>
-            
+
             <button id="find">
                 <img src="/common/images/find-icon.png" alt="search icon here">
             </button>
         </div>
         
-        <div class="restaurants-list">
-            <div class="restaurant-item">
-                <img class="restaurant-logo" src="/common/images/restaurant1-logo.png" alt="restaurant logo">
-                <div class="restaurant-info">
-                    <h2>Tinuhog ni Benny</h2>
-                    <div class="restaurant-rating">
-                        <meter value="4.5" min="0" max="5">4.5</meter>
-                        <span>4.5/5.0</span>
-                    </div>
-                    <p class="restaurant-description">Description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis ipsum quam, ut sollicitudin felis fringilla eget. Nunc maximus molestie mattis. Vestibulum nunc lacus, accumsan non metus a, tristique pharetra lectus.</p>
-                </div>
-                <form action="restaurant_profile.html">
-                    <button class="show-reviews-btn">Reviews   ►</button>
-                </form>
-            </div>
-
-            <div class="restaurant-item">
-                <img class="restaurant-logo" src="/common/images/restaurant2-logo.png" alt="restaurant logo">
-                <div class="restaurant-info">
-                    <h2>SINANGAG EXPRESS</h2>
-                    <div class="restaurant-rating">
-                        <meter value="3.8" min="0" max="5">3.8</meter>
-                        <span>3.8/5.0</span>
-                    </div>
-                    <p class="restaurant-description">Description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis ipsum quam, ut sollicitudin felis fringilla eget. Nunc maximus molestie mattis. Vestibulum nunc lacus, accumsan non metus a, tristique pharetra lectus.</p>
-                </div>
-                <form action="restaurant_profile.html">
-                <button class="show-reviews-btn">Reviews   ►</button>
-            </form>
-            </div>
-        </div>
+        {{> restaurant_list}}
     </div>
 
     {{> footer}}
