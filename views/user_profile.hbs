@@ -1,7 +1,10 @@
-
 <div class="main-parent">
     <div class="header-row">
-        {{> header}}
+        {{#if logged_in}}
+            {{> header_logged_in}}
+        {{else}}
+            {{> header}}
+        {{/if}}
     </div>
 
     <div class="main-content">
@@ -17,12 +20,12 @@
                 </div>
 
                 <div class="profile-icons">
-                    <a href="https://www.facebook.com"><img id="header-icon" src="images/facebook-icon.png"></a>
-                    <a href="https://www.instagram.com"><img id="header-icon" src="images/instagram-icon.png"></a>
-                    <a href="https://www.twitter.com"><img id="header-icon" src="images/twitter-icon.png"></a>
-                    <a href="https://www.tiktok.com"><img id="header-icon" src="images/tiktok-icon.png"></a>
-                    <a href="https://www.call.com"><img id="header-icon" src="images/phone-icon.png"></a>
-                    <a href="https://www.gmail.com"><img id="header-icon" src="images/message-icon.png"></a>
+                    <a href="https://www.facebook.com"><img id="header-icon" src="/common/images/facebook-icon.png"></a>
+                    <a href="https://www.instagram.com"><img id="header-icon" src="/common/images/instagram-icon.png"></a>
+                    <a href="https://www.twitter.com"><img id="header-icon" src="/common/images/twitter-icon.png"></a>
+                    <a href="https://www.tiktok.com"><img id="header-icon" src="/common/images/tiktok-icon.png"></a>
+                    <a href="https://www.call.com"><img id="header-icon" src="/common/images/phone-icon.png"></a>
+                    <a href="https://www.gmail.com"><img id="header-icon" src="/common/images/message-icon.png"></a>
                 </div>
             </div>
 
@@ -116,6 +119,5 @@
             </div>
         </div>
     </div>
-
     {{> footer}}
 </div>

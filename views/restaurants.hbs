@@ -1,5 +1,9 @@
 <div class="main-parent">
-    {{> header}}
+    {{#if logged_in}}
+        {{> header_logged_in}}
+    {{else}}
+        {{> header}}
+    {{/if}}
         
     <div class="restaurants-menu">
         <h1>Restaurants</h1>

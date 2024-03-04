@@ -1,3 +1,7 @@
+//Install Command:
+//npm init
+//npm i express express-handlebars body-parser mongoose
+
 const express = require('express');
 const server = express();
 
@@ -37,6 +41,7 @@ const restaurantsSchema = new mongoose.Schema({
 
 const loginModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
+let logged_in = true;
 
 function errorFn(err){
     console.log('Error found. Please trace!');
@@ -49,8 +54,8 @@ function successFn(res){
 }
 
 const resto_list = [];
-restaurantModel.find({}).then(function(restaurants){
-    for (const item of restaurants) {
+restaurantModel.find({}).then(function(restaurant) {
+    for (const item of restaurant) {
         resto_list.push({
             _id: item._id.toString(),
             name: item.name,
@@ -62,49 +67,54 @@ restaurantModel.find({}).then(function(restaurants){
     console.log(resto_list);
 }).catch(errorFn);
 
-server.get('/', function(req, resp){
+server.get('/', function(req, resp) {
         resp.render('main', {
             layout: 'index',
-            title: 'SulEAT Food Bites',
+            title: 'Homepage | SulEAT Food Bites',
             css: 'main',
-            restaurant_list: resto_list
+            restaurant_list: resto_list,
+            logged_in: logged_in
         });
 });
 
-server.post('/', function(req, resp){
+server.post('/', function(req, resp) {
     resp.render('main', {
         layout: 'index',
-        title: 'SulEAT Food Bites',
-        css: 'main'
+        title: 'Homepage | SulEAT Food Bites',
+        css: 'main',
+        logged_in: logged_in
     });
 });
 
-server.post('/gotoAboutUs', function(req, resp){
+server.post('/gotoAboutUs', function(req, resp) {
     resp.render('about_us', {
         layout: 'index',
         title: 'About Us',
-        css: 'about_us'
+        css: 'about_us',
+        logged_in: logged_in
     });
 });
 
-server.post('/gotoRestaurants', function(req, resp){
+server.post('/gotoRestaurants', function(req, resp) {
     resp.render('restaurants', {
         layout: 'index',
         title: 'Restaurants',
         restaurant_list: resto_list,
-        css: 'restaurants'
+        css: 'restaurants',
+        logged_in: logged_in
     });
 });
 
-server.post('/gotoProfile', function(req, resp){
+server.post('/gotoProfile', function(req, resp) {
     resp.render('user_profile', {
         layout: 'index',
         title: 'Profile | SulEAT Food Bites',
-        css: 'profile'
+        css: 'profile',
+        logged_in: logged_in
     });
 });
 
-server.post('/gotoLogin', function(req, resp){
+server.post('/gotoLogin', function(req, resp) {
     resp.render('login', {
         layout: 'index',
         title: 'Login',
@@ -112,11 +122,49 @@ server.post('/gotoLogin', function(req, resp){
     });
 });
 
-server.post('/gotoLogout', function(req, resp){
+server.post('/verifyLogin', function(req, resp) {
+    const account_list = [];
+    loginModel.find({}).then(function(login) {
+        for (const item of login) {
+            account_list.push({
+                _id: item._id.toString(),
+                username: item.username,
+                password: item.password
+            });
+        }
+    }).catch(errorFn);
+
+    const loginQuery = {
+        username: req.body.username,
+        password: req.body.password
+    }
+
+    loginModel.findOne(loginQuery).then(function(login) {
+        if (login != undefined && login._id != null) {
+            resp.render('main', {
+                layout: 'index',
+                title: 'SulEAT Food Bites',
+                css: 'main',
+                logged_in: logged_in
+            });
+            logged_in = true; // change value to logged in
+        } else {
+            resp.render('not_verified', {
+                layout: 'index',
+                title: 'Account Login',
+                css: 'not_verified'
+            }) 
+        }
+    }).catch(errorFn);
+});
+
+server.post('/gotoLogout', function(req, resp) {
+    logged_in = false;
     resp.render('main', {
         layout: 'index',
         title: 'SulEAT Food Bites',
-        css: 'main'
+        css: 'main',
+        logged_in: logged_in
     });
 });
 
@@ -146,25 +194,16 @@ server.post('/registerRestaurant', function(req, resp){
     }).catch(errorFn);
 });
 
-server.post('/verifyLogin', function(req, resp){
-    resp.render('main', {
-        layout: 'index',
-        title: 'SulEAT Food Bites',
-        css: 'main'
-    });
-});
-
-
-//Only at the very end should the database be closed.
+// Only at the very end should the database be closed.
 function finalClose(){
     console.log('Connection closed!');
     mongoose.connection.close();
     process.exit();
 }
 
-process.on('SIGTERM',finalClose);  //general termination signal
-process.on('SIGINT',finalClose);   //catches when ctrl + c is used
-process.on('SIGQUIT', finalClose); //catches other termination commands
+process.on('SIGTERM',finalClose);  // general termination signal
+process.on('SIGINT',finalClose);   // catches when ctrl + c is used
+process.on('SIGQUIT', finalClose); // catches other termination commands
 
 const port = process.env.PORT | 3000;
 server.listen(port, function() {
