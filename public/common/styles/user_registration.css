@@ -1,0 +1,126 @@
+body {
+	background: url("../images/resto-background-image.png");
+	margin: 0;
+}
+
+.header {
+	color: #ffffff;
+	display: flex;
+	justify-content: center; 
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.header > img {
+	height: 100px;
+	margin-right: 20px;
+}
+
+.main-content {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.registration-container {
+    width: 700px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Moved here for overall text color */
+}
+
+.registration-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-column {
+    flex: 1; /* Adjusts based on parent container, replaces width */
+}
+
+/* Specific to the first column to add spacing between columns */
+.form-column:first-child {
+    margin-right: 10%; /* Adjust based on preference */
+}
+
+.form-control {
+    margin-bottom: 20px; /* Increased space for clarity */
+}
+
+.form-control label, .form-control input {
+    display: block; /* Ensure inputs and labels are properly aligned */
+    width: 100%; /* Full width for responsiveness */
+}
+
+.form-control label {
+    font-size: 15px;
+    margin-bottom: 5px; /* Adjust for space between label and input */
+}
+
+.form-control input {
+    height: 35px; /* Height for inputs */
+    font-size: 14px; /* Adjust font size for readability */
+    /* Added styles for better input visibility */
+    border: 1px solid #ddd;
+    padding: 0 10px;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+/* Adding focus style for inputs */
+.form-control input:focus {
+    outline: none;
+    border-color: #96c8da;
+}
+
+/* Changed from .checkbox to .checker for consistency */
+.checker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-btn {
+    font-family: 'arapey', sans-serif; /* Added quotes around font family name */
+    font-size: 12px; /* Adjusted font size */
+    width: 30%; /* Adjusted width */
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #ffffff; /* Adjusted background color */
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    /* Added hover effect for better user experience */
+    transition: background-color 0.3s ease-in-out;
+}
+
+.register-btn:hover {
+    background-color: #e0e0e0; /* Change the color on hover */
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.sign-in-link {
+    color: #ffffff;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+
+/* Added a style for the link inside .sign-in-link */
+.sign-in-link a {
+    color: #ffffff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Adjusted spacing for .sign-in-link */
+.sign-in-link {
+    margin-top: 20px;
+}

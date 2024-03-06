@@ -1,0 +1,68 @@
+<div class="main-content">
+    <div class="registration-container">
+        <div class="header">
+            <img src="/common/images/logo-icon-white.png" alt="Logo"> 
+            <h2>User Registration</h2>
+        </div>
+
+        <form action="/createAccount" method="post">
+            <div class="registration-form">
+                <!-- Right Column Inputs -->
+                <div class="form-column">
+                    <div class="form-control">
+                        <label for="email">E-MAIL</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label for="username">USERNAME</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                </div>
+
+                <!-- Left Column Inputs -->
+                <div class="form-column">
+                    <div class="form-control">
+                        <label for="firstname">FIRST NAME</label>
+                        <input type="text" id="firstname" name="firstname" required>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label for="lastname">LAST NAME</label>
+                        <input type="text" id="lastname" name="lastname" required>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label for="confirm-password">CONFIRM PASSORD</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="register-btn">REGISTER</button>
+        </form>
+
+        <div class="checker">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the Terms and Service</label>
+        </div>
+
+        <div class="error">
+
+        </div>
+
+        
+
+        <form action="/gotoLogin" method="post">
+            <div class="sign-in-link">
+                Already have an account? 
+                <input type="submit" value="Sign in"></input>
+            </div>
+        </form>
+    </div>
+</div>

@@ -29,26 +29,30 @@ mongoose.connect('mongodb://localhost:27017/CCAPDEV');
 //field for versioning. This will be removed.
 const accountsSchema = new mongoose.Schema({
   user: { type: String },
-  pass: { type: String }
+  pass: { type: String },
+  email: {type: String },
+  fname: { type: String },
+  lname: { type: String }
 }, { versionKey: false });
 
 const restaurantsSchema = new mongoose.Schema({
     name: { type: String },
     description: { type: String },
-    rating: { type: Number }
+    rating: { type: Number },
+    address: { type: String }
     // logo: { type: Image }
 }, { versionKey: false });
 
-const loginModel = mongoose.model('account', accountsSchema);
+const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
-let logged_in = true;
+let logged_in = false;
 
-function errorFn(err){
+function errorFn(err) {
     console.log('Error found. Please trace!');
     console.error(err);
 }
 
-function successFn(res){
+function successFn(res) {
     console.log('Database connection successful!');
     console.log(res);
 }
@@ -59,8 +63,7 @@ restaurantModel.find({}).then(function(restaurant) {
         resto_list.push({
             _id: item._id.toString(),
             name: item.name,
-            description: item.description,
-            rating: item.rating.toString()
+            description: item.description
         });
     }
 
@@ -68,13 +71,13 @@ restaurantModel.find({}).then(function(restaurant) {
 }).catch(errorFn);
 
 server.get('/', function(req, resp) {
-        resp.render('main', {
-            layout: 'index',
-            title: 'Homepage | SulEAT Food Bites',
-            css: 'main',
-            restaurant_list: resto_list,
-            logged_in: logged_in
-        });
+    resp.render('main', {
+        layout: 'index',
+        title: 'Homepage | SulEAT Food Bites',
+        css: 'main',
+        restaurant_list: resto_list,
+        logged_in: logged_in
+    });
 });
 
 server.post('/', function(req, resp) {
@@ -117,42 +120,33 @@ server.post('/gotoProfile', function(req, resp) {
 server.post('/gotoLogin', function(req, resp) {
     resp.render('login', {
         layout: 'index',
-        title: 'Login',
+        title: 'Account Login',
         css: 'login'
     });
 });
 
 server.post('/verifyLogin', function(req, resp) {
-    const account_list = [];
-    loginModel.find({}).then(function(login) {
-        for (const item of login) {
-            account_list.push({
-                _id: item._id.toString(),
-                username: item.username,
-                password: item.password
-            });
-        }
-    }).catch(errorFn);
-
     const loginQuery = {
-        username: req.body.username,
-        password: req.body.password
+        user: req.body.username,
+        pass: req.body.password
     }
 
-    loginModel.findOne(loginQuery).then(function(login) {
+    accountModel.findOne(loginQuery).then(function(login) {
         if (login != undefined && login._id != null) {
+            logged_in = true; // change value to logged in
+            console.log('Valid Login!');
             resp.render('main', {
                 layout: 'index',
-                title: 'SulEAT Food Bites',
+                title: 'Home | SulEAT Food Bites',
                 css: 'main',
                 logged_in: logged_in
             });
-            logged_in = true; // change value to logged in
         } else {
-            resp.render('not_verified', {
+            console.log('Invalid Login!');
+            resp.render('login', {
                 layout: 'index',
                 title: 'Account Login',
-                css: 'not_verified'
+                css: 'login'
             }) 
         }
     }).catch(errorFn);
@@ -172,23 +166,63 @@ server.post('/gotoRestaurantRegistration', function(req, resp){
     resp.render('register_restaurant', {
         layout: 'index',
         title: 'Restaurant Registration',
-        css: 'res_registration'
+        css: 'restaurant_forms'
     });
 });
 
 server.post('/registerRestaurant', function(req, resp){
-    const registerInstance = restaurantModel({
+    const registerInstance = new restaurantModel({
         name: req.body.res_name,
         description: req.body.res_description,
-        rating: req.body.res_rating
+        rating: req.body.res_rating,
+        address: req.body.res_address
         // image: req.body.res_logo
     });
 
     registerInstance.save().then(function(restaurant){
-        resp.render('register_restaurant', {
+        // After successfully saving the new restaurant, append it to the resto_list array
+        resto_list.push({
+            _id: restaurant._id.toString(),
+            name: restaurant.name,
+            description: restaurant.description,
+            address: restaurant.address
+        });
+
+        resp.render('main', {
             layout: 'index',
-            title: 'Restaurant Registration',
-            css: 'res_registration'
+            title: 'Home | SulEAT Food Bites',
+            css: 'main',
+            logged_in: logged_in
+        });
+
+        console.log("Successfully registered!");
+        console.log("Updated resto_list:", resto_list);
+    }).catch(errorFn);
+});
+
+server.post('/gotoAccountRegistration', function(req, resp){
+    resp.render('register_account', {
+        layout: 'index',
+        title: 'Account Creation | SulEAT Food Bites',
+        css: 'user_registration'
+    });
+});
+
+server.post('/createAccount', function(req, resp) {
+    const accountInstance = new accountModel({
+        user: req.body.username,
+        pass: req.body.password,
+        email: req.body.email,
+        fname: req.body.firstname,
+        lname: req.body.lastname
+    });
+
+    accountInstance.save().then(function(){
+        resp.render('main', {
+            layout: 'index',
+            title: 'SulEAT Food Bites',
+            css: 'main',
+            logged_in: logged_in
         });
         console.log("Successfully registered!");
     }).catch(errorFn);

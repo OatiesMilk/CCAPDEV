@@ -193,9 +193,29 @@ body {
     align-items: baseline;
 }
 
-.profile-setting > a > img {
-    width: 55px;
-    margin-left: 20px;
+
+.profile-setting > form {
+    margin: 10px;
+}
+
+.profile-setting > form > button {
+    border-radius: 50%;
+    border: 2px solid black;
+    padding: 0;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.profile-setting > form > button:hover {
+    transform: scale(1.1);
+}
+
+.profile-setting > form > button > img {
+    width: 100%;
 }
 
 .profile-bio {

@@ -1,32 +1,53 @@
-<div class="main-parent">
-    {{#if logged_in}}
-        {{> header_logged_in}}
-    {{else}}
-        {{> header}}
-    {{/if}}
-
-    <div class="container">
+<div class="register-backdrop">
+    <div class="registration-container">
+        <div class="header">
+            <img src="/common/images/logo-icon-white.png" alt="Logo"> 
+            <h2>Register Restaurant</h2>
+        </div>
+        
         <form action="/registerRestaurant" method="post">
-                <table>
-                <tr>
-                    <td><label>Name of Restaurant:</label></td>
-                    <td><input name="res_name" type="text"></input></td>
-                </tr>
+            <div class="registration-form">
+            <!-- Right Column Inputs -->
+            <div class="form-column">
+                <div class="form-control">
+                <label for="resto-name">RESTAURANT NAME</label>
+                <input type="text" id="resto-name" name="res_name" required>
+                </div>
+                
+                <div class="form-control">
+                <label for="desc">DESCRIPTION</label>
+                <textarea id="desc" name="res_description" required></textarea>
+                </div>
+            </div>
 
-                <tr>
-                    <td><label>Description:</label></td>
-                    <td><input name="res_description" type="text"></input></td>
-                </tr>
+            <!-- Left Column Inputs -->
+            <div class="form-column">
+                <div class="form-control">
+                <label for="location">LOCATION</label>
+                <input type="text" id="location" name="res_address" required>
+                </div>
+                
+                <div class="form-control">
+                <label for="logo">LOGO</label>
+                <input type="file" id="logo" name="logo">
+                </div>
+            </div>
+            </div>
+            
+            <div class="checker">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the Terms and Service</label>
+            </div>
+            
+            <div class="error">
 
-                <tr>
-                    <td><label>Rating:</label></td>
-                    <td><input name="res_rating" type="text"></input></td>
-                </tr>
-                </table>
-            <input type="submit" value="submit"></input>
+            </div>
+            
+            <button type="submit" class="register-btn">REGISTER</button>
         </form>
+
+        <div class="update-footer">
+            <p>Don't wanna register your restaurant yet? <a href="profile_page.html">Go Back to Profile</a></p>
+        </div>
     </div>
-
-    {{> footer}}
 </div>
-
