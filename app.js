@@ -187,7 +187,7 @@ server.post('/registerRestaurant', function(req, resp){
             description: restaurant.description,
             address: restaurant.address
         });
-
+        
         resp.render('main', {
             layout: 'index',
             title: 'Home | SulEAT Food Bites',
@@ -218,6 +218,7 @@ server.post('/createAccount', function(req, resp) {
     });
 
     accountInstance.save().then(function(){
+        logged_in = true;
         resp.render('main', {
             layout: 'index',
             title: 'SulEAT Food Bites',
