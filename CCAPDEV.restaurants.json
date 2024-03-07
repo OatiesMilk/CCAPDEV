@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "65e9bf9cdc729a000eaf390a"
+  },
+  "address": "1st Street, 2nd Subdivision, Manila City",
+  "description": "Lorem Ipsum",
+  "logo": "https://i.imgur.com/WKvdhUk.png",
+  "name": "Tinuhog ni Benny",
+  "rating": "4.5"
+}]

@@ -39,8 +39,8 @@ const restaurantsSchema = new mongoose.Schema({
     name: { type: String },
     description: { type: String },
     rating: { type: Number },
-    address: { type: String }
-    // logo: { type: Image }
+    address: { type: String },
+    logo: { type: String }
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
@@ -63,7 +63,10 @@ restaurantModel.find({}).then(function(restaurant) {
         resto_list.push({
             _id: item._id.toString(),
             name: item.name,
-            description: item.description
+            description: item.description,
+            rating: item.rating,
+            address: item.address,
+            logo: item.logo
         });
     }
 
