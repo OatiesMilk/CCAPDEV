@@ -213,7 +213,18 @@ server.post('/gotoAccountRegistration', function(req, resp){
 });
 
 server.post('/createAccount', function(req, resp) {
-    const { username, password, email, firstname, lastname } = req.body;
+    const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword } = req.body;
+
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+        console.log('Passwords do not match');
+        return resp.render('register_account', {
+            layout: 'index',
+            title: 'Account Creation | SulEAT Food Bites',
+            css: 'user_registration',
+            error: 'Passwords do not match. Please try again.'
+        });
+    }
 
     accountModel.findOne({ user: username }).then(user => {
         if (user) {
@@ -254,6 +265,7 @@ server.post('/createAccount', function(req, resp) {
         }
     }).catch(errorFn);
 });
+
 
 
 // Only at the very end should the database be closed.
