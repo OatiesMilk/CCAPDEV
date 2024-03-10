@@ -1,0 +1,201 @@
+body {
+	margin: 0px;
+    font-family: 'Arial', sans-serif;
+	background-image: url("../images/background-image.png");
+}
+
+.main-parent {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+/** header **/
+.header-row {
+    display: flex;
+    background-color: #242424;
+    height: 90px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#header-logo > img {
+    height: 120px;
+    transition: transform 0.3s;
+    padding: 10px;
+    padding-right: 30px;
+}
+
+#header-logo > img:hover {
+    transform: scale(1.1); /* Increase size on hover */
+}
+
+.header-menu {
+    display: flex;
+    margin: 150px;
+    margin-right: 20px;
+}
+
+.header-menu > form > button {
+    color: white;
+    font-size: 22px;
+    margin-right: 25px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    transition: color 0.5s;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.header-menu > form > button:hover {
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.header-icons > a > img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+}
+
+.header-icons > a > img:hover {
+    transform: scale(1.2); /* Increase size on hover */
+}
+
+.profile-icons > a > img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+}
+
+.profile-icons > a > img:hover {
+    transform: scale(1.2); /* Increase size on hover */
+}
+/** end of header **/
+
+/** footer **/
+*:focus {
+    outline: none;
+}
+
+.copyrights {
+    width: 100%;
+    background-color: #242424;
+    display: flex;
+    justify-content: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    align-items: baseline;
+}
+
+.copyrights > pre {
+    font-family:'Franklin Gothic Medium';
+    font-size: 15px;
+}
+
+a:link {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:active {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+/** end of footer **/
+
+.review-container {
+    max-width: 600px;
+    height: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.label-container {
+    display: flex;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+input {
+    margin-left: 1%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 50px;
+}
+
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+    .review-container {
+        width: 90%;
+    }
+}

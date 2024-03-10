@@ -45,7 +45,7 @@ const restaurantsSchema = new mongoose.Schema({
 
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
-let logged_in = false;
+let logged_in = true;
 
 function errorFn(err) {
     console.log('Error found. Please trace!');
@@ -107,6 +107,37 @@ server.post('/gotoRestaurants', function(req, resp) {
         title: 'Restaurants',
         restaurant_list: resto_list,
         css: 'restaurants',
+        logged_in: logged_in
+    });
+});
+
+server.post('/gotoRestaurantPage', function(req, resp) {
+    const restaurantName = req.body.restaurantName;
+
+    resp.render('restaurant_page', {
+        layout: 'index',
+        title: 'Restaurant Profile',
+        restaurant_list: resto_list,
+        css: 'restaurant_page',
+        logged_in: logged_in,
+        restaurantName: restaurantName
+    });
+});
+
+server.post('/writeReview', function(req, resp) {
+    resp.render('review_page', {
+        layout: 'index',
+        title: 'Review | SulEAT Food Bites',
+        css: 'review_page',
+        logged_in: logged_in
+    });
+});
+
+server.post('/submitReview', function(req, resp) {
+    resp.render('main', {
+        layout: 'index',
+        title: 'Homepage | SulEAT Food Bites',
+        css: 'main',
         logged_in: logged_in
     });
 });
