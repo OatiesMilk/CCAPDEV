@@ -57,6 +57,10 @@ function successFn(res) {
     console.log(res);
 }
 
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 const resto_list = [];
 restaurantModel.find({}).then(function(restaurant) {
     for (const item of restaurant) {
@@ -174,42 +178,53 @@ server.post('/gotoRestaurantRegistration', function(req, resp){
     });
 });
 
-server.post('/registerRestaurant', function(req, resp){
-    const registerInstance = new restaurantModel({
-        name: req.body.res_name,
-        description: req.body.res_description,
-        rating: req.body.res_rating,
-        address: req.body.res_address
-        // image: req.body.res_logo
-    });
+server.post('/registerRestaurant', async function(req, resp) {
+    const name = capitalize(req.body.res_name.trim());
+    // Combine and format the address from separate fields
+    const combinedAddress = `${capitalize(req.body.res_street.trim())}, ${capitalize(req.body.res_city.trim())}, ${capitalize(req.body.res_province.trim())}`;
 
-    registerInstance.save().then(function(restaurant){
-        // After successfully saving the new restaurant, append it to the resto_list array
-        resto_list.push({
-            _id: restaurant._id.toString(),
-            name: restaurant.name,
-            description: restaurant.description,
-            address: restaurant.address
+    try {
+        const existingRestaurant = await restaurantModel.findOne({
+            name: name,
+            address: combinedAddress
         });
-        
+
+        if (existingRestaurant) {
+            return resp.render('register_restaurant', {
+                layout: 'index',
+                title: 'Restaurant Registration',
+                css: 'restaurant_forms',
+                error: 'A restaurant with this name and address already exists.'
+            });
+        }
+
+        const newRestaurant = new restaurantModel({
+            name: name,
+            description: req.body.res_description,
+            rating: req.body.res_rating,
+            address: combinedAddress,
+            logo: req.body.res_logo 
+        });
+
+        await newRestaurant.save();
+
         resp.render('main', {
             layout: 'index',
             title: 'Home | SulEAT Food Bites',
             css: 'main',
-            logged_in: logged_in
+            logged_in: logged_in,
+            message: "Successfully registered the restaurant!"
         });
 
-        console.log("Successfully registered!");
-        console.log("Updated resto_list:", resto_list);
-    }).catch(errorFn);
-});
-
-server.post('/gotoAccountRegistration', function(req, resp){
-    resp.render('register_account', {
-        layout: 'index',
-        title: 'Account Creation | SulEAT Food Bites',
-        css: 'user_registration'
-    });
+    } catch (error) {
+        console.error('Registration error:', error);
+        resp.status(500).render('register_restaurant', {
+            layout: 'index',
+            title: 'Error Registering Restaurant',
+            css: 'restaurant_forms',
+            error: 'An unexpected error occurred. Please try again.'
+        });
+    }
 });
 
 server.post('/createAccount', function(req, resp) {
@@ -265,8 +280,6 @@ server.post('/createAccount', function(req, resp) {
         }
     }).catch(errorFn);
 });
-
-
 
 // Only at the very end should the database be closed.
 function finalClose(){
