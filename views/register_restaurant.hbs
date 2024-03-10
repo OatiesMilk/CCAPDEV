@@ -23,13 +23,23 @@
             <!-- Left Column Inputs -->
             <div class="form-column">
                 <div class="form-control">
-                    <label for="location">LOCATION</label>
-                    <input type="text" id="location" name="res_address" placeholder="Location, City, Province" required>
+                <label for="street">STREET</label>
+                <input type="text" id="street" name="res_street" placeholder="Street Address" required>
+                </div>
+                
+                <div class="form-control">
+                <label for="city">CITY</label>
+                <input type="text" id="city" name="res_city" placeholder="City" required>
+                </div>
+                
+                <div class="form-control">
+                <label for="province">PROVINCE</label>
+                <input type="text" id="province" name="res_province" placeholder="Province" required>
                 </div>
                 
                 <div class="form-control">
                 <label for="logo">LOGO</label>
-                <input type="file" id="logo" name="logo">
+                <input type="file" id="logo" name="res_logo">
                 </div>
             </div>
             </div>
@@ -40,7 +50,9 @@
             </div>
             
             <div class="error">
-
+                {{#if error}}
+                {{error}}
+                {{/if}}
             </div>
             
             <button type="submit" class="register-btn">REGISTER</button>
