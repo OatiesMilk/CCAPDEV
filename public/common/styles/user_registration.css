@@ -1,5 +1,18 @@
+@keyframes shiftUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
 body {
-	background: url("../images/resto-background-image.png");
+	font-family: arapey;
+    background: url("../images/resto-background-image.png");
 	margin: 0;
 }
 
@@ -26,11 +39,26 @@ body {
 
 .registration-container {
     width: 700px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     color: #ffffff; /* Moved here for overall text color */
+    animation: shiftUp 0.5s ease-out forwards;
+    border-radius: 20px;
 }
+
+.register-backdrop {
+    background-color: rgba(255, 255, 255, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+  }
 
 .registration-form {
     display: flex;
@@ -80,21 +108,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .register-btn {
-    font-family: 'arapey', sans-serif; /* Added quotes around font family name */
-    font-size: 12px; /* Adjusted font size */
-    width: 30%; /* Adjusted width */
+    font-family: 'arapey', sans-serif;
+    font-size: 12px; 
+    width: 30%;
     display: block;
     margin: 20px auto;
     padding: 10px;
-    background-color: #ffffff; /* Adjusted background color */
+    background-color: #ffffff;
     border: none;
     color: #000000;
     cursor: pointer;
-    /* Added hover effect for better user experience */
     transition: background-color 0.3s ease-in-out;
+    border-radius: 20px;
 }
 
 .register-btn:hover {
@@ -104,6 +133,7 @@ body {
 .error {
     color: red;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .sign-in-link {
@@ -111,6 +141,7 @@ body {
     text-align: center;
     display: block;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Added a style for the link inside .sign-in-link */

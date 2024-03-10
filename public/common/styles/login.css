@@ -1,6 +1,22 @@
+  @keyframes shiftUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .logo {
+    height: 200px;
+    margin-bottom: -40px;
+  }
+
   body {
     font-family: arapey;
-    background: url('https://www.wallpapers13.com/wp-content/uploads/2016/01/Cool-and-Beautiful-Nature-desktop-wallpaper-image-2560X1600-1600x1200.jpg') no-repeat center center fixed;
+    background: url("../images/resto-background-image.png") no-repeat center center fixed;
     background-size: cover;
     padding: 0;
     margin: 0;
@@ -15,23 +31,31 @@
     width: 300px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: shiftUp 0.5s ease-out forwards;
+    border-radius: 20px;
   }
   
   .login-header {
     color: #ffffff;
     padding: 10px;
     text-align: center;
-    margin-bottom: -30px;
+    margin-bottom: 5px;
   }
   .login-backdrop {
     background-color: rgba(255, 255, 255, 0.3);
-    padding: 100%;
-    display: inline-block;
-    backdrop-filter: blur(3px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
   }
 
   .form-group {
-  	font-size: 9px;
+  	font-size: 14px;
     justify-content: center;
   	color: #ffffff;
     margin-bottom: 15px;
@@ -59,7 +83,7 @@
   }
 
   .input-submit {
-  	font-family: arapey;
+  	font-family: 'arapey', sans-serif;
   	display: block;
   	margin: 20px auto; 
     width: 25%;
@@ -67,6 +91,7 @@
     border: none;
     background: #ffff;
     cursor: pointer;
+    border-radius: 10px;
   }
 
   .input-submit:hover {
@@ -74,12 +99,14 @@
   }
 
   .login-footer {
-  	font-size: 12px;
-  	color: #ffffff;
-    text-align: center;
+    font-size: 12px;
+    color: #ffffff;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
     margin-top: 25px;
-    margin-bottom: 25px;
-  }
+    margin-bottom: 10px;
+}
 
   .error {
   	font-size: 11px;
