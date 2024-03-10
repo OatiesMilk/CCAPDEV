@@ -149,7 +149,8 @@ server.post('/verifyLogin', function(req, resp) {
             resp.render('login', {
                 layout: 'index',
                 title: 'Account Login',
-                css: 'login'
+                css: 'login',
+                error: 'Invalid username or password.'
             }) 
         }
     }).catch(errorFn);
@@ -212,25 +213,48 @@ server.post('/gotoAccountRegistration', function(req, resp){
 });
 
 server.post('/createAccount', function(req, resp) {
-    const accountInstance = new accountModel({
-        user: req.body.username,
-        pass: req.body.password,
-        email: req.body.email,
-        fname: req.body.firstname,
-        lname: req.body.lastname
-    });
+    const { username, password, email, firstname, lastname } = req.body;
 
-    accountInstance.save().then(function(){
-        logged_in = true;
-        resp.render('main', {
-            layout: 'index',
-            title: 'SulEAT Food Bites',
-            css: 'main',
-            logged_in: logged_in
-        });
-        console.log("Successfully registered!");
+    accountModel.findOne({ user: username }).then(user => {
+        if (user) {
+            console.log('Username already exists');
+            resp.render('register_account', {
+                layout: 'index',
+                title: 'Account Creation | SulEAT Food Bites',
+                css: 'user_registration',
+                error: 'Username already exists. Please choose another.'
+            });
+        } else {
+            const accountInstance = new accountModel({
+                user: username,
+                pass: password,
+                email: email,
+                fname: firstname,
+                lname: lastname
+            });
+
+            accountInstance.save().then(() => {
+                logged_in = true;
+                resp.render('main', {
+                    layout: 'index',
+                    title: 'SulEAT Food Bites',
+                    css: 'main',
+                    logged_in: logged_in
+                });
+                console.log("Successfully registered!");
+            }).catch(error => {
+                console.error('Error during account creation:', error);
+                resp.status(500).render('register_account', {
+                    layout: 'index',
+                    title: 'Account Creation | SulEAT Food Bites',
+                    css: 'user_registration',
+                    error: 'An error occurred while creating the account. Please try again.'
+                });
+            });
+        }
     }).catch(errorFn);
 });
+
 
 // Only at the very end should the database be closed.
 function finalClose(){
