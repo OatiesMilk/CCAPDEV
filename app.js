@@ -120,7 +120,7 @@ server.post('/gotoRestaurantPage', function(req, resp) {
         restaurant_list: resto_list,
         css: 'restaurant_page',
         logged_in: logged_in,
-        restaurantName: restaurantName
+        restaurantName: restaurantName,
     });
 });
 

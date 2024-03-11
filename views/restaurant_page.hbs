@@ -9,14 +9,14 @@
         <div class="profile-info">
             <div class="profile-image">
                 {{!-- change to: logo from the database --}}
-                <img src="" alt="resto logo">
+                <img src="{{logo}}" alt="resto logo">
             </div>
             
             <div class="profile-content">
                 <div class="profile-labels">
                     <label id="profile-name">{{restaurantName}}</label></br>
                     {{!-- change to: {{address}} from the database --}}
-                    <label id="profile-tag">Dagonoy St., Manila, Philippines</label>
+                    <label id="profile-tag">{{address}}</label>
                 </div>
 
                 <div class="profile-icons">
@@ -42,7 +42,8 @@
             <div class="bio-info">
                 <label id="bio-text">
                     {{!-- change to: {{description}} from the database --}}
-                    Sinangag Express is a restaurant chain best-known for their delectable and affordable Silog meals. Their bestsellers include Tapsilog, Bagnet Rice Meal, etc.
+                    {{!-- Sinangag Express is a restaurant chain best-known for their delectable and affordable Silog meals. Their bestsellers include Tapsilog, Bagnet Rice Meal, etc.--}}
+                    {{description}}
                 </label>
             </div>
         </div>
@@ -80,7 +81,7 @@
 
                         <div class="restaurant-rating">
                             <div class="more-reviews">
-                                <form action="profile_page.html">
+                                <form action="/gotoProfile" method="post">
                                     <button class="show-reviews-btn">View User  ►</button>
                                 </form>
                             </div>
