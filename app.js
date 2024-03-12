@@ -73,6 +73,7 @@ async function listRestaurants() {
                     totalRatings += item.rating[i];
                 }
                 let averageRating = totalRatings / item.rating.length;
+                averageRating = parseFloat(averageRating.toFixed(1));
 
                 resto_list.push({
                     _id: item._id.toString(),
