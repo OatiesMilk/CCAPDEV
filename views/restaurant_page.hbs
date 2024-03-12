@@ -1,0 +1,124 @@
+<div class="main-parent">
+    {{#if logged_in}}
+        {{> header_logged_in}}
+    {{else}}
+        {{> header}}
+    {{/if}}
+
+    <div class="main-content">
+        <div class="profile-info">
+            <div class="profile-image">
+                {{!-- change to: logo from the database --}}
+                <img src="" alt="resto logo">
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-labels">
+                    <label id="profile-name">{{matchedRestaurant.name}}</label></br>
+                    <label id="profile-tag">{{matchedRestaurant.address}}</label>
+                </div>
+
+                <div class="profile-icons">
+                    <a href="https://www.facebook.com"><img id="header-icon" src="/common/images/facebook-icon.png"></a>
+                    <a href="https://www.instagram.com"><img id="header-icon" src="/common/images/instagram-icon.png"></a>
+                    <a href="https://www.twitter.com"><img id="header-icon" src="/common/images/twitter-icon.png"></a>
+                    <a href="https://www.tiktok.com"><img id="header-icon" src="/common/images/tiktok-icon.png"></a>
+                    <a href="https://www.call.com"><img id="header-icon" src="/common/images/phone-icon.png"></a>
+                    <a href="https://www.gmail.com"><img id="header-icon" src="/common/images/message-icon.png"></a>
+                </div>
+            </div>
+
+            <div class="profile-setting">
+                <a href="update_restaurant.html"><img src="/common/images/setting-icon.png" alt="setting icon"></a>
+            </div>
+        </div>
+
+        <div class="profile-bio">
+            <div class="bio">
+                <label id="bio-title">ABOUT RESTO</label>
+            </div>
+            
+            <div class="bio-info">
+                <label id="bio-text">
+                    {{matchedRestaurant.description}}
+                </label>
+            </div>
+        </div>
+
+        <div class="profile-last">
+            <div class="restaurant-reviews">
+                <div class="review-header">
+                    <label id="review-title">REVIEWS</label>
+                    
+                    <form id="writeReview" action="/writeReview" method="post">
+                        <button type="submit">
+                            <img src="/common/images/review-icon.png" alt="submit a review icon">
+                        </button>
+                    </form>
+                </div>
+
+                <div class="restaurants-list">
+                    <div class="restaurant-item">
+                        <div class="restaurant-logo">
+                            <img src="/common/images/profile-icon.png" alt="logo">
+                        </div>
+
+                        <div class="restaurant-info">
+                            <div class="resto-name">
+                                <label class="restaurant-name">Juan Dela Cruz</label>
+                            </div>
+
+                            <div class="resto-info">
+                                <label class="restaurant-text">
+                                    Amazing. Life-changing cuisine. Breathtaking. Extraordinary. orem ipsum dolor sit amet, 
+                                    consectetur adipiscing elit. Nunc convallis ipsum quam, ut sollicitudin felis fringilla eget
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="restaurant-rating">
+                            <div class="more-reviews">
+                                <form action="profile_page.html">
+                                    <button class="show-reviews-btn">View User  ►</button>
+                                </form>
+                            </div>
+
+                            <div class="meter-rating">
+                                <label for="SE">4.0 / 5.0</label>
+                                <meter id="SE" value="4" min="0" max="5">4 out of 5</meter>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-statistics">
+                <div class="stats-header">
+                    <label id="stats-header-text">USER STATISTICS</label>
+                </div>
+
+                <div class="stats-content">
+                    <div class="spacer"></div>
+
+                    <div class="review-container">
+                        <div class="reviews">
+                            <i><label class="stats-text">Average Rating</label></i>
+                        </div>
+
+                        <div class="reviews">
+                            <meter id="SE" value="4" min="0" max="5">4 out of 5</meter>
+                            <label class="stats-text">4.0 / 5.0</label>
+                        </div>
+
+                        <div class="reviews">
+                            <img src="/common/images/review-icon.png" alt="total reviews">
+                            <label class="stats-text">Total Reviews (127)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{> footer}}
+</div>

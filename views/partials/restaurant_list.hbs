@@ -11,6 +11,7 @@
             <p class="restaurant-description">{{description}}</p>
         </div>
         <form action="/gotoReviews" method="post">
+            <input type="hidden" name="restaurantName" value="{{name}}">
             <button type="submit" class="show-reviews-btn">Reviews ►</button>
         </form>
     </div>

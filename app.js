@@ -106,11 +106,25 @@ server.post('/gotoAboutUs', function(req, resp) {
 });
 
 server.post('/gotoRestaurants', function(req, resp) {
+    
     resp.render('restaurants', {
         layout: 'index',
         title: 'Restaurants',
         restaurant_list: resto_list,
         css: 'restaurants',
+        logged_in: logged_in
+    });
+});
+
+server.post('/gotoReviews', function(req, resp) {
+    const restaurantName = req.body.restaurantName;
+    const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+
+    resp.render('restaurant_page', {
+        layout: 'index',
+        title: 'Restaurant Reviews',
+        matchedRestaurant: matchedRestaurant,
+        css: 'restaurant_page',
         logged_in: logged_in
     });
 });
