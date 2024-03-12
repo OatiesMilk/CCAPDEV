@@ -52,6 +52,7 @@
                     
                     <form id="writeReview" action="/writeReview" method="post">
                         <button type="submit">
+                            <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
                             <img src="/common/images/review-icon.png" alt="submit a review icon">
                         </button>
                     </form>
@@ -106,13 +107,13 @@
                         </div>
 
                         <div class="reviews">
-                            <meter id="SE" value="4" min="0" max="5">4 out of 5</meter>
-                            <label class="stats-text">4.0 / 5.0</label>
+                            <meter id="SE" value="{{matchedRestaurant.rating}}" min="0" max="5"></meter>
+                            <label class="stats-text">{{matchedRestaurant.rating}} / 5.0</label>
                         </div>
 
                         <div class="reviews">
                             <img src="/common/images/review-icon.png" alt="total reviews">
-                            <label class="stats-text">Total Reviews (127)</label>
+                            <label class="stats-text">Total Reviews ({{matchedRestaurant.reviews}})</label>
                         </div>
                     </div>
                 </div>

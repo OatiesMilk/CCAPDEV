@@ -38,9 +38,10 @@ const accountsSchema = new mongoose.Schema({
 const restaurantsSchema = new mongoose.Schema({
     name: { type: String },
     description: { type: String },
-    rating: { type: Number },
+    rating: { type: Array },
     address: { type: String },
-    logo: { type: String }
+    logo: { type: String },
+    reviews: { type: Number }
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
@@ -64,13 +65,20 @@ function capitalize(str) {
 const resto_list = [];
 restaurantModel.find({}).then(function(restaurant) {
     for (const item of restaurant) {
+        let totalRatings = 0;
+        for (let i = 0; i < item.rating.length; i++) {
+            totalRatings += item.rating[i];
+        }
+        let averageRating = totalRatings / item.rating.length;
+
         resto_list.push({
             _id: item._id.toString(),
             name: item.name,
             description: item.description,
-            rating: item.rating,
+            rating: averageRating,
             address: item.address,
-            logo: item.logo
+            logo: item.logo,
+            reviews: item.reviews
         });
     }
 
@@ -124,6 +132,18 @@ server.post('/gotoReviews', function(req, resp) {
         layout: 'index',
         title: 'Restaurant Reviews',
         matchedRestaurant: matchedRestaurant,
+        css: 'restaurant_page',
+        logged_in: logged_in
+    });
+});
+
+server.post('/writeReview', function(req, resp) {
+    const restaurantName = req.body.restaurantName;
+
+    resp.render('restaurant_review', {
+        layout: 'index',
+        title: 'Review Restaurant',
+        restaurantName: restaurantName,
         css: 'restaurant_page',
         logged_in: logged_in
     });
