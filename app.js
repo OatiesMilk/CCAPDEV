@@ -157,6 +157,14 @@ server.post('/gotoReviews', function(req, resp) {
     }).catch(errorFn);
 });
 
+server.post('/gotoAccountRegistration', function(req, resp){
+    resp.render('register_account', {
+        layout: 'index',
+        title: 'Account Creation | SulEAT Food Bites',
+        css: 'user_registration'
+    });
+});
+
 server.post('/writeReview', function(req, resp) {
     const restaurantName = req.body.restaurantName;
 
