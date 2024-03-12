@@ -1,0 +1,28 @@
+<div class="main-parent">
+    {{#if logged_in}}
+        {{> header_logged_in}}
+    {{else}}
+        {{> header}}
+    {{/if}}
+
+    <div class="main-content">
+        <div class="review-container">
+            <h1>Write a Review</h1>
+            <label>Restaurant: {{restaurantName}}</label>
+
+            <form action="/submitReview" method="post">
+                <label class="label-container" for="ratingInput">Rating (1 - 5):
+                    <input type="number" id="ratingInput" name="ratingInput" min="1" max="5" required>
+                </label>
+
+                <label for="reviewInput">Your Review:</label>
+                <textarea id="reviewInput" name="reviewInput" rows="12" cols="100" required></textarea>
+
+                <input type="hidden" name="restaurantName" value="{{restaurantName}}">
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </div>
+    
+    {{> footer}}
+</div>

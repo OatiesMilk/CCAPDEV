@@ -53,7 +53,7 @@
                     <form id="writeReview" action="/writeReview" method="post">
                         <button type="submit">
                             <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
-                            <img src="/common/images/review-icon.png" alt="submit a review icon">
+                            <img src="/common/images/write-review-icon.png" alt="submit a review icon">
                         </button>
                     </form>
                 </div>
@@ -113,7 +113,7 @@
 
                         <div class="reviews">
                             <img src="/common/images/review-icon.png" alt="total reviews">
-                            <label class="stats-text">Total Reviews ({{matchedRestaurant.reviews}})</label>
+                            <label class="stats-text">Total Reviews ({{totalReviews}})</label>
                         </div>
                     </div>
                 </div>

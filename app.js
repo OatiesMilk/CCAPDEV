@@ -41,7 +41,7 @@ const restaurantsSchema = new mongoose.Schema({
     rating: { type: Array },
     address: { type: String },
     logo: { type: String },
-    reviews: { type: Number }
+    reviews: { type: Array }
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
@@ -62,46 +62,58 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-const resto_list = [];
-restaurantModel.find({}).then(function(restaurant) {
-    for (const item of restaurant) {
-        let totalRatings = 0;
-        for (let i = 0; i < item.rating.length; i++) {
-            totalRatings += item.rating[i];
-        }
-        let averageRating = totalRatings / item.rating.length;
+async function listRestaurants() {
+    return new Promise((resolve, reject) => {
+        const resto_list = [];
 
-        resto_list.push({
-            _id: item._id.toString(),
-            name: item.name,
-            description: item.description,
-            rating: averageRating,
-            address: item.address,
-            logo: item.logo,
-            reviews: item.reviews
-        });
-    }
+        restaurantModel.find({}).then(function (restaurants) {
+            for (const item of restaurants) {
+                let totalRatings = 0;
+                for (let i = 0; i < item.rating.length; i++) {
+                    totalRatings += item.rating[i];
+                }
+                let averageRating = totalRatings / item.rating.length;
 
-    console.log(resto_list);
-}).catch(errorFn);
+                resto_list.push({
+                    _id: item._id.toString(),
+                    name: item.name,
+                    description: item.description,
+                    rating: averageRating,
+                    address: item.address,
+                    logo: item.logo,
+                    reviews: item.reviews
+                });
+            }
+
+            resolve(resto_list);
+        }).catch(errorFn);
+    });
+}
 
 server.get('/', function(req, resp) {
-    resp.render('main', {
-        layout: 'index',
-        title: 'Homepage | SulEAT Food Bites',
-        css: 'main',
-        restaurant_list: resto_list,
-        logged_in: logged_in
-    });
+    listRestaurants().then(resto_list => {
+        console.log(resto_list);
+
+        resp.render('main', {
+            layout: 'index',
+            title: 'Homepage | SulEAT Food Bites',
+            css: 'main',
+            restaurant_list: resto_list,
+            logged_in: logged_in
+        });
+    }).catch(errorFn);
 });
 
 server.post('/', function(req, resp) {
-    resp.render('main', {
-        layout: 'index',
-        title: 'Homepage | SulEAT Food Bites',
-        css: 'main',
-        logged_in: logged_in
-    });
+    listRestaurants().then(resto_list => {
+        resp.render('main', {
+            layout: 'index',
+            title: 'Homepage | SulEAT Food Bites',
+            css: 'main',
+            restaurant_list: resto_list,
+            logged_in: logged_in
+        });
+    }).catch(errorFn);
 });
 
 server.post('/gotoAboutUs', function(req, resp) {
@@ -114,27 +126,34 @@ server.post('/gotoAboutUs', function(req, resp) {
 });
 
 server.post('/gotoRestaurants', function(req, resp) {
-    
-    resp.render('restaurants', {
-        layout: 'index',
-        title: 'Restaurants',
-        restaurant_list: resto_list,
-        css: 'restaurants',
-        logged_in: logged_in
-    });
+    listRestaurants().then(resto_list => {
+        console.log(resto_list);
+
+        resp.render('restaurants', {
+            layout: 'index',
+            title: 'Restaurants',
+            restaurant_list: resto_list,
+            css: 'restaurants',
+            logged_in: logged_in
+        });
+    }).catch(errorFn);
 });
 
 server.post('/gotoReviews', function(req, resp) {
-    const restaurantName = req.body.restaurantName;
-    const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+    listRestaurants().then(resto_list => {
+        const restaurantName = req.body.restaurantName;
+        const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+        const totalReviews = matchedRestaurant.reviews.length;
 
-    resp.render('restaurant_page', {
-        layout: 'index',
-        title: 'Restaurant Reviews',
-        matchedRestaurant: matchedRestaurant,
-        css: 'restaurant_page',
-        logged_in: logged_in
-    });
+        resp.render('restaurant_page', {
+            layout: 'index',
+            title: 'Restaurant Reviews',
+            matchedRestaurant: matchedRestaurant,
+            css: 'restaurant_page',
+            logged_in: logged_in,
+            totalReviews: totalReviews
+        });
+    }).catch(errorFn);
 });
 
 server.post('/writeReview', function(req, resp) {
@@ -144,9 +163,34 @@ server.post('/writeReview', function(req, resp) {
         layout: 'index',
         title: 'Review Restaurant',
         restaurantName: restaurantName,
-        css: 'restaurant_page',
+        css: 'restaurant_review',
         logged_in: logged_in
     });
+});
+
+server.post('/submitReview', function(req, resp) {
+    listRestaurants().then(resto_list => {
+        const restaurantName = { name: req.body.restaurantName };
+        const newRating = parseInt(req.body.ratingInput);
+        const newReview = req.body.reviewInput;
+
+        // Find the restaurant by name and update it
+        restaurantModel.findOne(restaurantName).then(function(restaurant) {
+            restaurant.rating.push(newRating);
+            restaurant.reviews.push(newReview);
+
+            restaurant.save().then(function () {
+                resp.render('main', {
+                    layout: 'index',
+                    title: 'Homepage | SulEAT Food Bites',
+                    css: 'main',
+                    restaurant_list: resto_list,
+                    logged_in: logged_in
+                });
+            })
+
+        }).catch(errorFn);
+    }).catch(errorFn);
 });
 
 server.post('/gotoProfile', function(req, resp) {
