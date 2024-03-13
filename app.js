@@ -32,7 +32,8 @@ const accountsSchema = new mongoose.Schema({
   pass: { type: String },
   email: {type: String },
   fname: { type: String },
-  lname: { type: String }
+  lname: { type: String },
+  bio: { type: String, default: 'No Bio Yet' }
 }, { versionKey: false });
 
 const restaurantsSchema = new mongoose.Schema({
@@ -47,6 +48,8 @@ const restaurantsSchema = new mongoose.Schema({
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
 let logged_in = false;
+//EDITED--------------------------------------------------------------------------------------
+let currentUser = null;
 
 function errorFn(err) {
     console.log('Error found. Please trace!');
@@ -157,6 +160,25 @@ server.post('/gotoReviews', function(req, resp) {
     }).catch(errorFn);
 });
 
+server.post('/gotoEditAccount', (req, res) => {
+    if (!logged_in || !currentUser) {
+      res.redirect('/login');
+    } else {
+      res.render('edit-account', {
+        layout: 'index',
+        title: 'Edit Account | SulEAT Food Bites',
+        css: 'user_settings',
+        fname: currentUser.fname,
+        lname: currentUser.lname,
+        password: currentUser.pass,
+        username: currentUser.username,
+        email: currentUser.email,
+        bio: currentUser.bio,
+        profilePicture: currentUser.profilePicture
+      });
+    }
+  });
+
 server.post('/gotoAccountRegistration', function(req, resp){
     resp.render('register_account', {
         layout: 'index',
@@ -202,12 +224,18 @@ server.post('/submitReview', function(req, resp) {
     }).catch(errorFn);
 });
 
+
+//EDITED--------------------------------------------------------------------------------------
 server.post('/gotoProfile', function(req, resp) {
     resp.render('user_profile', {
         layout: 'index',
         title: 'Profile | SulEAT Food Bites',
         css: 'profile',
-        logged_in: logged_in
+        logged_in: logged_in,
+        user_fname: currentUser.fname,
+        user_lname: currentUser.lname,
+        username: currentUser.username,
+        bio: currentUser.bio
     });
 });
 
@@ -219,16 +247,27 @@ server.post('/gotoLogin', function(req, resp) {
     });
 });
 
+//EDITED--------------------------------------------------------------------------------------
 server.post('/verifyLogin', function(req, resp) {
     const loginQuery = {
         user: req.body.username,
         pass: req.body.password
-    }
+    };
 
     accountModel.findOne(loginQuery).then(function(login) {
-        if (login != undefined && login._id != null) {
-            logged_in = true; // change value to logged in
+        if (login != null) {
+            logged_in = true; // Change value to logged in
+            // Set the global current user
+            currentUser = {
+                fname: login.fname,
+                lname: login.lname,
+                username: login.user,
+                bio: login.bio,
+                email: login.email,
+                password: login.pass 
+            };
             console.log('Valid Login!');
+            // Redirect to the main page instead of rendering the profile
             resp.render('main', {
                 layout: 'index',
                 title: 'Home | SulEAT Food Bites',
@@ -247,8 +286,10 @@ server.post('/verifyLogin', function(req, resp) {
     }).catch(errorFn);
 });
 
+//EDITED--------------------------------------------------------------------------------------
 server.post('/gotoLogout', function(req, resp) {
     logged_in = false;
+    currentUser = null;
     resp.render('main', {
         layout: 'index',
         title: 'SulEAT Food Bites',
@@ -315,8 +356,8 @@ server.post('/registerRestaurant', async function(req, resp) {
 });
 
 server.post('/createAccount', function(req, resp) {
-    const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword } = req.body;
-
+    const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword, bio  } = req.body;
+    const bioValue = 'No Bio Yet';
     // Check if password and confirm password match
     if (password !== confirmPassword) {
         console.log('Passwords do not match');
@@ -343,8 +384,18 @@ server.post('/createAccount', function(req, resp) {
                 pass: password,
                 email: email,
                 fname: firstname,
-                lname: lastname
+                lname: lastname,
+                bio: bioValue,
+
             });
+            currentUser = {
+                fname: firstname,
+                lname: lastname,
+                username: username,
+                pass: password,
+                email: email,
+                bio: bioValue
+            };
 
             accountInstance.save().then(() => {
                 logged_in = true;
