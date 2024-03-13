@@ -198,7 +198,7 @@ server.post('/updateAccount', function(req, resp) {
                 });
             }).catch(errorFn);
         } else {
-            res.render('edit_account', {
+            resp.render('edit_account', {
                 layout: 'index',
                 title: 'Edit Account | SulEAT Food Bites',
                 css: 'user_settings',
@@ -252,7 +252,6 @@ server.post('/submitReview', function(req, resp) {
         }).catch(errorFn);
     }).catch(errorFn);
 });
-
 
 //EDITED--------------------------------------------------------------------------------------
 server.post('/gotoProfile', function(req, resp) {

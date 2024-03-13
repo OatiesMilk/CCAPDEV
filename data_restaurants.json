@@ -1,0 +1,115 @@
+[{
+  "_id": {
+    "$oid": "65efeb12e8b41caefcd90d51"
+  },
+  "name": "Tinuhog ni benny",
+  "description": "Tinuhog Ni Benny Barbecue House is a Filipino establishment that specializes in grilled and skewered meats. The place has a casual and laid-back ambiance, perfect for a quick meal with friends or family. The interior design is simple and unassuming, but the flavors of the food are anything but. The price range is very affordable, making it a go-to place for budget-conscious diners. Located near De La Salle University and the College of Saint Benilde, this eatery is easily accessible to students and professionals alike.",
+  "address": "Street00, City00, Province00",
+  "logo": "",
+  "rating": [
+    3,
+    5,
+    1,
+    5,
+    5
+  ],
+  "reviews": [
+    "It's good enough.",
+    "It's superb!",
+    "It's so bad!",
+    "It's so delicious, yummy!",
+    "I really love their food!"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65f0108baeb43c852fb6df1e"
+  },
+  "name": "Provenciano",
+  "description": "Take a breath of fresh air and get a bite of sumptuous food at Provenciano, one of the well-known Filipino restaurants in Quezon City. True to its name which means someone who lives in rural areas, Provenciano serves up carefully curated authentic regional dishes found in the many regions of the Philippines.",
+  "rating": [
+    3,
+    4,
+    4,
+    5,
+    1
+  ],
+  "address": "Street01, City01, Province01",
+  "logo": "",
+  "reviews": [
+    "It's okay.",
+    "The food is great.",
+    "Yummy!",
+    "I love the food here, it's very good!",
+    "Don't order here! I found a cockroach on my sisig rice bowl."
+  ]
+},
+{
+  "_id": {
+    "$oid": "65f19a229ff0b58bd4695f63"
+  },
+  "name": "Ate rica's bacsilog",
+  "description": "Originating from the bustling streets of Metro Manila, Ate Rica’s Bacsilog is a creation of Ate Rica herself, a passionate food entrepreneur. Her vision was to craft a quick, satisfying, and delicious meal that could be enjoyed on the go. And so, the Bacsilog was born, quickly becoming a favorite among busy Filipinos looking for a hearty breakfast or a fulfilling snack.",
+  "rating": [
+    5,
+    5,
+    4,
+    4,
+    5
+  ],
+  "address": "Street02, City02, Province02",
+  "logo": "",
+  "reviews": [
+    "Superb!",
+    "Stunningly Delicious!",
+    "Very good.",
+    "Yummy!",
+    "I love it!"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65f19a8e9ff0b58bd4695f67"
+  },
+  "name": "Romulo café",
+  "description": "Romulo Café is the namesake of Carlos P. Romulo, a prominent Filipino journalist and diplomat who won a Pulitzer Prize for Peace in 1941. This beloved restaurant has multiple branches all over the metro, making it easy for you to taste the home-cooked goodness of true-blue Filipino dishes passed down across generations.",
+  "rating": [
+    5,
+    3,
+    4,
+    4,
+    3
+  ],
+  "address": "Street03, City03, Province03",
+  "logo": "",
+  "reviews": [
+    "10/10 would come again!",
+    "Their dishes are tasty but their rice is not cooked well. ",
+    "I loved the ambience!",
+    "Overall, it's good.",
+    "It's surprisingly just normal."
+  ]
+},
+{
+  "_id": {
+    "$oid": "65f19bec9ff0b58bd4695f79"
+  },
+  "name": "The aristocrat",
+  "description": "Aristocrat began in 1928 when a certain Lola Asiang, the eventual Mother of Filipino Cooking, realized she’s cooking way too often for a lot of her family that she might as well make a business out of it. Fast forward to some 90 years later and the Aristocrat Restaurant has become a staple go-to place for great Filipino comfort food.",
+  "rating": [
+    5,
+    5,
+    4,
+    5,
+    3
+  ],
+  "address": "Street04, City04, Province04",
+  "logo": "",
+  "reviews": [
+    "Great service and yummy food!",
+    "It's perfect, would come again for sure!",
+    "My family loved going here for dinner.",
+    "11/10!",
+    "The doneness of the meat wasn't what I wanted"
+  ]
+}]
