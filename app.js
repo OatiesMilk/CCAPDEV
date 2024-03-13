@@ -96,8 +96,6 @@ async function listRestaurants() {
 
 server.get('/', function(req, resp) {
     listRestaurants().then(resto_list => {
-        console.log(resto_list);
-
         resp.render('main', {
             layout: 'index',
             title: 'Homepage | SulEAT Food Bites',
@@ -253,7 +251,7 @@ server.post('/gotoEditAccount', (req, res) => {
     if (!logged_in || !currentUser) {
       res.redirect('/login');
     } else {
-      res.render('edit-account', {
+      res.render('edit_account', {
         layout: 'index',
         title: 'Edit Account | SulEAT Food Bites',
         css: 'user_settings',
@@ -266,74 +264,39 @@ server.post('/gotoEditAccount', (req, res) => {
         profilePicture: currentUser.profilePicture
       });
     }
-  });
+});
 
-  server.post('/updateAccount', (req, res) => {
-    const { email, username, password, oldPassword, firstname, lastname, bio, 'confirm-password': confirmPassword } = req.body;
+server.post('/updateAccount', function(req, resp) {
+    const accountQuery = { fname: currentUser.fname, lname: currentUser.lname }
+    const password1 = req.body.password;
+    const password2 = req.body.confirm_password;
+    const old_pass = req.body.old_password;
 
-    // Find the user by username
-    accountModel.findOne({ user: currentUser.username }).then(user => {
-        if (!user) {
-            // Handle user not found scenario
-            res.status(404).send('User not found');
-            return;
-        }
+    accountModel.findOne(accountQuery).then(function(account) {
+        if (password1 === password2 && currentUser.password === old_pass) {
+            account.fname = req.body.firstname;
+            account.lname = req.body.lastname;
+            account.email = req.body.email;
+            account.user = req.body.username;
+            account.pass = req.body.confirm_password;
+            account.bio = req.body.bio;
 
-        // If a new password is provided, check if it matches the old password
-        if (password && password !== '') {
-            if (user.pass !== oldPassword) {
-                // Handle old password not matching scenario
-                res.render('edit-account', {
+            account.save().then(function(result) {
+                resp.render('login', {
                     layout: 'index',
-                    title: 'Edit Account | SulEAT Food Bites',
-                    css: 'user_settings',
-                    errorMessage: 'Old password is incorrect',
+                    title: 'Account Login',
+                    css: 'login'
                 });
-                return;
-            }
-
-            // Check if new password and confirmation match
-            if (password !== confirmPassword) {
-                // Handle new passwords not matching scenario
-                res.render('edit-account', {
-                    layout: 'index',
-                    title: 'Edit Account | SulEAT Food Bites',
-                    css: 'user_settings',
-                    errorMessage: 'New passwords do not match',
-                });
-                return;
-            }
-
-            // Assign the new password if all checks pass
-            user.pass = password;
-        }
-
-        // Update other user details
-        user.email = email || user.email;
-        user.user = username || user.user;
-        user.fname = firstname || user.fname;
-        user.lname = lastname || user.lname;
-        user.bio = bio || user.bio;
-
-        // Save the updated user information
-        user.save().then(() => {
-            // Successful update
-            res.render('user_profile', {
+            }).catch(errorFn);
+        } else {
+            resp.render('edit_account', {
                 layout: 'index',
-                title: 'Profile | SulEAT Food Bites',
-                css: 'profile',
-                message: 'Profile successfully updated!'
+                title: 'Edit Account | SulEAT Food Bites',
+                css: 'user_settings',
+                errorMessage: 'Invalid inputs!',
             });
-        }).catch(err => {
-            // Handle error scenario
-            console.error('Error during account update:', err);
-            res.status(500).send('Internal Server Error during account update');
-        });
-
-    }).catch(err => {
-        console.error('Error finding user:', err);
-        res.status(500).send('Internal Server Error');
-    });
+        }
+    }).catch(errorFn);
 });
 
 server.post('/gotoAccountRegistration', function(req, resp){
@@ -381,7 +344,6 @@ server.post('/submitReview', function(req, resp) {
     }).catch(errorFn);
 });
 
-
 //EDITED--------------------------------------------------------------------------------------
 server.post('/gotoProfile', function(req, resp) {
     resp.render('user_profile', {
@@ -389,10 +351,7 @@ server.post('/gotoProfile', function(req, resp) {
         title: 'Profile | SulEAT Food Bites',
         css: 'profile',
         logged_in: logged_in,
-        user_fname: currentUser.fname,
-        user_lname: currentUser.lname,
-        username: currentUser.username,
-        bio: currentUser.bio
+        currentUser: currentUser
     });
 });
 
@@ -412,8 +371,10 @@ server.post('/verifyLogin', function(req, resp) {
     };
 
     accountModel.findOne(loginQuery).then(function(login) {
-        if (login != null) {
-            logged_in = true; // Change value to logged in
+        if (login !== null) {
+            logged_in = true;
+            console.log('Valid Login!');
+
             // Set the global current user
             currentUser = {
                 fname: login.fname,
@@ -423,7 +384,7 @@ server.post('/verifyLogin', function(req, resp) {
                 email: login.email,
                 password: login.pass 
             };
-            console.log('Valid Login!');
+            
             // Redirect to the main page instead of rendering the profile
             resp.render('main', {
                 layout: 'index',
@@ -516,7 +477,48 @@ server.post('/createAccount', function(req, resp) {
     const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword, bio  } = req.body;
     const bioValue = 'No Bio Yet';
     // Check if password and confirm password match
-    if (password !== confirmPassword) {
+    if (password == confirmPassword) {
+        accountModel.findOne({ user: username }).then(user => {
+            if (user) {
+                console.log('Username already exists');
+                resp.render('register_account', {
+                    layout: 'index',
+                    title: 'Account Creation | SulEAT Food Bites',
+                    css: 'user_registration',
+                    error: 'Username already exists. Please choose another.'
+                });
+            } else {
+                const accountInstance = new accountModel({
+                    user: username,
+                    pass: password,
+                    email: email,
+                    fname: firstname,
+                    lname: lastname,
+                    bio: bioValue,
+                });
+
+                currentUser = {
+                    fname: firstname,
+                    lname: lastname,
+                    username: username,
+                    pass: password,
+                    email: email,
+                    bio: bioValue
+                };
+    
+                accountInstance.save().then(() => {
+                    logged_in = true;
+                    resp.render('main', {
+                        layout: 'index',
+                        title: 'SulEAT Food Bites',
+                        css: 'main',
+                        logged_in: logged_in
+                    });
+                    console.log("Successfully registered!");
+                }).catch(errorFn);
+            }
+        }).catch(errorFn);
+    } else {
         console.log('Passwords do not match');
         return resp.render('register_account', {
             layout: 'index',
@@ -525,55 +527,6 @@ server.post('/createAccount', function(req, resp) {
             error: 'Passwords do not match. Please try again.'
         });
     }
-
-    accountModel.findOne({ user: username }).then(user => {
-        if (user) {
-            console.log('Username already exists');
-            resp.render('register_account', {
-                layout: 'index',
-                title: 'Account Creation | SulEAT Food Bites',
-                css: 'user_registration',
-                error: 'Username already exists. Please choose another.'
-            });
-        } else {
-            const accountInstance = new accountModel({
-                user: username,
-                pass: password,
-                email: email,
-                fname: firstname,
-                lname: lastname,
-                bio: bioValue,
-
-            });
-            currentUser = {
-                fname: firstname,
-                lname: lastname,
-                username: username,
-                pass: password,
-                email: email,
-                bio: bioValue
-            };
-
-            accountInstance.save().then(() => {
-                logged_in = true;
-                resp.render('main', {
-                    layout: 'index',
-                    title: 'SulEAT Food Bites',
-                    css: 'main',
-                    logged_in: logged_in
-                });
-                console.log("Successfully registered!");
-            }).catch(error => {
-                console.error('Error during account creation:', error);
-                resp.status(500).render('register_account', {
-                    layout: 'index',
-                    title: 'Account Creation | SulEAT Food Bites',
-                    css: 'user_registration',
-                    error: 'An error occurred while creating the account. Please try again.'
-                });
-            });
-        }
-    }).catch(errorFn);
 });
 
 // Only at the very end should the database be closed.

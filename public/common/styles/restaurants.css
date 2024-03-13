@@ -28,7 +28,7 @@ body {
     padding: 15px;
     font-size: 40px;
     margin-bottom: 10px;
-    margin-top: 250px;
+    margin-top: 400px;
 }
 
 .search-filter-menu {
@@ -73,7 +73,7 @@ body {
 }
 
 .restaurants-list {
-    max-height: 280px;
+    max-height: 500px;
     overflow-y: auto;
     margin-top: 20px;
     border-radius: 10px;
@@ -82,7 +82,7 @@ body {
 /** scrollbar **/
 .restaurants-list {
     width: 100%;
-    max-height: 280px;
+    max-height: 500px;
     overflow-y: auto;
     margin-top: 20px;
     border-radius: 10px;

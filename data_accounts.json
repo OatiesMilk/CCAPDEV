@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "65f1973054489a353df6c22c"
+  },
+  "user": "johndoe",
+  "pass": "1234",
+  "email": "johndoe@gmail.com",
+  "fname": "John",
+  "lname": "Doe",
+  "bio": "No Bio Yet"
+},
+{
+  "_id": {
+    "$oid": "65f1976154489a353df6c22f"
+  },
+  "user": "janedoe",
+  "pass": "1234",
+  "email": "janedoe@gmail.com",
+  "fname": "Jane",
+  "lname": "Doe",
+  "bio": "No Bio Yet"
+},
+{
+  "_id": {
+    "$oid": "65f1985e54489a353df6c233"
+  },
+  "user": "BlackMamba",
+  "pass": "1234",
+  "email": "kobe@gmail.com",
+  "fname": "Kobe",
+  "lname": "Bryant",
+  "bio": "No Bio Yet"
+},
+{
+  "_id": {
+    "$oid": "65f199519ff0b58bd4695f5d"
+  },
+  "user": "austin15",
+  "pass": "1234",
+  "email": "austin@gmail.com",
+  "fname": "Austin",
+  "lname": "Reaves",
+  "bio": "No Bio Yet"
+},
+{
+  "_id": {
+    "$oid": "65f1998d9ff0b58bd4695f60"
+  },
+  "user": "KingJames",
+  "pass": "1234",
+  "email": "lebron@gmail.com",
+  "fname": "LeBron",
+  "lname": "James",
+  "bio": "No Bio Yet"
+}]
