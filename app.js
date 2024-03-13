@@ -89,10 +89,16 @@ async function listRestaurants() {
                 });
             }
 
+            // edited to sort the list by ascending name (default selection)
+            resto_list.sort((a, b) => {
+                return a.name.localeCompare(b.name);
+            });
+
             resolve(resto_list);
         }).catch(errorFn);
     });
 }
+
 
 server.get('/', function(req, resp) {
     listRestaurants().then(resto_list => {
@@ -129,24 +135,6 @@ server.post('/gotoAboutUs', function(req, resp) {
 
 server.post('/gotoRestaurants', function(req, resp) {
     listRestaurants().then(resto_list => {
-
-        // sort restaurants by ascending name (default sorting)
-        restaurantModel.find({}).sort({ name: 1 }).then(function(restaurants) {
-            resto_list.length = 0;
-            for (const item of restaurants) {
-                resto_list.push({
-                    _id: item._id.toString(),
-                    name: item.name,
-                    description: item.description,
-                    rating: item.rating,
-                    address: item.address,
-                    logo: item.logo
-                });
-            }
-            console.log(resto_list);
-        }).catch(errorFn);
-        console.log(resto_list);
-
         resp.render('restaurants', {
             layout: 'index',
             title: 'Restaurants',
@@ -211,34 +199,48 @@ server.post('/sortRestaurants', function(req, resp) {
     const orderBy = req.body.orderBy; 
 
     let sortCriteria = {};
-    sortCriteria[sortBy] = orderBy === 'asc' ? 1 : -1; // Set the sorting criteria based on the selected orderBy option
+    sortCriteria[sortBy] = orderBy === 'asc' ? 1 : -1; // set sorting criteria based on the selected option
     const resto_list = [];
 
-    restaurantModel.find({}).sort(sortCriteria).then(function(restaurants) {
-        resto_list.length = 0;
-
+    restaurantModel.find({}).then(function(restaurants) {
         for (const item of restaurants) {
+            let totalRatings = 0;
+            for (const rating of item.rating) {
+                totalRatings += rating;
+            }
+            const averageRating = totalRatings / item.rating.length;
+
             resto_list.push({
                 _id: item._id.toString(),
                 name: item.name,
                 description: item.description,
-                rating: item.rating,
+                rating: averageRating,
                 address: item.address,
                 logo: item.logo
             });
         }
 
-        console.log("INSIDE LIST: ")
-        console.log(resto_list);
+        // then sort the restaurant list based on sortby criteria
+        resto_list.sort((a, b) => {
+            if (a[sortBy] < b[sortBy]) return -1;
+            if (a[sortBy] > b[sortBy]) return 1;
+            return 0;
+        });
+
+        // apply sorting order (asc/desc)
+        if (orderBy === 'desc') {
+            resto_list.reverse();
+        }
 
         const response = {
             restaurant_list: resto_list 
-        }
+        };
+
         resp.send(response);
 
     }).catch(errorFn); 
-
 });
+
 
 server.post('/search', function(req, resp){
     const property = String(req.body.property);

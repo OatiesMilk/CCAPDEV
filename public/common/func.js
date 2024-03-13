@@ -6,10 +6,10 @@ $(document).ready(function() {
         $.post('/sortRestaurants', { sortBy: sortBy, orderBy: orderBy }, function(response) {
             console.log(response);
             
-            // Clear the existing restaurant list
+            // Clears the existing restaurant list
             $('.restaurants-list').empty();
             
-            // Loop through the sorted restaurant list and append each restaurant item to the list
+            // Loops through the sorted restaurant list and append each restaurant item to the list
             response.restaurant_list.forEach(function(restaurant) {
                 var restaurantItem = `
                     <div class="restaurant-item">
@@ -29,7 +29,7 @@ $(document).ready(function() {
                     </div>
                 `;
                 
-                // Append the restaurant item to the restaurant list
+                // Appends the restaurant item to the restaurant list
                 $('.restaurants-list').append(restaurantItem);
             });
         });
