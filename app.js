@@ -179,6 +179,74 @@ server.post('/gotoEditAccount', (req, res) => {
     }
   });
 
+  server.post('/updateAccount', (req, res) => {
+    const { email, username, password, oldPassword, firstname, lastname, bio, 'confirm-password': confirmPassword } = req.body;
+
+    // Find the user by username
+    accountModel.findOne({ user: currentUser.username }).then(user => {
+        if (!user) {
+            // Handle user not found scenario
+            res.status(404).send('User not found');
+            return;
+        }
+
+        // If a new password is provided, check if it matches the old password
+        if (password && password !== '') {
+            if (user.pass !== oldPassword) {
+                // Handle old password not matching scenario
+                res.render('edit-account', {
+                    layout: 'index',
+                    title: 'Edit Account | SulEAT Food Bites',
+                    css: 'user_settings',
+                    errorMessage: 'Old password is incorrect',
+                });
+                return;
+            }
+
+            // Check if new password and confirmation match
+            if (password !== confirmPassword) {
+                // Handle new passwords not matching scenario
+                res.render('edit-account', {
+                    layout: 'index',
+                    title: 'Edit Account | SulEAT Food Bites',
+                    css: 'user_settings',
+                    errorMessage: 'New passwords do not match',
+                });
+                return;
+            }
+
+            // Assign the new password if all checks pass
+            user.pass = password;
+        }
+
+        // Update other user details
+        user.email = email || user.email;
+        user.user = username || user.user;
+        user.fname = firstname || user.fname;
+        user.lname = lastname || user.lname;
+        user.bio = bio || user.bio;
+
+        // Save the updated user information
+        user.save().then(() => {
+            // Successful update
+            res.render('user_profile', {
+                layout: 'index',
+                title: 'Profile | SulEAT Food Bites',
+                css: 'profile',
+                message: 'Profile successfully updated!'
+            });
+        }).catch(err => {
+            // Handle error scenario
+            console.error('Error during account update:', err);
+            res.status(500).send('Internal Server Error during account update');
+        });
+
+    }).catch(err => {
+        console.error('Error finding user:', err);
+        res.status(500).send('Internal Server Error');
+    });
+});
+
 server.post('/gotoAccountRegistration', function(req, resp){
     resp.render('register_account', {
         layout: 'index',
