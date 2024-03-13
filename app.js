@@ -73,6 +73,55 @@ restaurantModel.find({}).then(function(restaurant) {
     console.log(resto_list);
 }).catch(errorFn);
 
+/* restaurantModel.find({}).sort({ name: 1 }).then(function(restaurants) {
+    resto_list.length = 0;
+
+    for (const item of restaurants) {
+        resto_list.push({
+            _id: item._id.toString(),
+            name: item.name,
+            description: item.description,
+            rating: item.rating,
+            address: item.address,
+            logo: item.logo
+        });
+    }
+
+    console.log(resto_list);
+}).catch(errorFn); */
+
+server.post('/sortRestaurants', function(req, resp) {
+    const sortBy = req.body.sortBy; 
+    const orderBy = req.body.orderBy; 
+
+    let sortCriteria = {};
+    sortCriteria[sortBy] = orderBy === 'asc' ? 1 : -1; // Set the sorting criteria based on the selected orderBy option
+
+    restaurantModel.find({}).sort(sortCriteria).then(function(restaurants) {
+        resto_list.length = 0;
+
+        for (const item of restaurants) {
+            resto_list.push({
+                _id: item._id.toString(),
+                name: item.name,
+                description: item.description,
+                rating: item.rating,
+                address: item.address,
+                logo: item.logo
+            });
+        }
+
+        console.log(resto_list);
+
+        resp.send({ success: true, message: 'Restaurants sorted successfully.', restaurant_list: resto_list });
+    }).catch(errorFn);
+});
+
+server.post('/search', function(req, resp){
+    const property = String(req.body.property);
+    console.log("property");
+})
+
 server.get('/', function(req, resp) {
     resp.render('main', {
         layout: 'index',
