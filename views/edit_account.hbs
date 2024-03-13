@@ -10,46 +10,46 @@
             <!-- Right Column Inputs -->
             <div class="form-column">
                 <div class="form-control">
-                <label for="email">NEW E-MAIL</label>
-                <input type="email" id="email" name="email"  value="{{email}}">
+                    <label for="email">NEW E-MAIL</label>
+                    <input type="email" id="email" name="email"  value="{{email}}">
                 </div>
                 
                 <div class="form-control">
-                <label for="username">NEW USERNAME</label>
-                <input type="text" id="username" name="username" value="{{username}}">
+                    <label for="username">NEW USERNAME</label>
+                    <input type="text" id="username" name="username" value="{{username}}">
                 </div>
                 
                 <div class="form-control">
-                <label for="password">NEW PASSWORD</label>
-                <input type="password" id="password" name="password">
+                    <label for="password">NEW PASSWORD</label>
+                    <input type="password" id="password" name="password">
                 </div>
 
                 <div class="form-control">
-                <label for="old-password">OLD PASSWORD</label>
-                <input type="password" id="old-password" name="old-password">
+                    <label for="old-password">OLD PASSWORD</label>
+                    <input type="password" id="old_password" name="old_password">
                 </div>
             </div>
 
             <!-- Left Column Inputs -->
             <div class="form-column">
                 <div class="form-control">
-                <label for="firstname">NEW FIRST NAME</label>
-                <input type="text" id="firstname" name="firstname" value="{{fname}}">
+                    <label for="firstname">NEW FIRST NAME</label>
+                    <input type="text" id="firstname" name="firstname" value="{{fname}}">
                 </div>
                 
                 <div class="form-control">
-                <label for="lastname">NEW LAST NAME</label>
-                <input type="text" id="lastname" name="lastname" value="{{lname}}">
+                    <label for="lastname">NEW LAST NAME</label>
+                    <input type="text" id="lastname" name="lastname" value="{{lname}}">
                 </div>
                 
                 <div class="form-control">
-                <label for="confirm-password">CONFIRM NEW PASSWORD</label>
-                <input type="password" id="confirm-password" name="confirm-password">
+                    <label for="confirm-password">CONFIRM NEW PASSWORD</label>
+                    <input type="password" id="confirm_password" name="confirm_password">
                 </div>
 
                 <div class="form-control">
-                <label for="bio">NEW BIO</label>
-                <textarea id="bio" name="bio">{{bio}}</textarea>
+                    <label for="bio">NEW BIO</label>
+                    <textarea id="bio" name="bio">{{bio}}</textarea>
                 </div>
             </div>
             </div>
@@ -65,7 +65,11 @@
         </form>
 
         <div class="update-footer">
-            <p>Keep current profile settings? <a href="profile_page.html">Go Back to Profile</a></p>
+            <p>Keep current profile settings?
+                <form action="/gotoProfile" method="post">
+                    <button type="submit" class="setting-btn">Go Back to Profile</button>
+                </form>
+            </p>
         </div>
     </div>
 </div>

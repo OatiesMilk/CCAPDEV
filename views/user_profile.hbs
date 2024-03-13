@@ -15,8 +15,8 @@
             
             <div class="profile-content">
                 <div class="profile-labels">
-                    <h1>{{user_fname}} {{user_lname}}</h1>
-                    <p>@{{username}}</p>
+                    <h1>{{currentUser.fname}} {{currentUser.lname}}</h1>
+                    <p>{{currentUser.email}}</p>
                 </div>
 
                 <div class="profile-icons">
@@ -51,7 +51,7 @@
             </div>
             
             <div class="bio-info">
-                <h1>{{bio}}</h1>
+                <h1>{{currentUser.bio}}</h1>
             </div>
         </div>
 
