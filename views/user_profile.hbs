@@ -15,8 +15,8 @@
             
             <div class="profile-content">
                 <div class="profile-labels">
-                    <label id="profile-name">Juan Dela Cruz</label></br>
-                    <label id="profile-tag">@juan_dela_cruz</label>
+                    <h1>{{user_fname}} {{user_lname}}</h1>
+                    <p>@{{username}}</p>
                 </div>
 
                 <div class="profile-icons">
@@ -36,7 +36,7 @@
                     </button>
                 </form>
 
-                <form action="/gotoRestaurantRegistration" method="post">
+                <form action="/gotoEditAccount" method="post">
                     <button type="submit">
                         <img src="/common/images/setting-icon.png" alt="setting icon">
                     </button>
@@ -51,11 +51,7 @@
             </div>
             
             <div class="bio-info">
-                <label id="bio-text">
-                    Dela Cruz is a food critic based in Manila, Philippines.
-                    He finished Culinary Arts in London and is a huge avid fan of discovering Asian cuisine,
-                    exploring each of their cultures.
-                </label>
+                <h1>{{bio}}</h1>
             </div>
         </div>
 
