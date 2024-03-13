@@ -131,6 +131,22 @@ server.post('/gotoAboutUs', function(req, resp) {
 
 server.post('/gotoRestaurants', function(req, resp) {
     listRestaurants().then(resto_list => {
+
+        // sort restaurants by ascending name (default sorting)
+        restaurantModel.find({}).sort({ name: 1 }).then(function(restaurants) {
+            resto_list.length = 0;
+            for (const item of restaurants) {
+                resto_list.push({
+                    _id: item._id.toString(),
+                    name: item.name,
+                    description: item.description,
+                    rating: item.rating,
+                    address: item.address,
+                    logo: item.logo
+                });
+            }
+            console.log(resto_list);
+        }).catch(errorFn);
         console.log(resto_list);
 
         resp.render('restaurants', {
@@ -159,6 +175,79 @@ server.post('/gotoReviews', function(req, resp) {
         });
     }).catch(errorFn);
 });
+
+// EDITED -----------------------------------------
+server.post('/gotoProfileFromResto', function(req, resp){
+
+    resp.render('user_profile', {
+        layout: 'index',
+        title: 'Profile | SulEAT Food Bites',
+        css: 'profile',
+        logged_in: logged_in,
+        user_fname: currentUser.fname,
+        user_lname: currentUser.lname,
+        username: currentUser.username,
+        bio: currentUser.bio
+    });
+
+})
+server.post('/gotoRestoFromUser', function(req, resp){
+    listRestaurants().then(resto_list => {
+        const restaurantName = req.body.restaurantName;
+        const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+        const totalReviews = matchedRestaurant.reviews.length;
+
+        resp.render('restaurant_page', {
+            layout: 'index',
+            title: 'Restaurant Reviews',
+            matchedRestaurant: matchedRestaurant,
+            css: 'restaurant_page',
+            logged_in: logged_in,
+            totalReviews: totalReviews
+        });
+    }).catch(errorFn);
+})
+
+server.post('/sortRestaurants', function(req, resp) {
+    const sortBy = req.body.sortBy; 
+    const orderBy = req.body.orderBy; 
+
+    let sortCriteria = {};
+    sortCriteria[sortBy] = orderBy === 'asc' ? 1 : -1; // Set the sorting criteria based on the selected orderBy option
+    const resto_list = [];
+
+    restaurantModel.find({}).sort(sortCriteria).then(function(restaurants) {
+        resto_list.length = 0;
+
+        for (const item of restaurants) {
+            resto_list.push({
+                _id: item._id.toString(),
+                name: item.name,
+                description: item.description,
+                rating: item.rating,
+                address: item.address,
+                logo: item.logo
+            });
+        }
+
+        console.log("INSIDE LIST: ")
+        console.log(resto_list);
+
+        const response = {
+            restaurant_list: resto_list 
+        }
+        resp.send(response);
+
+    }).catch(errorFn); 
+
+});
+
+server.post('/search', function(req, resp){
+    const property = String(req.body.property);
+    console.log(property);
+})
+
+// -----------------------------------
 
 server.post('/gotoEditAccount', (req, res) => {
     if (!logged_in || !currentUser) {
