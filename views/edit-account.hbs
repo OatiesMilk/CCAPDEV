@@ -49,14 +49,16 @@
 
                 <div class="form-control">
                 <label for="bio">NEW BIO</label>
-                <textarea id="bio" name="bio" value="{{bio}}"></textarea>
+                <textarea id="bio" name="bio">{{bio}}</textarea>
                 </div>
             </div>
             </div>
             
             
             <div class="error">
-
+                {{#if errorMessage}}
+                <p style="color: red;">{{errorMessage}}</p>
+                {{/if}}
             </div>
             
             <button type="submit" class="setting-btn">UPDATE</button>
