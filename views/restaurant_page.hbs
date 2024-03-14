@@ -65,29 +65,30 @@
                         </div>
 
                         <div class="restaurant-info">
-                            <div class="resto-name">
+                            {{!-- <div class="resto-name">
                                 <label class="restaurant-name">Juan Dela Cruz</label>
-                            </div>
+                            </div> --}}
 
                             <div class="resto-info">
+                                {{#each matchedRestaurant.reviews}}
                                 <label class="restaurant-text">
-                                    Amazing. Life-changing cuisine. Breathtaking. Extraordinary. orem ipsum dolor sit amet, 
-                                    consectetur adipiscing elit. Nunc convallis ipsum quam, ut sollicitudin felis fringilla eget
+                                    {{this}}
                                 </label>
+                                {{/each}}
                             </div>
                         </div>
 
                         <div class="restaurant-rating">
-                            <div class="more-reviews">
+                            {{!-- <div class="more-reviews">
                                 <form action="/gotoProfileFromResto" method="post">
                                     <button class="show-reviews-btn">View User  ►</button>
                                 </form>
-                            </div>
+                            </div> --}}
 
-                            <div class="meter-rating">
-                                <label for="SE">4.0 / 5.0</label>
-                                <meter id="SE" value="4" min="0" max="5">4 out of 5</meter>
-                            </div>
+                            {{!-- <div class="meter-rating">
+                                <label for="SE">{{matchedRestaurant.rating}} / 5.0</label>
+                                <meter id="SE" value="{{matchedRestaurant.rating}}" min="0" max="5"></meter>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
