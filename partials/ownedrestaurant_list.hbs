@@ -1,0 +1,22 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+<script id="restaurant-list-template" type="text/x-handlebars-template"></script>
+
+<div class="restaurants-list">
+    {{#each restaurant_list}}
+    <div class="restaurant-item">
+        <img class="restaurant-logo" src="{{logo}}" alt="restaurant logo">
+        <div class="restaurant-info">
+            <h2>{{name}}</h2>
+            <div class="restaurant-rating">
+                <meter value="{{rating}}" min="0" max="5">{{rating}}</meter>
+                <span>{{rating}}</span>
+            </div>
+            <p class="restaurant-description">{{description}}</p>
+        </div>
+        <form action="/gotoReviews" method="post">
+            <input type="hidden" name="restaurantName" value="{{name}}">
+            <button type="submit" class="show-reviews-btn">Reviews ►</button>
+        </form>
+    </div>
+    {{/each}}
+</div>
