@@ -1,0 +1,33 @@
+<div class="main-parent">
+    {{#if logged_in}}
+        {{> header_logged_in}}
+    {{else}}
+        {{> header}}
+    {{/if}}
+        
+    <div class="restaurants-menu">
+        <h1>My Restaurants</h1>
+
+        <div class="search-filter-menu">
+            <input type="text" id="search-bar" placeholder="Search Restaurants">
+
+            <select id="sort-by">
+                <option value="name">Sort By Name</option>
+                <option value="rating">Sort By Rating</option>
+            </select>
+
+            <select id="order-by">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+
+            <button id="find">
+                <img src="/common/images/find-icon.png" alt="search icon here">
+            </button>
+        </div>
+
+        {{> restaurant_list}}
+    </div>
+
+    {{> footer}}
+</div>

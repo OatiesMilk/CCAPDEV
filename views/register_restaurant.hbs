@@ -1,69 +1,124 @@
 <div class="register-backdrop">
-    <div class="registration-container">
-        <div class="header">
-            <img src="/common/images/logo-icon-white.png" alt="Logo"> 
-            <h2>Register Restaurant</h2>
+    <div class="form-group">
+        <div class="registration-container">
+            <div class="header">
+                <img src="/common/images/logo-icon-white.png" alt="Logo"> 
+                <h2>Register Restaurant</h2>
+            </div>
+            
+            <a href="/" class="back-button">
+                <img src="/common/images/left_arrow.png">
+            </a>
+            
+            <form action="/registerRestaurant" method="post">
+                <div class="registration-form">
+                <!-- Right Column Inputs -->
+                <div class="form-column">
+                    <div class="form-control">
+                    <label for="resto-name">RESTAURANT NAME</label>
+                    <input type="text" id="resto-name" name="res_name" required>
+                    </div>
+                    
+                    <div class="form-control">
+                    <label for="desc">DESCRIPTION</label>
+                    <textarea id="desc" name="res_description" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Left Column Inputs -->
+                <div class="form-column">
+                    <div class="form-control">
+                    <label for="street">STREET</label>
+                    <input type="text" id="street" name="res_street" placeholder="Street Address" required>
+                    </div>
+                    
+                    <div class="form-control">
+                    <label for="city">CITY</label>
+                    <input type="text" id="city" name="res_city" placeholder="City" required>
+                    </div>
+                    
+                    <div class="form-control">
+                    <label for="province">PROVINCE</label>
+                    <input type="text" id="province" name="res_province" placeholder="Province" required>
+                    </div>
+                    
+                    <div class="form-control">
+                    <label for="logo">LOGO</label>
+                    <input type="file" id="logo" name="res_logo">
+                    </div>
+                </div>
+                </div>
+                
+                <div class="checker">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the Terms and Service</label>
+                </div>
+                
+                <div class="error">
+                    {{#if error}}
+                    {{error}}
+                    {{/if}}
+                </div>
+                
+                <button type="submit" class="register-btn">REGISTER</button>
+            </form>
+            
+            <div class="update-footer">
+                <p>Don't wanna register your restaurant yet?
+                    <form action="/gotoProfile" method="post">
+                        <button type="submit">Go back to profile</button>
+                    </form>
+                </p>
+            </div>
         </div>
-        
-        <form action="/registerRestaurant" method="post">
-            <div class="registration-form">
-            <!-- Right Column Inputs -->
-            <div class="form-column">
-                <div class="form-control">
-                <label for="resto-name">RESTAURANT NAME</label>
-                <input type="text" id="resto-name" name="res_name" required>
-                </div>
-                
-                <div class="form-control">
-                <label for="desc">DESCRIPTION</label>
-                <textarea id="desc" name="res_description" required></textarea>
-                </div>
+        <body>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    // Function to update text inputs preview
+                    const updateLogoPreview = () => {
+                        const [file] = document.getElementById('logo').files;
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('previewLogo').src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                    const updateTextPreview = () => {
+                        document.getElementById('previewName').textContent = document.getElementById('resto-name').value || '(name of the restaurant)';
+                        document.getElementById('previewLocation').textContent =
+                            (document.getElementById('street').value || 'Street') + ', ' +
+                            (document.getElementById('city').value || 'City') + ', ' +
+                            (document.getElementById('province').value || 'Province');
+                        document.getElementById('previewBio').textContent = document.getElementById('desc').value || '(bio of the restaurant)';
+                    };
+                    document.getElementById('resto-name').addEventListener('input', updateTextPreview);
+                    document.getElementById('street').addEventListener('input', updateTextPreview);
+                    document.getElementById('city').addEventListener('input', updateTextPreview);
+                    document.getElementById('province').addEventListener('input', updateTextPreview);
+                    document.getElementById('desc').addEventListener('input', updateTextPreview);
+                    document.getElementById('logo').addEventListener('change', updateLogoPreview);
+                });
+            </script>
+        </body>
+        <div class="preview-container">
+            <h2>Preview</h2>
+            <div class="preview-logo">
+                <img id="previewLogo" src="/common/images/restaurant-icon.png" alt="">
             </div>
-
-            <!-- Left Column Inputs -->
-            <div class="form-column">
-                <div class="form-control">
-                <label for="street">STREET</label>
-                <input type="text" id="street" name="res_street" placeholder="Street Address" required>
-                </div>
-                
-                <div class="form-control">
-                <label for="city">CITY</label>
-                <input type="text" id="city" name="res_city" placeholder="City" required>
-                </div>
-                
-                <div class="form-control">
-                <label for="province">PROVINCE</label>
-                <input type="text" id="province" name="res_province" placeholder="Province" required>
-                </div>
-                
-                <div class="form-control">
-                <label for="logo">LOGO</label>
-                <input type="file" id="logo" name="res_logo">
-                </div>
+            <div class="preview-item">
+                <p class="preview-label">Name</p>
+                <p id="previewName" class="preview-content">(name of the restaurant)</p>
             </div>
+            <div class="preview-item">
+                <p class="preview-label">Location</p>
+                <p id="previewLocation" class="preview-content">(location of the restaurant)</p>
             </div>
-            
-            <div class="checker">
-            <input type="checkbox" id="terms" name="terms" required>
-            <label for="terms">I agree to the Terms and Service</label>
+            <div class="preview-item">
+                <p class="preview-label">Bio</p>
+                <p id="previewBio" class="preview-content">(bio of the restaurant)</p>
             </div>
-            
-            <div class="error">
-                {{#if error}}
-                {{error}}
-                {{/if}}
-            </div>
-            
-            <button type="submit" class="register-btn">REGISTER</button>
-        </form>
-
-        <div class="update-footer">
-            <p>Don't wanna register your restaurant yet?
-                <form action="/gotoProfile" method="post">
-                    <button type="submit">Go back to profile</button>
-                </form>
-            </p>
         </div>
     </div>
 </div>

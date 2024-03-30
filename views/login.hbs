@@ -5,15 +5,25 @@
             <h2>User Log-in</h2>
         </div>
 
+        <a href="/" class="back-button">
+            <img src="/common/images/left_arrow.png">
+        </a>
+
         <form action="/verifyLogin" method="post">
             <div class="form-group">
                 <label for="username" class="label">USERNAME</label>
-                <input type="text" id="username" name="username" class="input-text">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" class="input-text" required>
+                    <img src="/common/images/User_login.png" alt="User Icon" class="input-icon">
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="password" class="label">PASSWORD</label>
-                <input type="password" id="password" name="password" class="input-password" required>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="input-password" required>
+                    <img src="/common/images/lock.png" alt="Lock Icon" class="input-icon">
+                </div>
             </div>
 
             <div class="form-checker-text">
@@ -35,6 +45,7 @@
             <p>Don't have an account yet?</p> <!-- Remove form from inside the p tag -->
             <form action="/gotoAccountRegistration" method="post" style="margin-left: 10px;">
                 <input type="submit" value="Register"></input>
+                
             </form>
         </div>
     </div>

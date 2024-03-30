@@ -1,72 +1,121 @@
 <div class="register-backdrop">
-    <div class="main-content">
-        <div class="registration-container">
-            <div class="header">
-                <img src="/common/images/logo-icon-white.png" alt="Logo"> 
-                <h2>User Registration</h2>
-            </div>
-
-            <form action="/createAccount" method="post">
-                <div class="registration-form">
-                    <!-- Right Column Inputs -->
-                    <div class="form-column">
-                        <div class="form-control">
-                            <label for="email">E-MAIL</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label for="username">USERNAME</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label for="password">PASSWORD</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                    </div>
-
-                    <!-- Left Column Inputs -->
-                    <div class="form-column">
-                        <div class="form-control">
-                            <label for="firstname">FIRST NAME</label>
-                            <input type="text" id="firstname" name="firstname" required>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label for="lastname">LAST NAME</label>
-                            <input type="text" id="lastname" name="lastname" required>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label for="confirm-password">CONFIRM PASSWORD</label>
-                            <input type="password" id="confirm-password" name="confirm-password" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="error">
-                {{#if error}}
-                    {{error}}
-                {{/if}}
+    <div class="flex-container">
+        <div class="main-content">
+            <div class="registration-container">
+                <a href="/" class="back-button">
+                <img src="/common/images/left_arrow.png">
+                </a>
+                <div class="header">
+                    <img src="/common/images/logo-icon-white.png" alt="Logo"> 
+                    <h2>User Registration</h2>
                 </div>
                 
-                <button type="submit" class="register-btn">REGISTER</button>
-            </form>
+                <form action="/createAccount" method="post">
+                    
+                        <div class="registration-form">
+                            <!-- Right Column Inputs -->
+                            <div class="form-column">
+                                <div class="form-control">
+                                    <div class="form-group">
+                                        <label for="email" class="label">E-MAIL</label>
+                                        <div class="input-group">
+                                            <input type="email" id="email" name="email" class="input-text" required>
+                                            <img src="/common/images/email.png" alt="Email Icon" class="input-icon">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-control">
+                                    <label for="username" class="label">USERNAME</label>
+                                    <div class="input-group">
+                                        <input type="text" id="username" name="username" class="input-text" required>
+                                        <img src="/common/images/User_login.png" alt="Username Icon" class="input-icon">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-control">
+                                    <label for="password" class="label">PASSWORD</label>
+                                    <div class="input-group">
+                                        <input type="password" id="password" name="password" class="input-text" required>
+                                        <img src="/common/images/lock.png" alt="Password Icon" class="input-icon">
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="checker">
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the Terms and Service</label>
-            </div>
+                            <!-- Left Column Inputs -->
+                            <div class="form-column">
+                                <div class="form-control">
+                                    <label for="firstname">FIRST NAME</label>
+                                    <input type="text" id="firstname" name="firstname" required>
+                                </div>
+                                
+                                <div class="form-control">
+                                    <label for="lastname">LAST NAME</label>
+                                    <input type="text" id="lastname" name="lastname" required>
+                                </div>
+                                
+                                <div class="form-control">
+                                    <label for="confirm-password">CONFIRM PASSWORD</label>
+                                    <input type="password" id="confirm-password" name="confirm-password" required>
+                                </div>
+                            </div>
+                        </div>
 
 
+                    <div class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
+                    </div>
+                    
+                    <button type="submit" class="register-btn">REGISTER</button>
+                </form>
 
-            <form action="/gotoLogin" method="post">
-                <div class="sign-in-link">
-                    Already have an account? 
-                    <input type="submit" value="Sign in"></input>
+                <div class="checker">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Terms and Service</label>
                 </div>
-            </form>
+
+
+
+                <form action="/gotoLogin" method="post">
+                    <div class="sign-in-link">
+                        Already have an account? 
+                        <input type="submit" value="Sign in"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="preview-container">
+            <h3>Account Preview</h3>
+            <img src="/common/images/profile-icon.png" alt="Icon" class="profile-icon-preview">
+            <div class="preview-item">
+                <p class="preview-label">Username</p>
+                <p id="previewName" class="preview-content"><span id="usernamePreview">@username</span></p>
+            </div>
+            <div class="preview-item">
+                <p class="preview-label">Name</p>
+                <p id="previewName" class="preview-content"><span id="namePreview">Lastname Firstname</span></p>
+            </div>
+            <!-- Add other preview elements here as needed -->
+            <body>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                    const updatePreview = () => {
+                        const username = document.getElementById('username').value;
+                        const firstname = document.getElementById('firstname').value;
+                        const lastname = document.getElementById('lastname').value;
+                        
+                        document.getElementById('usernamePreview').textContent = '@' + username;
+                        document.getElementById('namePreview').textContent = `${firstname} ${lastname}`;
+                    };
+
+                    document.getElementById('username').addEventListener('input', updatePreview);
+                    document.getElementById('firstname').addEventListener('input', updatePreview);
+                    document.getElementById('lastname').addEventListener('input', updatePreview);
+                    });
+                </script>
+            </body>
         </div>
     </div>
 </div>
