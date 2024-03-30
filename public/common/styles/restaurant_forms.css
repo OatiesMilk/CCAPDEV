@@ -13,7 +13,7 @@
 body {
     font-family: arapey;
     background-image: url("../images/resto-background-image.png");       
-    background-size: 100%;
+    background-size: cover;
     padding: 0;
     margin: 0;
     display: flex;
@@ -23,17 +23,22 @@ body {
   }
 
 	.register-backdrop {
-	background-color: rgba(255, 255, 255, 0);
+	  background-color: rgba(255, 255, 255, 0);
     padding: 20px;
-    display: inline-block;
+    display: flex;
+  }
+  .form-group {
+    display: flex;
+    justify-content: space-between; /* Center children horizontally */
   }
 
   .registration-container {
     width: 700px;
     background-color: rgba(0, 0, 0);
-    padding: 20px;
+    border: 2px solid white;
+    padding: 9px;
     margin: 50px auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0px 10px rgba(255, 255, 255, 0.5);
     animation: shiftUp 0.5s ease-out forwards;
     border-radius: 20px;
   }
@@ -106,6 +111,21 @@ body {
     margin-bottom: -20px;
   }
   
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px; 
+    border: none;
+    background: none;
+    cursor: pointer;
+    
+  }
+  
+  .back-button img {
+    width: 40px;
+    height: 50px; 
+  }
+
   .checkbox {
     display: flex;
     justify-content: center;
@@ -150,5 +170,88 @@ body {
     text-align: center;
     margin-top: 25px;
     margin-bottom: 25px;
+  }
+  
+  .preview-container {
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: 2px solid white;
+    justify-content: center; /* Centers children vertically */
+    align-items: center; /* Centers children horizontally */
+    text-align: center; /* Centers text */
+    padding: 20px;
+    margin: 50px; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    animation: shiftUp 0.5s ease-out forwards;
+    height: auto;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .preview-content {
+    background-color: black;
+    color: white;
+    padding: 25px 10px;
+    border-radius: 5px;
+    
+    margin: 4px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; 
+    box-sizing: border-box;
+    max-width: 100%;
+    margin-top: -20px;
+    border: 2px solid white;
+  }
+
+  .preview-item,
+  .preview-logo {
+      margin-bottom: 10px;
+  }
+
+  .preview-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .preview-logo {
+    background-color: black; /* Black background for the logo circle */
+    border-radius: 50%; /* Rounds the edges to create a circle */
+    width: 100px; /* Width of the logo circle */
+    height: 100px; /* Height of the logo circle, must be equal to width for a perfect circle */
+    display: inline-block;
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+    margin-bottom: 20px; /* Space below the logo container */
+  }
+  .preview-logo img {
+      max-width: 80%;
+      max-height: 80%;
+      margin-top: 10px;
+      display: inline-block; 
+  }
+
+  .preview-label {
+    background-color: #ffffff;
+    color: #000000;
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    border-radius: 20px;
+  }
+  
+  .preview-container h2 {
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  
+  
+  .preview-container span {
+    font-weight: bold; 
   }
   

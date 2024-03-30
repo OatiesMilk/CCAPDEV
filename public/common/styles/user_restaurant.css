@@ -1,0 +1,260 @@
+body {
+    margin: 0px;
+    background-image: url("../images/background-image.png");
+}
+
+.main-parent, .main-content {
+    width: 100%;
+}
+
+.grayscale > img{
+    filter: grayscale(100%);
+}
+
+.restaurants-menu{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    width: 50%;
+}
+
+.restaurants-menu > h1{
+    background-color: #242424df;
+    border-radius: 20px;
+    padding: 15px;
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-top: 400px;
+}
+
+.search-filter-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+#search-bar,
+#sort-by,
+#order-by {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#search-bar{
+    width: 60%; 
+}
+
+#sort-by, #order-by{
+    width: 20%; 
+}
+
+#find {
+    display: flex;
+    width: 5%;
+    background-color: #7c7c7c;
+    justify-content: center;
+    padding: 5px;
+}
+
+#find img {
+    width: 100%;
+    height: 100%;
+}
+
+#find:hover {
+    transform: scale(1.1); 
+}
+
+.restaurants-list {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+/** scrollbar **/
+.restaurants-list {
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    scrollbar-color: #888 #f1f1f1; /* thumb and track color */
+    scrollbar-width: thin;
+}
+
+.restaurant-item {
+    width: 97%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #242424;
+    border-radius: 10px;
+}
+
+.restaurant-logo {
+    width: 25%;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.restaurant-info {
+    width: 60%;
+    text-align: left;
+}
+
+.restaurant-info h2 {
+    margin-top: 1px;
+    margin-bottom: -3px;
+    font-family: 'Bebas Neue';
+    font-size: 50px;
+}
+
+.restaurant-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    margin-top: -10px;
+}
+
+.restaurant-rating meter {
+    width: 100px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.restaurant-rating > span {
+    font-size: 20px;
+}
+
+.restaurant-description {
+    margin-top: -2px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.show-reviews-btn {
+    padding: 8px;
+    margin-left: 10px;
+    background-color: white;
+    color: #242424;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.show-reviews-btn:hover {
+    background-color: gray; 
+}
+
+/** header **/
+.header-row {
+    display: flex;
+    background-color: #242424;
+    height: 90px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#header-logo > img {
+    height: 120px;
+    transition: transform 0.3s;
+    padding: 10px;
+    padding-right: 30px;
+}
+
+#header-logo > img:hover {
+    transform: scale(1.1); /* Increase size on hover */
+}
+
+.header-menu {
+    display: flex;
+    margin: 150px;
+    margin-right: 20px;
+}
+
+.header-menu > form > button {
+    color: white;
+    font-size: 22px;
+    margin-right: 25px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    transition: color 0.5s;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.header-menu > form > button:hover {
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.header-icons > a > img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+}
+
+.header-icons > a > img:hover {
+    transform: scale(1.2); /* Increase size on hover */
+}
+/** end of header **/
+
+/** footer **/
+*:focus {
+    outline: none;
+}
+
+.copyrights {
+    width: 100%;
+    background-color: #242424;
+    display: flex;
+    justify-content: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    align-items: baseline;
+}
+
+.copyrights > pre {
+    font-family:'Franklin Gothic Medium';
+    font-size: 15px;
+}
+
+a:link {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:active {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+/** end of footer **/

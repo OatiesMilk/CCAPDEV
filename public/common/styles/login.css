@@ -28,9 +28,10 @@
   
   .login-container {
   	background-color: rgba(0, 0, 0, 1);
+    border: 2px solid white;
     width: 300px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0px 10px rgba(255, 255, 255, 0.5);
     animation: shiftUp 0.5s ease-out forwards;
     border-radius: 20px;
   }
@@ -82,16 +83,39 @@
     box-sizing: border-box;
   }
 
+  .back-button {
+    position: absolute;
+    top: 20px; 
+    left: 20px; 
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .back-button img {
+    width: 40px;
+    height: 50px; 
+  }
+  
+  .input-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px; 
+    right: 8%;
+    margin-top: 8px;
+  }
+
   .input-submit {
   	font-family: 'arapey', sans-serif;
+    font-size: 12px; 
   	display: block;
   	margin: 20px auto; 
-    width: 25%;
-    padding: 5px;
+    width: 30%;
+    padding: 10px;
     border: none;
     background: #ffff;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 20px;
   }
 
   .input-submit:hover {
@@ -104,7 +128,6 @@
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    margin-top: 25px;
     margin-bottom: 10px;
 }
 
