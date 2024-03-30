@@ -33,6 +33,7 @@ const accountsSchema = new mongoose.Schema({
   email: {type: String },
   fname: { type: String },
   lname: { type: String },
+  has_resto: {type: Boolean, default: false },
   bio: { type: String, default: 'No Bio Yet' }
 }, { versionKey: false });
 
@@ -42,7 +43,8 @@ const restaurantsSchema = new mongoose.Schema({
     rating: { type: Array },
     address: { type: String },
     logo: { type: String },
-    reviews: { type: Array }
+    reviews: { type: Array },
+    owner: { type: String }
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
@@ -99,6 +101,44 @@ async function listRestaurants() {
     });
 }
 
+async function listUserRestaurants(username) {
+    return new Promise((resolve, reject) => {
+        const resto_list = [];
+
+        // Check if a username is provided, if not, fetch all restaurants
+        const query = username ? { owner: username } : {};
+
+        restaurantModel.find(query).then(function (restaurants) {
+            for (const item of restaurants) {
+                let totalRatings = 0;
+                for (let i = 0; i < item.rating.length; i++) {
+                    totalRatings += item.rating[i];
+                }
+                let averageRating = totalRatings / item.rating.length;
+                averageRating = parseFloat(averageRating.toFixed(1));
+
+                resto_list.push({
+                    _id: item._id.toString(),
+                    name: item.name,
+                    description: item.description,
+                    rating: averageRating,
+                    address: item.address,
+                    logo: item.logo,
+                    reviews: item.reviews,
+                    owner: item.owner // Include owner in the list for reference or checking
+                });
+            }
+
+            // Sort the list by ascending name (default selection)
+            resto_list.sort((a, b) => {
+                return a.name.localeCompare(b.name);
+            });
+
+            resolve(resto_list);
+        }).catch(reject); // Use reject for promise rejection
+    });
+}
+
 
 server.get('/', function(req, resp) {
     listRestaurants().then(resto_list => {
@@ -133,6 +173,41 @@ server.post('/gotoAboutUs', function(req, resp) {
     });
 });
 
+/////////////////////////////////////////////////////////////////////////////
+server.post('/gotoUserRestaurant', function(req, resp) {
+    resp.render('users_restaurant', {
+        layout: 'index',
+        title: 'User Restaurant',
+        css: 'user_restaurant',
+        logged_in: logged_in
+    });
+});
+
+server.get('/gotoUserRestaurant', async function(req, resp) {
+    if (!logged_in || !currentUser) {
+        // If not logged in or currentUser is not set, redirect to login
+        return resp.redirect('/login');
+    }
+
+    try {
+        const username = currentUser.username; // Assuming currentUser has a username property
+        const userRestaurants = await listUserRestaurants(username);
+
+        resp.render('users_restaurant', { // Assuming you have a template for this
+            layout: 'index',
+            title: 'My Restaurants',
+            css: 'user_restaurant',
+            logged_in: logged_in,
+            restaurant_list: userRestaurants
+        });
+    } catch (error) {
+        console.error('Error fetching user restaurants:', error);
+        resp.status(500).send('Internal server error');
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
 server.post('/gotoRestaurants', function(req, resp) {
     listRestaurants().then(resto_list => {
         resp.render('restaurants', {
@@ -144,6 +219,25 @@ server.post('/gotoRestaurants', function(req, resp) {
         });
     }).catch(errorFn);
 });
+
+server.post('/decideRestaurantDirection', async function(req, resp) {
+    if (!logged_in || !currentUser) {
+        return resp.redirect('/login');
+    }
+
+    try {
+        const user = await accountModel.findOne({ user: currentUser.username }).exec();
+        if (user && user.has_resto) {
+            resp.redirect('/gotoUserRestaurant');
+        } else {
+            resp.redirect('/gotoRestaurantRegistration');
+        }
+    } catch (err) {
+        console.error('Error retrieving user:', err);
+        resp.status(500).send('Internal server error');
+    }
+});
+
 
 server.post('/gotoReviews', function(req, resp) {
     listRestaurants().then(resto_list => {
@@ -162,7 +256,6 @@ server.post('/gotoReviews', function(req, resp) {
     }).catch(errorFn);
 });
 
-// EDITED -----------------------------------------
 server.post('/gotoProfileFromResto', function(req, resp){
 
     resp.render('user_profile', {
@@ -173,7 +266,8 @@ server.post('/gotoProfileFromResto', function(req, resp){
         user_fname: currentUser.fname,
         user_lname: currentUser.lname,
         username: currentUser.username,
-        bio: currentUser.bio
+        bio: currentUser.bio,
+        has_resto: currentUser.has_resto
     });
 
 })
@@ -246,8 +340,6 @@ server.post('/search', function(req, resp){
     const property = String(req.body.property);
     console.log(property);
 })
-
-// -----------------------------------
 
 server.post('/gotoEditAccount', (req, res) => {
     if (!logged_in || !currentUser) {
@@ -346,14 +438,14 @@ server.post('/submitReview', function(req, resp) {
     }).catch(errorFn);
 });
 
-//EDITED--------------------------------------------------------------------------------------
 server.post('/gotoProfile', function(req, resp) {
     resp.render('user_profile', {
         layout: 'index',
         title: 'Profile | SulEAT Food Bites',
         css: 'profile',
         logged_in: logged_in,
-        currentUser: currentUser
+        currentUser: currentUser,
+        has_resto: currentUser.has_resto
     });
 });
 
@@ -365,7 +457,6 @@ server.post('/gotoLogin', function(req, resp) {
     });
 });
 
-//EDITED--------------------------------------------------------------------------------------
 server.post('/verifyLogin', function(req, resp) {
     const loginQuery = {
         user: req.body.username,
@@ -406,7 +497,6 @@ server.post('/verifyLogin', function(req, resp) {
     }).catch(errorFn);
 });
 
-//EDITED--------------------------------------------------------------------------------------
 server.post('/gotoLogout', function(req, resp) {
     logged_in = false;
     currentUser = null;
@@ -425,46 +515,69 @@ server.post('/gotoRestaurantRegistration', function(req, resp){
         css: 'restaurant_forms'
     });
 });
-
+///
+server.get('/gotoRestaurantRegistration', function(req, resp) {
+    if (!logged_in || !currentUser) {
+        return resp.redirect('/login');
+    }
+    resp.render('register_restaurant', {
+        layout: 'index',
+        title: 'Register Your Restaurant',
+        css: 'restaurant_forms',
+        logged_in: logged_in 
+    });
+});
+///
 server.post('/registerRestaurant', async function(req, resp) {
+    // Make sure a user is logged in before allowing restaurant registration
+    if (!logged_in || !currentUser) {
+        resp.redirect('/login');
+        return;
+    }
+    
     const name = capitalize(req.body.res_name.trim());
-    // Combine and format the address from separate fields
     const combinedAddress = `${capitalize(req.body.res_street.trim())}, ${capitalize(req.body.res_city.trim())}, ${capitalize(req.body.res_province.trim())}`;
 
     try {
-        const existingRestaurant = await restaurantModel.findOne({
-            name: name,
-            address: combinedAddress
-        });
-
+        const existingRestaurant = await restaurantModel.findOne({ name, address: combinedAddress });
         if (existingRestaurant) {
-            return resp.render('register_restaurant', {
+            // Handle the case where the restaurant already exists
+            resp.render('register_restaurant', {
                 layout: 'index',
                 title: 'Restaurant Registration',
                 css: 'restaurant_forms',
                 error: 'A restaurant with this name and address already exists.'
             });
+        } else {
+            // Register the new restaurant with the current user as the owner
+            const newRestaurant = new restaurantModel({
+                name,
+                description: req.body.res_description,
+                rating: [],
+                address: combinedAddress,
+                logo: req.body.res_logo,
+                owner: currentUser.username // Assuming currentUser.user is the username
+            });
+
+            await newRestaurant.save();
+
+            // Update the current user's has_resto field to true
+            await accountModel.findOneAndUpdate(
+              { user: currentUser.username },
+              { $set: { has_resto: true } }
+            );
+
+            // Handle successful registration
+            resp.render('main', {
+                layout: 'index',
+                title: 'Home | SulEAT Food Bites',
+                css: 'main',
+                logged_in: logged_in,
+                message: "Successfully registered the restaurant!"
+            });
         }
-
-        const newRestaurant = new restaurantModel({
-            name: name,
-            description: req.body.res_description,
-            rating: req.body.res_rating,
-            address: combinedAddress,
-            logo: req.body.res_logo 
-        });
-
-        await newRestaurant.save();
-
-        resp.render('main', {
-            layout: 'index',
-            title: 'Home | SulEAT Food Bites',
-            css: 'main',
-            logged_in: logged_in,
-            message: "Successfully registered the restaurant!"
-        });
-
     } catch (error) {
+        // Handle any errors during the process
         console.error('Registration error:', error);
         resp.status(500).render('register_restaurant', {
             layout: 'index',
@@ -474,6 +587,7 @@ server.post('/registerRestaurant', async function(req, resp) {
         });
     }
 });
+
 
 server.post('/createAccount', function(req, resp) {
     const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword, bio  } = req.body;
