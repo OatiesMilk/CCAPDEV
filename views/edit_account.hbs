@@ -1,74 +1,62 @@
 <div class="setting-backdrop">
     <div class="setting-container">
         <div class="header">
-            <img src="/common/images/logo-icon-white.png" alt="Logo"> 
+            <img alt="Logo" src="/common/images/logo-icon-white.png"/>
             <h2>Update Profile Details</h2>
         </div>
         <form action="/gotoProfile" method="post">
-                    <div class="back-button">
-                        <label for="submit-login">
-                            <img src="/common/images/left_arrow.png" alt="Sign in" style="cursor: pointer;">
-                        </label>
-                        <input type="submit" id="submit-login" style="display: none;">
-                    </div>
-            </form>
-        <form action="/updateAccount" method="post">
-            <div class="setting-form">
-            <!-- Right Column Inputs -->
-            <div class="form-column">
-                <div class="form-control">
-                    <label for="email">NEW E-MAIL</label>
-                    <input type="email" id="email" name="email"  value="{{email}}">
-                </div>
-                
-                <div class="form-control">
-                    <label for="username">NEW USERNAME</label>
-                    <input type="text" id="username" name="username" value="{{username}}">
-                </div>
-                
-                <div class="form-control">
-                    <label for="password">NEW PASSWORD</label>
-                    <input type="password" id="password" name="password">
-                </div>
-
-                <div class="form-control">
-                    <label for="old-password">OLD PASSWORD</label>
-                    <input type="password" id="old_password" name="old_password">
-                </div>
+            <div class="back-button">
+                <label for="submit-login">
+                    <img alt="Sign in" src="/common/images/left_arrow.png" style="cursor: pointer;"/>
+                </label>
+                <input id="submit-login" style="display: none;" type="submit"/>
             </div>
-
-            <!-- Left Column Inputs -->
-            <div class="form-column">
+        </form>
+        <form action="/updateAccount" method="post">
+            <div class="information-section">
+                <h2>Information</h2>
                 <div class="form-control">
-                    <label for="firstname">NEW FIRST NAME</label>
-                    <input type="text" id="firstname" name="firstname" value="{{fname}}">
+                    <label for="email">E-MAIL</label>
+                    <input id="email" name="email" type="email" value="{{email}}"/>
                 </div>
-                
                 <div class="form-control">
-                    <label for="lastname">NEW LAST NAME</label>
-                    <input type="text" id="lastname" name="lastname" value="{{lname}}">
+                    <label for="firstname">FIRST NAME</label>
+                    <input id="firstname" name="firstname" type="text" value="{{fname}}"/>
                 </div>
-                
                 <div class="form-control">
-                    <label for="confirm-password">CONFIRM NEW PASSWORD</label>
-                    <input type="password" id="confirm_password" name="confirm_password">
+                    <label for="lastname">LAST NAME</label>
+                    <input id="lastname" name="lastname" type="text" value="{{lname}}"/>
                 </div>
-
                 <div class="form-control">
-                    <label for="bio">NEW BIO</label>
+                    <label for="username">USERNAME</label>
+                    <input id="username" name="username" type="text" value="{{username}}"/>
+                </div>
+                <div class="form-control">
+                    <label for="bio">BIO</label>
                     <textarea id="bio" name="bio">{{bio}}</textarea>
                 </div>
             </div>
+            <div class="security-section">
+                <h2>Security</h2>
+                <div class="form-control">
+                    <label for="password">NEW PASSWORD</label>
+                    <input id="password" name="password" type="password"/>
+                </div>
+                <div class="form-control">
+                    <label for="confirm-password">CONFIRM NEW PASSWORD</label>
+                    <input id="confirm_password" name="confirm_password" type="password"/>
+                </div>
+                <div class="form-control">
+                    <label for="old-password">OLD PASSWORD</label>
+                    <input id="old_password" name="old_password" type="password"/>
+                </div>
             </div>
-            
-            
             <div class="error">
                 {{#if errorMessage}}
                 <p style="color: red;">{{errorMessage}}</p>
                 {{/if}}
             </div>
-            
-            <button type="submit" class="setting-btn">UPDATE</button>
+            <button class="setting-btn" type="submit">UPDATE</button>
         </form>
     </div>
 </div>
