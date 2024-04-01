@@ -37,6 +37,8 @@
     box-shadow: 0 0px 10px rgba(255, 255, 255, 0.5);
     animation: shiftUp 0.5s ease-out forwards;
     border-radius: 20px;
+    overflow-y: auto;
+    max-height: 90vh;
   }
 
   .header {
@@ -60,39 +62,14 @@
     text-align: center;
   }
 
-
-  .setting-form {
-    color: #ffffff;
-    font-size: 12px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .form-column {
-    width: 45%;
-    margin-right: 30px;
-    margin-left: 30px;
-  }
-
-  .form-whole {
-    width: 90%;
-    margin-right: 30px;
-    margin-left: 30px;
-  }
-
-  .form-control {
-    margin-bottom: 10px;
-  }
-
   .form-control input, .form-control label 	{
     width: 100%;
     height: 35px;
   }
 
   .form-control label {
+    font-family: 'arapey';
     display: block;
-    margin-bottom: -20px;
   }
 
   .checkbox {
@@ -103,16 +80,16 @@
 
   .setting-btn {
     font-family: 'arapey', sans-serif;
-    font-size: 12px;
-    width: 15%;
+    font-size: 20px;
+    width: 20%;
     display: block;
     margin: 20px auto;
-    padding: 10px;
+    padding: 20px;
     background-color: #ffff;
     border: none;
     color: #000000;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 40px;
   }
 
   .setting-btn:hover {
@@ -135,7 +112,6 @@
     color: #ffffff;
     text-align: center;
     margin-top: 25px;
-    margin-bottom: 25px;
   }
 
   .back-button {
@@ -151,3 +127,23 @@
     width: 40px;
     height: 50px; 
   }
+
+  .information-section, .security-section {
+    color:white;
+    padding: 20px;
+  }
+
+  .information-section h2, .security-section h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    border-bottom: 3px solid white;
+  }
+
+  .form-control input, .form-control textarea {
+    margin-bottom: 15px;
+  }
+  .form-control label{
+    margin-bottom: -10px;
+  }
+
