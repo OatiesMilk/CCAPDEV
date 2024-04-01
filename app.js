@@ -23,6 +23,9 @@ server.use(express.static('public'));
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/CCAPDEV');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 5;
+
 //Mongoose will need to define a schema that is used as a template.
 //This will contain the model details that is used by the schema.
 //the second array is for options. By default, Mongoose adds an extra
@@ -360,28 +363,33 @@ server.post('/gotoEditAccount', (req, res) => {
     }
 });
 
-server.post('/updateAccount', function(req, resp) {
+server.post('/updateAccount', async function(req, resp) {
     const accountQuery = { fname: currentUser.fname, lname: currentUser.lname }
     const password1 = req.body.password;
     const password2 = req.body.confirm_password;
     const old_pass = req.body.old_password;
 
-    accountModel.findOne(accountQuery).then(function(account) {
-        if (password1 === password2 && currentUser.password === old_pass) {
+    try {
+        const account = await accountModel.findOne(accountQuery).exec();
+        const isPasswordMatch = await bcrypt.compare(old_pass, account.pass);
+
+        if (isPasswordMatch && password1 === password2) {
+            const hashedPassword = await bcrypt.hash(password1, saltRounds);
+
             account.fname = req.body.firstname;
             account.lname = req.body.lastname;
             account.email = req.body.email;
             account.user = req.body.username;
-            account.pass = req.body.confirm_password;
+            account.pass = hashedPassword; // Save the hashed password
             account.bio = req.body.bio;
 
-            account.save().then(function(result) {
-                resp.render('login', {
-                    layout: 'index',
-                    title: 'Account Login',
-                    css: 'login'
-                });
-            }).catch(errorFn);
+            await account.save();
+
+            resp.render('login', {
+                layout: 'index',
+                title: 'Account Login',
+                css: 'login'
+            });
         } else {
             resp.render('edit_account', {
                 layout: 'index',
@@ -390,8 +398,12 @@ server.post('/updateAccount', function(req, resp) {
                 errorMessage: 'Invalid inputs!',
             });
         }
-    }).catch(errorFn);
+    } catch (error) {
+        console.error('Error updating account:', error);
+        resp.status(500).send('Internal server error');
+    }
 });
+
 
 server.post('/gotoAccountRegistration', function(req, resp){
     resp.render('register_account', {
@@ -457,44 +469,56 @@ server.post('/gotoLogin', function(req, resp) {
     });
 });
 
-server.post('/verifyLogin', function(req, resp) {
-    const loginQuery = {
-        user: req.body.username,
-        pass: req.body.password
-    };
+server.post('/verifyLogin', async function(req, resp) {
+    const { username, password } = req.body;
 
-    accountModel.findOne(loginQuery).then(function(login) {
-        if (login !== null) {
-            logged_in = true;
-            console.log('Valid Login!');
+    try {
+        const user = await accountModel.findOne({ user: username }).exec();
+        if (user) {
+            const isPasswordMatch = await bcrypt.compare(password, user.pass);
+            if (isPasswordMatch) {
+                logged_in = true;
+                console.log('Valid Login!');
 
-            // Set the global current user
-            currentUser = {
-                fname: login.fname,
-                lname: login.lname,
-                username: login.user,
-                bio: login.bio,
-                email: login.email,
-                password: login.pass 
-            };
-            
-            // Redirect to the main page instead of rendering the profile
-            resp.render('main', {
-                layout: 'index',
-                title: 'Home | SulEAT Food Bites',
-                css: 'main',
-                logged_in: logged_in
-            });
+                // Set the global current user
+                currentUser = {
+                    fname: user.fname,
+                    lname: user.lname,
+                    username: user.user,
+                    bio: user.bio,
+                    email: user.email,
+                    password: user.pass
+                };
+
+                // Redirect to the main page instead of rendering the profile
+                resp.render('main', {
+                    layout: 'index',
+                    title: 'Home | SulEAT Food Bites',
+                    css: 'main',
+                    logged_in: logged_in
+                });
+            } else {
+                console.log('Invalid Password!');
+                resp.render('login', {
+                    layout: 'index',
+                    title: 'Account Login',
+                    css: 'login',
+                    error: 'Invalid password.'
+                });
+            }
         } else {
-            console.log('Invalid Login!');
+            console.log('Invalid Username!');
             resp.render('login', {
                 layout: 'index',
                 title: 'Account Login',
                 css: 'login',
-                error: 'Invalid username or password.'
-            }) 
+                error: 'Invalid username.'
+            });
         }
-    }).catch(errorFn);
+    } catch (error) {
+        console.error('Error during login:', error);
+        resp.status(500).send('Internal server error');
+    }
 });
 
 server.post('/gotoLogout', function(req, resp) {
@@ -589,24 +613,28 @@ server.post('/registerRestaurant', async function(req, resp) {
 });
 
 
-server.post('/createAccount', function(req, resp) {
+server.post('/createAccount', async function(req, resp) {
     const { username, password, email, firstname, lastname, 'confirm-password': confirmPassword, bio  } = req.body;
     const bioValue = 'No Bio Yet';
-    // Check if password and confirm password match
-    if (password == confirmPassword) {
-        accountModel.findOne({ user: username }).then(user => {
-            if (user) {
+
+    try {
+        // Check if password and confirm password match
+        if (password === confirmPassword) {
+            const existingUser = await accountModel.findOne({ user: username }).exec();
+            if (existingUser) {
                 console.log('Username already exists');
-                resp.render('register_account', {
+                return resp.render('register_account', {
                     layout: 'index',
                     title: 'Account Creation | SulEAT Food Bites',
                     css: 'user_registration',
                     error: 'Username already exists. Please choose another.'
                 });
             } else {
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
+
                 const accountInstance = new accountModel({
                     user: username,
-                    pass: password,
+                    pass: hashedPassword,
                     email: email,
                     fname: firstname,
                     lname: lastname,
@@ -617,31 +645,34 @@ server.post('/createAccount', function(req, resp) {
                     fname: firstname,
                     lname: lastname,
                     username: username,
-                    pass: password,
+                    pass: hashedPassword,
                     email: email,
                     bio: bioValue
                 };
-    
-                accountInstance.save().then(() => {
-                    logged_in = true;
-                    resp.render('main', {
-                        layout: 'index',
-                        title: 'SulEAT Food Bites',
-                        css: 'main',
-                        logged_in: logged_in
-                    });
-                    console.log("Successfully registered!");
-                }).catch(errorFn);
+
+                await accountInstance.save();
+
+                logged_in = true;
+                resp.render('main', {
+                    layout: 'index',
+                    title: 'SulEAT Food Bites',
+                    css: 'main',
+                    logged_in: logged_in
+                });
+                console.log("Successfully registered!");
             }
-        }).catch(errorFn);
-    } else {
-        console.log('Passwords do not match');
-        return resp.render('register_account', {
-            layout: 'index',
-            title: 'Account Creation | SulEAT Food Bites',
-            css: 'user_registration',
-            error: 'Passwords do not match. Please try again.'
-        });
+        } else {
+            console.log('Passwords do not match');
+            resp.render('register_account', {
+                layout: 'index',
+                title: 'Account Creation | SulEAT Food Bites',
+                css: 'user_registration',
+                error: 'Passwords do not match. Please try again.'
+            });
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        resp.status(500).send('Internal server error');
     }
 });
 
