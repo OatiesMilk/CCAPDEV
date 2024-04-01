@@ -4,10 +4,6 @@ body {
 }
 
 .main-parent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 100%;
 }
 
@@ -123,19 +119,20 @@ a:active {
 /** end of footer **/
 
 .about-container {
+    margin-top: 60px;
 	display: flex;
 	flex-direction: row;
-    align-items: center;
-    justify-content: center;
 	background: rgba(255, 255, 255, 0.8);
-	padding: 175px;
+	padding: 150px;
+	height: 350px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .about-image {
-    display: flex;
-    justify-content: center;
 	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .about-image img {
@@ -143,9 +140,8 @@ a:active {
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
 	width: 70%;
+	margin-top: 100px;
 	margin-left: 35px;
 }
 

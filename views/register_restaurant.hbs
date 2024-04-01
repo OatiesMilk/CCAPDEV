@@ -6,9 +6,14 @@
                 <h2>Register Restaurant</h2>
             </div>
             
-            <a href="/" class="back-button">
-                <img src="/common/images/left_arrow.png">
-            </a>
+            <form action="/gotoProfile" method="post">
+                    <div class="back-button">
+                        <label for="submit-login">
+                            <img src="/common/images/left_arrow.png" alt="Sign in" style="cursor: pointer;">
+                        </label>
+                        <input type="submit" id="submit-login" style="display: none;">
+                    </div>
+            </form>
             
             <form action="/registerRestaurant" method="post">
                 <div class="registration-form">
@@ -50,8 +55,8 @@
                 </div>
                 
                 <div class="checker">
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the Terms and Service</label>
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Terms and Service</label>
                 </div>
                 
                 <div class="error">
@@ -59,17 +64,8 @@
                     {{error}}
                     {{/if}}
                 </div>
-                
                 <button type="submit" class="register-btn">REGISTER</button>
             </form>
-            
-            <div class="update-footer">
-                <p>Don't wanna register your restaurant yet?
-                    <form action="/gotoProfile" method="post">
-                        <button type="submit">Go back to profile</button>
-                    </form>
-                </p>
-            </div>
         </div>
         <body>
             <script>

@@ -2,16 +2,20 @@
     <div class="flex-container">
         <div class="main-content">
             <div class="registration-container">
-                <a href="/" class="back-button">
-                <img src="/common/images/left_arrow.png">
-                </a>
+                <form action="/gotoLogin" method="post">
+                    <div class="back-button">
+                        <label for="submit-login">
+                            <img src="/common/images/left_arrow.png" alt="Sign in" style="cursor: pointer;">
+                        </label>
+                        <input type="submit" id="submit-login" style="display: none;">
+                    </div>
+                </form>
                 <div class="header">
                     <img src="/common/images/logo-icon-white.png" alt="Logo"> 
                     <h2>User Registration</h2>
                 </div>
                 
                 <form action="/createAccount" method="post">
-                    
                         <div class="registration-form">
                             <!-- Right Column Inputs -->
                             <div class="form-column">
@@ -67,17 +71,13 @@
                         {{error}}
                     {{/if}}
                     </div>
-                    
-                    <button type="submit" class="register-btn">REGISTER</button>
                 </form>
-
                 <div class="checker">
                     <input type="checkbox" id="terms" name="terms" required>
                     <label for="terms">I agree to the Terms and Service</label>
                 </div>
 
-
-
+                <button type="submit" class="register-btn">REGISTER</button>
                 <form action="/gotoLogin" method="post">
                     <div class="sign-in-link">
                         Already have an account? 
