@@ -119,12 +119,12 @@ a:active {
 /** end of footer **/
 
 .about-container {
-    margin-top: 60px;
+    margin-top: 100px;
 	display: flex;
 	flex-direction: row;
 	background: rgba(255, 255, 255, 0.8);
-	padding: 150px;
-	height: 350px;
+	padding: 90px;
+	height: 240px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
@@ -141,7 +141,7 @@ a:active {
 
 .content {
 	width: 70%;
-	margin-top: 100px;
+	margin-top: -55px;
 	margin-left: 35px;
 }
 
