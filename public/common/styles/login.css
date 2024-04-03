@@ -34,7 +34,7 @@
     box-shadow: 0 0px 10px rgba(255, 255, 255, 0.5);
     animation: shiftUp 0.5s ease-out forwards;
     border-radius: 20px;
-    background: linear-gradient(to bottom, black 88%, rgb(150, 150, 150, 0.5) 50%);
+    background: linear-gradient(to bottom, black 100%, rgb(150, 150, 150, 0.5) 50%);
   }
   
   .login-header {
