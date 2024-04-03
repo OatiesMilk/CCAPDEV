@@ -247,6 +247,7 @@ server.post('/gotoReviews', function(req, resp) {
         const restaurantName = req.body.restaurantName;
         const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
         const totalReviews = matchedRestaurant.reviews.length;
+        const logo = matchedRestaurant.logo;
 
         resp.render('restaurant_page', {
             layout: 'index',
@@ -254,7 +255,8 @@ server.post('/gotoReviews', function(req, resp) {
             matchedRestaurant: matchedRestaurant,
             css: 'restaurant_page',
             logged_in: logged_in,
-            totalReviews: totalReviews
+            totalReviews: totalReviews,
+            logo: logo
         });
     }).catch(errorFn);
 });
