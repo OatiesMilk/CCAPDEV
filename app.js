@@ -46,12 +46,22 @@ const restaurantsSchema = new mongoose.Schema({
     rating: { type: Array },
     address: { type: String },
     logo: { type: String },
-    reviews: { type: Array },
+    reviews: { type: Array }, // ids of reviews associated with restos from schema
     owner: { type: String }
+}, { versionKey: false });
+
+const reviewsSchema = new mongoose.Schema({
+    restaurant_name: { type: String },
+    reviewer_name: { type: String },
+    rating: { type: Number },
+    likes: { type: Number },
+    dislikes: { type: Number},
+    review: { type: String },
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
+const reviewsModel = mongoose.model('reviews', reviewsSchema);
 let logged_in = false;
 //EDITED--------------------------------------------------------------------------------------
 let currentUser = null;
