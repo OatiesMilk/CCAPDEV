@@ -43,25 +43,18 @@ const accountsSchema = new mongoose.Schema({
 const restaurantsSchema = new mongoose.Schema({
     name: { type: String },
     description: { type: String },
-    rating: { type: Array },
     address: { type: String },
     logo: { type: String },
-    reviews: { type: Array }, // ids of reviews associated with restos from schema
+    reviews: [{
+        rating: { type: Number },
+        text: { type: String },
+        reviewer: {type: String}
+    }], 
     owner: { type: String }
-}, { versionKey: false });
-
-const reviewsSchema = new mongoose.Schema({
-    restaurant_name: { type: String },
-    reviewer_name: { type: String },
-    rating: { type: Number },
-    likes: { type: Number },
-    dislikes: { type: Number},
-    review: { type: String },
 }, { versionKey: false });
 
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
-const reviewsModel = mongoose.model('reviews', reviewsSchema);
 let logged_in = false;
 //EDITED--------------------------------------------------------------------------------------
 let currentUser = null;
@@ -83,24 +76,26 @@ function capitalize(str) {
 async function listRestaurants() {
     return new Promise((resolve, reject) => {
         const resto_list = [];
+        // Create an array to store structured ratings and reviews
 
         restaurantModel.find({}).then(function (restaurants) {
             for (const item of restaurants) {
-                let totalRatings = 0;
-                for (let i = 0; i < item.rating.length; i++) {
-                    totalRatings += item.rating[i];
+                let sumRating = 0;
+                for (let i = 0; i < item.reviews.length; i++) {
+                    sumRating += item.reviews[i].rating;
                 }
-                let averageRating = totalRatings / item.rating.length;
+                let averageRating = sumRating / item.reviews.length;
                 averageRating = parseFloat(averageRating.toFixed(1));
 
                 resto_list.push({
                     _id: item._id.toString(),
                     name: item.name,
                     description: item.description,
-                    rating: averageRating,
+                    avgRating: averageRating,
                     address: item.address,
                     logo: item.logo,
-                    reviews: item.reviews
+                    reviews: item.reviews,
+                    numOfReviews: item.reviews.length
                 });
             }
 
@@ -123,22 +118,23 @@ async function listUserRestaurants(username) {
 
         restaurantModel.find(query).then(function (restaurants) {
             for (const item of restaurants) {
-                let totalRatings = 0;
-                for (let i = 0; i < item.rating.length; i++) {
-                    totalRatings += item.rating[i];
+                let sumRating = 0;
+                for (let i = 0; i < item.reviews.length; i++) {
+                    sumRating += item.reviews[i].rating;
                 }
-                let averageRating = totalRatings / item.rating.length;
+                let averageRating = sumRating / item.reviews.length;
                 averageRating = parseFloat(averageRating.toFixed(1));
 
                 resto_list.push({
                     _id: item._id.toString(),
                     name: item.name,
                     description: item.description,
-                    rating: averageRating,
+                    avgRating: averageRating,
                     address: item.address,
                     logo: item.logo,
                     reviews: item.reviews,
-                    owner: item.owner // Include owner in the list for reference or checking
+                    numOfReviews: item.reviews.length,
+                    owner: item.owner
                 });
             }
 
@@ -220,7 +216,6 @@ server.get('/gotoUserRestaurant', async function(req, resp) {
 });
 
 /////////////////////////////////////////////////////////////////////////////
-
 server.post('/gotoRestaurants', function(req, resp) {
     listRestaurants().then(resto_list => {
         resp.render('restaurants', {
@@ -251,13 +246,19 @@ server.post('/decideRestaurantDirection', async function(req, resp) {
     }
 });
 
-
 server.post('/gotoReviews', function(req, resp) {
     listRestaurants().then(resto_list => {
         const restaurantName = req.body.restaurantName;
         const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
-        const totalReviews = matchedRestaurant.reviews.length;
-        const logo = matchedRestaurant.logo;
+        const reviews = [];
+
+        for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
+            reviews.push({
+                rating: matchedRestaurant.reviews[i].rating,
+                text: matchedRestaurant.reviews[i].text,
+                reviewer: matchedRestaurant.reviews[i].reviewer
+            });
+        }
 
         resp.render('restaurant_page', {
             layout: 'index',
@@ -265,11 +266,11 @@ server.post('/gotoReviews', function(req, resp) {
             matchedRestaurant: matchedRestaurant,
             css: 'restaurant_page',
             logged_in: logged_in,
-            totalReviews: totalReviews,
-            logo: logo
+            reviews: reviews
         });
     }).catch(errorFn);
 });
+
 
 server.post('/gotoProfileFromResto', function(req, resp){
 
@@ -440,14 +441,20 @@ server.post('/writeReview', function(req, resp) {
 server.post('/submitReview', function(req, resp) {
     listRestaurants().then(resto_list => {
         const restaurantName = { name: req.body.restaurantName };
+        const reviewerName = req.body.nameInput;
         const newRating = parseInt(req.body.ratingInput);
-        const newReview = req.body.reviewInput;
+        const newText = req.body.reviewInput;
 
         // Find the restaurant by name and update it
         restaurantModel.findOne(restaurantName).then(function(restaurant) {
-            restaurant.rating.push(newRating);
-            restaurant.reviews.push(newReview);
+            // Push new review object to the reviews array
+            restaurant.reviews.push({
+                rating: newRating,
+                text: newText,
+                reviewer: reviewerName
+            });
 
+            // Save the updated restaurant
             restaurant.save().then(function () {
                 resp.render('main', {
                     layout: 'index',
@@ -456,10 +463,10 @@ server.post('/submitReview', function(req, resp) {
                     restaurant_list: resto_list,
                     logged_in: logged_in
                 });
-            })
+            }).catch(errorFn); // Catch save error
 
-        }).catch(errorFn);
-    }).catch(errorFn);
+        }).catch(errorFn); // Catch find error
+    }).catch(errorFn); // Catch listRestaurants error
 });
 
 server.post('/gotoProfile', function(req, resp) {

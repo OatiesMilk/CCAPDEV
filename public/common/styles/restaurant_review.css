@@ -133,22 +133,34 @@ a:active {
     max-width: 600px;
     height: 500px;
     margin: auto;
-    padding: 20px;
+    padding: 1%;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    color: #333;
+.title {
+    display: flex;
     text-align: center;
+    justify-content: center;
+    height: 10%;
+}
+
+.title > label {
+    font-size: x-large;
+    color: #333;
+    font-weight: bold;
 }
 
 form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.name-container > input {
+    width: 50%;
 }
 
 .label-container {

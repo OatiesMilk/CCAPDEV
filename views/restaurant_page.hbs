@@ -8,8 +8,7 @@
     <div class="main-content">
         <div class="profile-info">
             <div class="profile-image">
-                {{!-- change to: logo from the database --}}
-                <img src="/common/images/{{logo}}" alt="resto logo">
+                <img src="/common/images/{{matchedRestaurant.logo}}" alt="resto logo">
             </div>
             
             <div class="profile-content">
@@ -55,39 +54,26 @@
                 </div>
 
                 <div class="restaurants-list">
+                    {{#each reviews}}
                     <div class="restaurant-item">
                         <div class="restaurant-logo">
                             <img src="/common/images/profile-icon.png" alt="logo">
+                            <label class="reviewer-name">{{this.reviewer}}</label>
                         </div>
-
+                    
                         <div class="restaurant-info">
-                            {{!-- <div class="resto-name">
-                                <label class="restaurant-name">Juan Dela Cruz</label>
-                            </div> --}}
-
                             <div class="resto-info">
-                                {{#each matchedRestaurant.reviews}}
                                 <label class="restaurant-text">
-                                    {{this}}
+                                    Comments: {{this.text}}<br>
+                                    Rating: <meter value="{{this.rating}}" min="0" max="5"></meter>
+                                    <span>{{this.rating}} / 5</span>
                                 </label>
-                                {{/each}}
                             </div>
                         </div>
-
-                        <div class="restaurant-rating">
-                            {{!-- <div class="more-reviews">
-                                <form action="/gotoProfileFromResto" method="post">
-                                    <button class="show-reviews-btn">View User  ►</button>
-                                </form>
-                            </div> --}}
-
-                            {{!-- <div class="meter-rating">
-                                <label for="SE">{{matchedRestaurant.rating}} / 5.0</label>
-                                <meter id="SE" value="{{matchedRestaurant.rating}}" min="0" max="5"></meter>
-                            </div> --}}
-                        </div>
                     </div>
+                    {{/each}}
                 </div>
+
             </div>
 
             <div class="user-statistics">
@@ -104,13 +90,13 @@
                         </div>
 
                         <div class="reviews">
-                            <meter id="SE" value="{{matchedRestaurant.rating}}" min="0" max="5"></meter>
-                            <label class="stats-text">{{matchedRestaurant.rating}} / 5.0</label>
+                            <meter id="SE" value="{{matchedRestaurant.avgRating}}" min="0" max="5"></meter>
+                            <label class="stats-text">{{matchedRestaurant.avgRating}} / 5</label>
                         </div>
 
                         <div class="reviews">
                             <img src="/common/images/review-icon.png" alt="total reviews">
-                            <label class="stats-text">Total Reviews ({{totalReviews}})</label>
+                            <label class="stats-text">Total Reviews ({{matchedRestaurant.numOfReviews}})</label>
                         </div>
                     </div>
                 </div>
