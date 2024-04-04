@@ -181,21 +181,6 @@ body {
     width: 35px;
 }
 
-.profile-setting {
-    display: flex;
-    width: 10%;
-    height: 100%;
-    margin-top: 50px;
-    margin-right: 30px;
-    justify-content: end;
-    align-items: baseline;
-}
-
-.profile-setting > a > img {
-    width: 55px;
-    margin-left: 20px;
-}
-
 .profile-bio {
     display: flex;
     align-items: center;
