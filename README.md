@@ -1,5 +1,8 @@
 # CCAPDEV
 Machine Project
+Install Commands:
+1. npm init
+2. npm i express express-handlebars body-parser mongoose bcrypt express-session connect-mongodb-session
 
 Importing data_accounts.json and data_restaurants.json:
 1. Connect to MongoDB
