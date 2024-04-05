@@ -72,13 +72,6 @@ body {
     transform: scale(1.1); 
 }
 
-.restaurants-list {
-    max-height: 500px;
-    overflow-y: auto;
-    margin-top: 20px;
-    border-radius: 10px;
-}
-
 /** scrollbar **/
 .restaurants-list {
     width: 100%;

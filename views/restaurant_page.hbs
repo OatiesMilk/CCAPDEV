@@ -46,9 +46,14 @@
                     <label id="review-title">REVIEWS</label>
                     
                     <form id="writeReview" action="/writeReview" method="post">
-                        <button type="submit">
-                            <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
-                            <img src="/common/images/write-review-icon.png" alt="submit a review icon">
+                        <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
+
+                        <div class="writeTheReview">
+                            <label id="review-label">Leave a comment:</label>
+                        </div>
+
+                        <button id="submitButton" type="submit">
+                            <img src="/common/images/review-icon.png" alt="submit a review icon">
                         </button>
                     </form>
                 </div>
@@ -73,7 +78,6 @@
                     </div>
                     {{/each}}
                 </div>
-
             </div>
 
             <div class="user-statistics">

@@ -46,17 +46,7 @@
     border-radius: 10px;
 }
 
-.header-icons > a > img {
-    width: 35px;
-    height: 35px;
-    margin-right: 10px;
-    transition: transform 0.3s;
-}
-
-.header-icons > a > img:hover {
-    transform: scale(1.2); /* Increase size on hover */
-}
-
+.header-icons > a > img, 
 .profile-icons > a > img {
     width: 35px;
     height: 35px;
@@ -64,6 +54,7 @@
     transition: transform 0.3s;
 }
 
+.header-icons > a > img:hover, 
 .profile-icons > a > img:hover {
     transform: scale(1.2); /* Increase size on hover */
 }
@@ -168,12 +159,14 @@ body {
 }
 
 .profile-icons {
+    display: flex;
     background-color: #242424;
     border-radius: 10px;
     margin-top: 5px;
     padding: 10px;
     width: 290px;
     align-items: center;
+    justify-content: center;
 }
 
 .profile-icons > img {
@@ -216,19 +209,61 @@ body {
     padding: 10px;
     display: flex;
     align-items: center;
+    height: 20%;
+    padding: 1%;
 }
 
 #review-title {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
     color: white;
     font-size: 55px;
-    margin-left: 35px;
-    margin-right: 65%;
     font-family: 'Bebas Neue';
 }
 
-#writeReview > button > img{
-    height: 50px;
+#writeReview {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    font-family: 'Bebas Neue';
+}
+
+#writeReview > button {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 60px;
+    height: 60px;
+    transition: transform 0.2s;
+}
+
+#writeReview > button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+#writeReview > button > img {
+    width: 100%;
+}
+
+.writeTheReview {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.writeTheReview > label {
+    display: flex;
+    font-size: larger;
+    color: white;   
+}
+
+#submitButton > img{
     width: 50px;
+    height: 50px;
 }
 
 .resto-name {
@@ -239,10 +274,9 @@ body {
 .restaurants-list {
     display: flex;
     flex-direction: column;
+    height: 80%;
     align-items: center;
-    justify-content: center;
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 2000px;
+    overflow-y: auto;
 }
 
 .restaurant-item {
@@ -250,14 +284,13 @@ body {
     align-items: center;
     border: 2px solid black;
     border-radius: 30px;
-    height: 50px;
+    height: 25%;
 }
 
 .restaurant-logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 30%;
+    width: 20%;
     height: 100%;
 }
 
@@ -266,6 +299,7 @@ body {
     border-radius: 50%;
     height: 30%;
     margin-right: 5%;
+    margin-left: 10%;
 }
 
 .restaurant-reviews {
@@ -278,23 +312,23 @@ body {
     overflow-y: auto;
     scrollbar-color: #888 #f1f1f1; /* thumb and track color */
     scrollbar-width: thin;
+    border-radius: 20px;
 }
 
 .restaurant-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 60%;
+    width: 80%;
     height: 100%;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .restaurant-item {
     display: flex;
     width: 90%;
-    height: 80%;
+    height: 50%;
     background-color: white;
+    margin-bottom: 1%;
 }
 
 .reviews > meter {
@@ -386,26 +420,4 @@ body {
 .reviews > img {
     width: 40px;
     margin-right: 5px;
-}
-
-#writeReview > button {
-    border-radius: 50%;
-    background: none;
-    border: none;
-    padding: 0;
-    height: 50px;
-    width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-}
-
-#writeReview > button:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-}
-
-#writeReview > button > img {
-    width: 100%;
 }
