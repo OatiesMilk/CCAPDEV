@@ -417,19 +417,23 @@ server.post('/sortRestaurants', function(req, resp) {
 
     restaurantModel.find({}).then(function(restaurants) {
         for (const item of restaurants) {
-            let totalRatings = 0;
-            for (const rating of item.rating) {
-                totalRatings += rating;
+            let sumRating = 0;
+            for (let i = 0; i < item.reviews.length; i++) {
+                sumRating += item.reviews[i].rating;
             }
-            const averageRating = totalRatings / item.rating.length;
+            let averageRating = sumRating / item.reviews.length;
+            averageRating = parseFloat(averageRating.toFixed(1));
 
             resto_list.push({
                 _id: item._id.toString(),
                 name: item.name,
                 description: item.description,
-                rating: averageRating,
+                avgRating: averageRating,
                 address: item.address,
-                logo: item.logo
+                logo: item.logo,
+                reviews: item.reviews,
+                numOfReviews: item.reviews.length,
+                owner: item.owner
             });
         }
 
