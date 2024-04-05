@@ -388,6 +388,80 @@ server.post('/deleteReview', function(req, resp) {
     })
 });
 
+// edit review
+server.post('/editReview', function(req, resp) {
+    const restaurantName = req.body.restaurantName;
+    const reviewerUsername = req.session.user.username;
+    const newRating = req.body.ratingInput;
+    const newText = req.body.reviewInput;
+
+    restaurantModel.findOne({ name: restaurantName }).then(restaurant => {
+        for (let i = 0; i < restaurant.reviews.length; i++) {
+            if (restaurant.reviews[i].reviewer_username === reviewerUsername) {
+                restaurant.reviews[i].rating = newRating;
+                restaurant.reviews[i].text = newText;
+            }
+            break;
+        }
+
+        // Save the updated restaurant
+        restaurant.save().then(function () {
+            // After saving, render the main page with updated restaurant list
+            listRestaurants().then(resto_list => {
+                resp.render('main', {
+                    layout: 'index',
+                    title: 'Homepage | SulEAT Food Bites',
+                    css: 'main',
+                    restaurant_list: resto_list,
+                    logged_in: !!req.session.user
+                });
+            }).catch(errorFn);
+        }).catch(errorFn); // Catch save error
+    }).catch(errorFn); // Catch find restaurant error
+});
+
+server.post('/gotoeditReview', function(req, resp) {
+    listRestaurants().then(resto_list => {
+        const restaurantName = req.body.restoName;
+        const reviewerUsername = req.session.user.username;
+        const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+
+        restaurantModel.findOne({ name: restaurantName }).then(restaurant => {
+            for (let i = 0; i < restaurant.reviews.length; i++) {
+                if (restaurant.reviews[i].reviewer_username === reviewerUsername) {
+                    resp.render('edit_review', {
+                        layout: 'index',
+                        title: 'Edit Review',
+                        matchedRestaurant: matchedRestaurant,
+                        css: 'restaurant_review',
+                        logged_in: !!req.session.user
+                    });
+                    break;
+                } else {
+                    const reviews = [];
+                    for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
+                        reviews.push({
+                            rating: matchedRestaurant.reviews[i].rating,
+                            text: matchedRestaurant.reviews[i].text,
+                            reviewer: matchedRestaurant.reviews[i].reviewer,
+                            restoName: restaurantName
+                        });
+                    }
+
+                    resp.render('restaurant_page', {
+                        layout: 'index',
+                        title: 'Restaurant Reviews',
+                        matchedRestaurant: matchedRestaurant,
+                        css: 'restaurant_page',
+                        logged_in: !!req.session.user,
+                        reviews: reviews
+                    });
+                }
+            }
+        });
+    })
+});
+
 server.post('/gotoProfileFromResto', function(req, resp){
 
     resp.render('user_profile', {

@@ -1,0 +1,29 @@
+<div class="main-parent">
+    {{#if logged_in}}
+        {{> header_logged_in}}
+    {{else}}
+        {{> header}}
+    {{/if}}
+    <div class="main-content">
+        <div class="review-container">
+            <div class="title">
+                <label>Update Review</label>
+            </div>
+            
+            <label>Restaurant: {{matchedRestaurant.name}}</label>
+
+            <form action="/editReview" method="post">
+                <label class="label-container" for="ratingInput">Rating (1 - 5):
+                    <input type="number" id="ratingInput" name="ratingInput" min="1" max="5" required>
+                </label>
+
+                <label for="reviewInput">Your Review:</label>
+                <textarea id="reviewInput" name="reviewInput" rows="14" cols="100" required></textarea>
+
+                <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </div>
+    {{> footer}}
+</div>
