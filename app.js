@@ -21,7 +21,7 @@ server.use(express.static('public'));
 //and feed it the correct url to run MongoDB.
 //URL is the database it connects to.
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/CCAPDEV');
+mongoose.connect('mongodb+srv://andreiviguilla:test123@ccapdev.ka765zq.mongodb.net/');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
