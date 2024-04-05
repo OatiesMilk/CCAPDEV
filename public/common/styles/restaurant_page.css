@@ -417,3 +417,22 @@ body {
 .reviews > img {
     width: 40px;
 }
+
+.edit-button {
+    position: relative; 
+    top: 0px; 
+    left: 450px; 
+    box-sizing: content-box;
+    height: 20px;
+    width: 100px;
+    border-radius: 10px; 
+    background-color: orange;
+    border: none; 
+    color: white; 
+    transition: transform 0.2s ease-in-out; 
+    font-family:'Franklin Gothic Medium';
+}
+
+.edit-button:hover {
+    transform: scale(1.05); 
+}

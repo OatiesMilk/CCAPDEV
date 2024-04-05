@@ -68,9 +68,48 @@ const restaurantsSchema = new mongoose.Schema({
 
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
-let logged_in = false;
+
+/*
+const reviewsSchema = new mongoose.Schema({
+    restaurant_id: { type: String },
+    reviewer_id: { type: String }, // user id
+    rating: { type: Number },
+    likes: { type: Array}, // array of user ids
+    dislikes: { type: Array}, // array of user ids
+    review: { type: String },
+}, { versionKey: false });
+
+const reviewsCommentsSchema = new mongoose.Schema({
+    review_id: { type: String },
+    commenter_id: { type: String }, // user id
+    comment: { type: String },
+}, { versionKey: false });
+const reviewsModel = mongoose.model('reviews', reviewsSchema);
+const reviewsCommentsModel = mongoose.model('reviews_comments', reviewsCommentsSchema);
+*/
+
+/*
+    modus
+    edit review on resturant:
+        - check if current user owns review (match reviewer id with session user id)
+        - if match; display edit button
+        - when edit button is pressed, show interface
+        - when 'save' button is pressed, perform update operation on the reviews:review
+
+    marking helpful/unhelpful
+        - buttons will act as a switch
+        - +1 to h or uh if current user is not on either likes or dislikes, then button will switch to -1 to h or uh if pressed
+        - cannot like and dislike at same time (check both arrays)
+
+    comments on reviews
+        - press dropdown on review to show comments
+        - add comment using textboxt (add to review_comments)
+        - 
+*/
+
 //EDITED--------------------------------------------------------------------------------------
-let currentUser = null;
+// let logged_in = false;
+// let currentUser = null;
 
 function errorFn(err) {
     console.log('Error found. Please trace!');
@@ -212,7 +251,7 @@ server.get('/gotoUserRestaurant', async function(req, resp) {
     }
 
     try {
-        const username = currentUser.username; // Assuming currentUser has a username property
+        const username = req.session.user.username; // Assuming currentUser has a username property
         const userRestaurants = await listUserRestaurants(username);
 
         resp.render('users_restaurant', { // Assuming you have a template for this
@@ -247,7 +286,7 @@ server.post('/decideRestaurantDirection', async function(req, resp) {
     }
 
     try {
-        const user = await accountModel.findOne({ user: currentUser.username }).exec();
+        const user = await accountModel.findOne({ user: req.session.user.username }).exec();
         if (!!req.session.user && req.session.user.has_resto) {
             resp.redirect('/gotoUserRestaurant');
         } else {
@@ -578,7 +617,7 @@ server.get('/gotoRestaurantRegistration', function(req, resp) {
         layout: 'index',
         title: 'Register Your Restaurant',
         css: 'restaurant_forms',
-        logged_in: logged_in 
+        logged_in: !!req.session.user 
     });
 });
 ///
@@ -610,14 +649,14 @@ server.post('/registerRestaurant', async function(req, resp) {
                 rating: [],
                 address: combinedAddress,
                 logo: req.body.res_logo,
-                owner: currentUser.username // Assuming currentUser.user is the username
+                owner: req.session.user.username // Assuming currentUser.user is the username
             });
 
             await newRestaurant.save();
 
             // Update the current user's has_resto field to true
             await accountModel.findOneAndUpdate(
-              { user: currentUser.username },
+              { user: req.session.user.username },
               { $set: { has_resto: true } }
             );
 
