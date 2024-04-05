@@ -356,31 +356,14 @@ server.post('/deleteReview', function(req, resp) {
                 return restaurant.save();
             })
             .then(updatedRestaurant => {
-                // Render the response with the updated restaurant list
                 listRestaurants()
                     .then(resto_list => {
-
-                        for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
-                            reviews.push({
-                                rating: matchedRestaurant.reviews[i].rating,
-                                text: matchedRestaurant.reviews[i].text,
-                                reviewer: matchedRestaurant.reviews[i].reviewer,
-                                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username),
-                                index: i,
-                                restoName: restaurantName
-                            });
-                        }
-                        
-                        const updatedReviews = matchedRestaurant.reviews.filter((review, index) => index !== req.body.indexVal);
-                        console.log(updatedReviews);
-
-                        resp.render('restaurant_page', {
+                        resp.render('main', {
                             layout: 'index',
-                            title: 'Restaurant Reviews',
-                            matchedRestaurant: matchedRestaurant,
-                            css: 'restaurant_page',
-                            logged_in: !!req.session.user,
-                            reviews: updatedReviews
+                            title: 'Homepage | SulEAT Food Bites',
+                            css: 'main',
+                            restaurant_list: resto_list,
+                            logged_in: !!req.session.user
                         });
                     })
                     .catch(errorFn);
