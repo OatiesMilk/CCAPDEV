@@ -305,20 +305,33 @@ server.post('/gotoReviews', function(req, resp) {
         const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
         const reviews = [];
 
-        for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
-            reviews.push({
-                rating: matchedRestaurant.reviews[i].rating,
-                text: matchedRestaurant.reviews[i].text,
-                reviewer: matchedRestaurant.reviews[i].reviewer,
-                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username),
-                index: i,
-                restoName: restaurantName
-            });
-            let editable = (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username);
-            // console.log(matchedRestaurant.reviews[i].reviewer_username + " = " + req.session.user.username);
-            // console.log(editable);
-            console.log(i);
+        if (!!req.session.user){
+            for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
+                reviews.push({
+                    rating: matchedRestaurant.reviews[i].rating,
+                    text: matchedRestaurant.reviews[i].text,
+                    reviewer: matchedRestaurant.reviews[i].reviewer,
+                    editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username),
+                    index: i,
+                    restoName: restaurantName
+                });
+                let editable = (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username);
+                console.log(i);
+            }
         }
+        else{
+            for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
+                reviews.push({
+                    rating: matchedRestaurant.reviews[i].rating,
+                    text: matchedRestaurant.reviews[i].text,
+                    reviewer: matchedRestaurant.reviews[i].reviewer,
+                    editable: false,
+                    index: i,
+                    restoName: restaurantName
+                });
+            } 
+        }
+
 
         resp.render('restaurant_page', {
             layout: 'index',
