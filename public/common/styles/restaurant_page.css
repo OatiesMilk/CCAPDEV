@@ -344,6 +344,7 @@ body {
     background-color: #242424;
     height: 100%;
     width: 30%;
+    border-radius: 20px;
 }
 
 *:focus {
@@ -387,7 +388,6 @@ body {
     align-items: center;
     height: 70%;
     justify-content: center;
-    margin-left: -2px;
 }
 
 .stats-text {
@@ -405,19 +405,15 @@ body {
 .review-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .reviews {
     display: flex;
     align-items: center;
     width: 100%;
-    margin-left: 10px;
-    margin: 5px;
+    margin: 2%;
 }
 
 .reviews > img {
     width: 40px;
-    margin-right: 5px;
 }
