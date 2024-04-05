@@ -4,7 +4,6 @@
     {{else}}
         {{> header}}
     {{/if}}
-
     <div class="main-content">
         <div class="review-container">
             <div class="title">
@@ -19,13 +18,12 @@
                 </label>
 
                 <label for="reviewInput">Your Review:</label>
-                <textarea id="reviewInput" name="reviewInput" rows="13" cols="100" required></textarea>
+                <textarea id="reviewInput" name="reviewInput" rows="14" cols="100" required></textarea>
 
                 <input type="hidden" name="restaurantName" value="{{matchedRestaurant.name}}">
                 <button type="submit">Submit Review</button>
             </form>
         </div>
     </div>
-    
     {{> footer}}
 </div>
