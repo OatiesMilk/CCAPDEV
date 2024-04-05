@@ -370,8 +370,9 @@ server.post('/deleteReview', function(req, resp) {
                                 restoName: restaurantName
                             });
                         }
-
-                        console.log(reviews);
+                        
+                        const updatedReviews = matchedRestaurant.reviews.filter((review, index) => index !== req.body.indexVal);
+                        console.log(updatedReviews);
 
                         resp.render('restaurant_page', {
                             layout: 'index',
@@ -379,15 +380,13 @@ server.post('/deleteReview', function(req, resp) {
                             matchedRestaurant: matchedRestaurant,
                             css: 'restaurant_page',
                             logged_in: !!req.session.user,
-                            reviews: reviews
+                            reviews: updatedReviews
                         });
                     })
                     .catch(errorFn);
             })
             .catch(error => {
-                // Handle errors
                 console.error('Error deleting review:', error);
-                // Send an error response or handle it appropriately
                 resp.status(500).send('Internal Server Error');
             });
     })
