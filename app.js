@@ -61,7 +61,8 @@ const restaurantsSchema = new mongoose.Schema({
     reviews: [{
         rating: { type: Number },
         text: { type: String },
-        reviewer: {type: String}
+        reviewer: {type: String},
+        reviewer_username: {type: String}
     }], 
     owner: { type: String }
 }, { versionKey: false });
@@ -69,7 +70,6 @@ const restaurantsSchema = new mongoose.Schema({
 const accountModel = mongoose.model('account', accountsSchema);
 const restaurantModel = mongoose.model('restaurant', restaurantsSchema);
 
-/*
 const reviewsSchema = new mongoose.Schema({
     restaurant_id: { type: String },
     reviewer_id: { type: String }, // user id
@@ -84,9 +84,9 @@ const reviewsCommentsSchema = new mongoose.Schema({
     commenter_id: { type: String }, // user id
     comment: { type: String },
 }, { versionKey: false });
+
 const reviewsModel = mongoose.model('reviews', reviewsSchema);
 const reviewsCommentsModel = mongoose.model('reviews_comments', reviewsCommentsSchema);
-*/
 
 /*
     modus
@@ -308,8 +308,12 @@ server.post('/gotoReviews', function(req, resp) {
             reviews.push({
                 rating: matchedRestaurant.reviews[i].rating,
                 text: matchedRestaurant.reviews[i].text,
-                reviewer: matchedRestaurant.reviews[i].reviewer
+                reviewer: matchedRestaurant.reviews[i].reviewer,
+                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username)
             });
+            let editable = (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username);
+            // console.log(matchedRestaurant.reviews[i].reviewer_username + " = " + req.session.user.username);
+            // console.log(editable);
         }
 
         resp.render('restaurant_page', {
@@ -480,22 +484,29 @@ server.post('/gotoAccountRegistration', function(req, resp){
 
 server.post('/writeReview', function(req, resp) {
     const restaurantName = req.body.restaurantName;
+    if (!req.session.user) {
+        resp.redirect('/login');
+    } 
 
-    resp.render('restaurant_review', {
-        layout: 'index',
-        title: 'Review Restaurant',
-        restaurantName: restaurantName,
-        css: 'restaurant_review',
-        logged_in: !!req.session.user
-    });
+    else{
+        resp.render('restaurant_review', {
+            layout: 'index',
+            title: 'Review Restaurant',
+            restaurantName: restaurantName,
+            css: 'restaurant_review',
+            logged_in: !!req.session.user
+        });
+    }
+
 });
 
 server.post('/submitReview', function(req, resp) {
     listRestaurants().then(resto_list => {
         const restaurantName = { name: req.body.restaurantName };
-        const reviewerName = req.body.nameInput;
+        const reviewerName = req.session.user.fname + " " + req.session.user.lname;
         const newRating = parseInt(req.body.ratingInput);
         const newText = req.body.reviewInput;
+        console.log(reviewerName);
 
         // Find the restaurant by name and update it
         restaurantModel.findOne(restaurantName).then(function(restaurant) {
@@ -503,7 +514,8 @@ server.post('/submitReview', function(req, resp) {
             restaurant.reviews.push({
                 rating: newRating,
                 text: newText,
-                reviewer: reviewerName
+                reviewer: reviewerName,
+                reviewer_username: req.session.user.username
             });
 
             // Save the updated restaurant

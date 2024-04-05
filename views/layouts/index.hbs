@@ -5,6 +5,11 @@
     <link href="/common/styles/{{css}}.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="/common/func.js"></script>
+    <script>
+            Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+              return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+            });
+    </script>
   </head>
   <body>
     {{{body}}}

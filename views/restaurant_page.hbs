@@ -74,7 +74,12 @@
                                     <span>{{this.rating}} / 5</span>
                                 </label>
                             </div>
-                            <button class="edit-button">Edit Review</button>
+                            {{#if editable}}
+                                <div class="button-container">
+                                    <button class="delete-button">Delete Review</button>
+                                    <button class="edit-button">Edit Review</button>
+                                </div>
+                            {{/if}}
                         </div>
                     </div>
                     {{/each}}

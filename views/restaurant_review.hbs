@@ -14,10 +14,12 @@
             <label>Restaurant: {{restaurantName}}</label>
 
             <form action="/submitReview" method="post">
-                <label class="name-container" for="nameInput">Name:
-                    <input type="text" id="nameInput" name="nameInput"required>
-                </label>
 
+               <!--  <label class="name-container" for="nameInput">Name:
+                    <input type="text" id="nameInput" name="nameInput"required>
+                </label> -->
+                
+                <br>
                 <label class="label-container" for="ratingInput">Rating (1 - 5):
                     <input type="number" id="ratingInput" name="ratingInput" min="1" max="5" required>
                 </label>

@@ -421,7 +421,7 @@ body {
 .edit-button {
     position: relative; 
     top: 0px; 
-    left: 450px; 
+
     box-sizing: content-box;
     height: 20px;
     width: 100px;
@@ -435,4 +435,33 @@ body {
 
 .edit-button:hover {
     transform: scale(1.05); 
+}
+
+.delete-button {
+    position: relative; 
+    top: 0px; 
+ 
+    box-sizing: content-box;
+    height: 20px;
+    width: 100px;
+    border-radius: 10px; 
+    background-color: #eb303c;
+    border: none; 
+    color: white; 
+    transition: transform 0.2s ease-in-out; 
+    font-family:'Franklin Gothic Medium';
+}
+
+.delete-button:hover {
+    transform: scale(1.05); 
+}
+
+.button-container {
+    position: relative; 
+    left: 330px;
+    display: flex;
+}
+.delete-button,
+.edit-button {
+    margin-right: 10px; /* Add space between buttons */
 }
