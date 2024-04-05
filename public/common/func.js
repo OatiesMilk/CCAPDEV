@@ -43,6 +43,19 @@ $(document).ready(function() {
             }//if
     });//fn+post
     })
+
+    /*$('#delete-review').click(function(){
+
+        var indexValue = $(this).val()
+        var restoName = $('#profile-name').val()
+
+        $.post('/deleteReview', {indexVal: indexValue, restoName: restoName}),
+        function(data, status){
+            if(status === 'sucesss'){
+
+            }
+        }
+    })*/
 });
 
 

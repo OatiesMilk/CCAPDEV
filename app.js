@@ -62,7 +62,8 @@ const restaurantsSchema = new mongoose.Schema({
         rating: { type: Number },
         text: { type: String },
         reviewer: {type: String},
-        reviewer_username: {type: String}
+        reviewer_username: {type: String},
+        is_edited: {type: Boolean}
     }], 
     owner: { type: String }
 }, { versionKey: false });
@@ -309,11 +310,14 @@ server.post('/gotoReviews', function(req, resp) {
                 rating: matchedRestaurant.reviews[i].rating,
                 text: matchedRestaurant.reviews[i].text,
                 reviewer: matchedRestaurant.reviews[i].reviewer,
-                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username)
+                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username),
+                index: i,
+                restoName: restaurantName
             });
             let editable = (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username);
             // console.log(matchedRestaurant.reviews[i].reviewer_username + " = " + req.session.user.username);
             // console.log(editable);
+            console.log(i);
         }
 
         resp.render('restaurant_page', {
@@ -327,6 +331,67 @@ server.post('/gotoReviews', function(req, resp) {
     }).catch(errorFn);
 });
 
+server.post('/deleteReview', function(req, resp) {
+    listRestaurants().then(resto_list => {
+        const restaurantName = req.body.restoName;
+        const matchedRestaurant = resto_list.find(restaurant => restaurant.name === restaurantName);
+        const index = req.body.indexVal;
+        const reviews = [];
+        console.log(restaurantName + " " + index);
+
+        restaurantModel.findOne({ name: restaurantName })
+            .then(restaurant => {
+                if (!restaurant) {
+                    throw new Error('Restaurant not found');
+                }
+
+                if (index < 0 || index >= restaurant.reviews.length) {
+                    throw new Error('Invalid review index');
+                }
+
+                // Remove the review at the specified index
+                restaurant.reviews.splice(index, 1);
+                
+                // Save the updated restaurant document
+                return restaurant.save();
+            })
+            .then(updatedRestaurant => {
+                // Render the response with the updated restaurant list
+                listRestaurants()
+                    .then(resto_list => {
+
+                        for (let i = 0; i < matchedRestaurant.reviews.length; i++) {
+                            reviews.push({
+                                rating: matchedRestaurant.reviews[i].rating,
+                                text: matchedRestaurant.reviews[i].text,
+                                reviewer: matchedRestaurant.reviews[i].reviewer,
+                                editable: (matchedRestaurant.reviews[i].reviewer_username === req.session.user.username),
+                                index: i,
+                                restoName: restaurantName
+                            });
+                        }
+
+                        console.log(reviews);
+
+                        resp.render('restaurant_page', {
+                            layout: 'index',
+                            title: 'Restaurant Reviews',
+                            matchedRestaurant: matchedRestaurant,
+                            css: 'restaurant_page',
+                            logged_in: !!req.session.user,
+                            reviews: reviews
+                        });
+                    })
+                    .catch(errorFn);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error deleting review:', error);
+                // Send an error response or handle it appropriately
+                resp.status(500).send('Internal Server Error');
+            });
+    })
+});
 
 server.post('/gotoProfileFromResto', function(req, resp){
 
