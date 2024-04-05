@@ -21,7 +21,7 @@ server.use(express.static('public'));
 //and feed it the correct url to run MongoDB.
 //URL is the database it connects to.
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/CCAPDEV');
+mongoose.connect('mongodb+srv://andreiviguilla:test123@ccapdev.ka765zq.mongodb.net/');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
@@ -33,7 +33,7 @@ server.use(session({
     saveUninitialized: true, 
     resave: false,
     store: new mongoStore({ 
-      uri: 'mongodb://localhost:27017/CCAPDEV',
+      uri: 'mongodb+srv://andreiviguilla:test123@ccapdev.ka765zq.mongodb.net/',
       collection: 'mySession',
       expires: 1000*60*60 // 1 hour
     })
