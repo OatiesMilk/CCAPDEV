@@ -1,6 +1,6 @@
 //Install Command:
 //npm init
-//npm i express express-handlebars body-parser mongoose
+//npm i express express-handlebars body-parser mongoose bcrypt express-session connect-mongodb-session
 
 const express = require('express');
 const server = express();
@@ -25,6 +25,19 @@ mongoose.connect('mongodb://localhost:27017/CCAPDEV');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
+
+const session = require('express-session');
+const mongoStore = require('connect-mongodb-session')(session);
+server.use(session({
+    secret: 'a secret fruit',
+    saveUninitialized: true, 
+    resave: false,
+    store: new mongoStore({ 
+      uri: 'mongodb://localhost:27017/CCAPDEV',
+      collection: 'mySession',
+      expires: 1000*60*60 // 1 hour
+    })
+}));
 
 //Mongoose will need to define a schema that is used as a template.
 //This will contain the model details that is used by the schema.
@@ -156,7 +169,7 @@ server.get('/', function(req, resp) {
             title: 'Homepage | SulEAT Food Bites',
             css: 'main',
             restaurant_list: resto_list,
-            logged_in: logged_in
+            logged_in: !!req.session.user
         });
     }).catch(errorFn);
 });
@@ -168,7 +181,7 @@ server.post('/', function(req, resp) {
             title: 'Homepage | SulEAT Food Bites',
             css: 'main',
             restaurant_list: resto_list,
-            logged_in: logged_in
+            logged_in: !!req.session.user
         });
     }).catch(errorFn);
 });
@@ -178,7 +191,7 @@ server.post('/gotoAboutUs', function(req, resp) {
         layout: 'index',
         title: 'About Us',
         css: 'about_us',
-        logged_in: logged_in
+        logged_in: !!req.session.user
     });
 });
 
@@ -188,12 +201,12 @@ server.post('/gotoUserRestaurant', function(req, resp) {
         layout: 'index',
         title: 'User Restaurant',
         css: 'user_restaurant',
-        logged_in: logged_in
+        logged_in: !!req.session.user
     });
 });
 
 server.get('/gotoUserRestaurant', async function(req, resp) {
-    if (!logged_in || !currentUser) {
+    if (!req.session.user) {
         // If not logged in or currentUser is not set, redirect to login
         return resp.redirect('/login');
     }
@@ -206,7 +219,7 @@ server.get('/gotoUserRestaurant', async function(req, resp) {
             layout: 'index',
             title: 'My Restaurants',
             css: 'user_restaurant',
-            logged_in: logged_in,
+            logged_in: !!req.session.user,
             restaurant_list: userRestaurants
         });
     } catch (error) {
@@ -223,19 +236,19 @@ server.post('/gotoRestaurants', function(req, resp) {
             title: 'Restaurants',
             restaurant_list: resto_list,
             css: 'restaurants',
-            logged_in: logged_in
+            logged_in: !!req.session.user
         });
     }).catch(errorFn);
 });
 
 server.post('/decideRestaurantDirection', async function(req, resp) {
-    if (!logged_in || !currentUser) {
+    if (!req.session.user) {
         return resp.redirect('/login');
     }
 
     try {
         const user = await accountModel.findOne({ user: currentUser.username }).exec();
-        if (user && user.has_resto) {
+        if (!!req.session.user && req.session.user.has_resto) {
             resp.redirect('/gotoUserRestaurant');
         } else {
             resp.redirect('/gotoRestaurantRegistration');
@@ -265,7 +278,7 @@ server.post('/gotoReviews', function(req, resp) {
             title: 'Restaurant Reviews',
             matchedRestaurant: matchedRestaurant,
             css: 'restaurant_page',
-            logged_in: logged_in,
+            logged_in: !!req.session.user,
             reviews: reviews
         });
     }).catch(errorFn);
@@ -278,12 +291,12 @@ server.post('/gotoProfileFromResto', function(req, resp){
         layout: 'index',
         title: 'Profile | SulEAT Food Bites',
         css: 'profile',
-        logged_in: logged_in,
-        user_fname: currentUser.fname,
-        user_lname: currentUser.lname,
-        username: currentUser.username,
-        bio: currentUser.bio,
-        has_resto: currentUser.has_resto
+        logged_in: !!req.session.user,
+        user_fname: req.session.user.fname,
+        user_lname: req.session.user.lname,
+        username: req.session.user.username,
+        bio: req.session.user.bio,
+        has_resto: req.session.user.has_resto
     });
 
 })
@@ -298,7 +311,7 @@ server.post('/gotoRestoFromUser', function(req, resp){
             title: 'Restaurant Reviews',
             matchedRestaurant: matchedRestaurant,
             css: 'restaurant_page',
-            logged_in: logged_in,
+            logged_in: !!req.session.user,
             totalReviews: totalReviews
         });
     }).catch(errorFn);
@@ -358,26 +371,26 @@ server.post('/search', function(req, resp){
 })
 
 server.post('/gotoEditAccount', (req, res) => {
-    if (!logged_in || !currentUser) {
+    if (!req.session.user) {
       res.redirect('/login');
     } else {
       res.render('edit_account', {
         layout: 'index',
         title: 'Edit Account | SulEAT Food Bites',
         css: 'user_settings',
-        fname: currentUser.fname,
-        lname: currentUser.lname,
-        password: currentUser.pass,
-        username: currentUser.username,
-        email: currentUser.email,
-        bio: currentUser.bio,
-        profilePicture: currentUser.profilePicture
+        fname: req.session.user.fname,
+        lname: req.session.user.lname,
+        password: req.session.user.pass,
+        username: req.session.user.username,
+        email: req.session.user.email,
+        bio: req.session.user.bio,
+        profilePicture: req.session.user.profilePicture
       });
     }
 });
 
 server.post('/updateAccount', async function(req, resp) {
-    const accountQuery = { fname: currentUser.fname, lname: currentUser.lname }
+    const accountQuery = { fname: req.session.user.fname, lname: req.session.user.lname }
     const password1 = req.body.password;
     const password2 = req.body.confirm_password;
     const old_pass = req.body.old_password;
@@ -434,7 +447,7 @@ server.post('/writeReview', function(req, resp) {
         title: 'Review Restaurant',
         restaurantName: restaurantName,
         css: 'restaurant_review',
-        logged_in: logged_in
+        logged_in: !!req.session.user
     });
 });
 
@@ -461,7 +474,7 @@ server.post('/submitReview', function(req, resp) {
                     title: 'Homepage | SulEAT Food Bites',
                     css: 'main',
                     restaurant_list: resto_list,
-                    logged_in: logged_in
+                    logged_in: !!req.session.user
                 });
             }).catch(errorFn); // Catch save error
 
@@ -474,13 +487,21 @@ server.post('/gotoProfile', function(req, resp) {
         layout: 'index',
         title: 'Profile | SulEAT Food Bites',
         css: 'profile',
-        logged_in: logged_in,
-        currentUser: currentUser,
-        has_resto: currentUser.has_resto
+        logged_in: !!req.session.user,
+        currentUser: req.session.user,
+        has_resto: req.session.user.has_resto
     });
 });
 
 server.post('/gotoLogin', function(req, resp) {
+    resp.render('login', {
+        layout: 'index',
+        title: 'Account Login',
+        css: 'login'
+    });
+});
+
+server.get('/login', function(req, resp) {
     resp.render('login', {
         layout: 'index',
         title: 'Account Login',
@@ -496,26 +517,17 @@ server.post('/verifyLogin', async function(req, resp) {
         if (user) {
             const isPasswordMatch = await bcrypt.compare(password, user.pass);
             if (isPasswordMatch) {
-                logged_in = true;
-                console.log('Valid Login!');
-
-                // Set the global current user
-                currentUser = {
+                // Store user information in session
+                req.session.user = {
                     fname: user.fname,
                     lname: user.lname,
                     username: user.user,
                     bio: user.bio,
                     email: user.email,
-                    password: user.pass
+                    has_resto: user.has_resto
                 };
-
-                // Redirect to the main page instead of rendering the profile
-                resp.render('main', {
-                    layout: 'index',
-                    title: 'Home | SulEAT Food Bites',
-                    css: 'main',
-                    logged_in: logged_in
-                });
+                console.log('Valid Login!');
+                resp.redirect('/'); // Redirect to main page after login
             } else {
                 console.log('Invalid Password!');
                 resp.render('login', {
@@ -541,13 +553,12 @@ server.post('/verifyLogin', async function(req, resp) {
 });
 
 server.post('/gotoLogout', function(req, resp) {
-    logged_in = false;
-    currentUser = null;
-    resp.render('main', {
-        layout: 'index',
-        title: 'SulEAT Food Bites',
-        css: 'main',
-        logged_in: logged_in
+    // Destroy the session and log the user out
+    req.session.destroy(function(err) {
+        if (err) {
+            console.error('Error destroying session:', err);
+        }
+        resp.redirect('/');
     });
 });
 
@@ -560,7 +571,7 @@ server.post('/gotoRestaurantRegistration', function(req, resp){
 });
 ///
 server.get('/gotoRestaurantRegistration', function(req, resp) {
-    if (!logged_in || !currentUser) {
+    if (!req.session.user) {
         return resp.redirect('/login');
     }
     resp.render('register_restaurant', {
@@ -573,7 +584,7 @@ server.get('/gotoRestaurantRegistration', function(req, resp) {
 ///
 server.post('/registerRestaurant', async function(req, resp) {
     // Make sure a user is logged in before allowing restaurant registration
-    if (!logged_in || !currentUser) {
+    if (!req.session.user) {
         resp.redirect('/login');
         return;
     }
@@ -615,7 +626,7 @@ server.post('/registerRestaurant', async function(req, resp) {
                 layout: 'index',
                 title: 'Home | SulEAT Food Bites',
                 css: 'main',
-                logged_in: logged_in,
+                logged_in: !!req.session.user,
                 message: "Successfully registered the restaurant!"
             });
         }
@@ -660,23 +671,23 @@ server.post('/createAccount', async function(req, resp) {
                     bio: bioValue,
                 });
 
-                currentUser = {
+                // Save the user to the database
+                await accountInstance.save();
+
+                // Store user information in session
+                req.session.user = {
                     fname: firstname,
                     lname: lastname,
                     username: username,
-                    pass: hashedPassword,
-                    email: email,
-                    bio: bioValue
+                    bio: bioValue,
+                    email: email
                 };
 
-                await accountInstance.save();
-
-                logged_in = true;
                 resp.render('main', {
                     layout: 'index',
                     title: 'SulEAT Food Bites',
                     css: 'main',
-                    logged_in: logged_in
+                    logged_in: !!req.session.user // Check if user is logged in
                 });
                 console.log("Successfully registered!");
             }
@@ -694,6 +705,7 @@ server.post('/createAccount', async function(req, resp) {
         resp.status(500).send('Internal server error');
     }
 });
+
 
 // Only at the very end should the database be closed.
 function finalClose(){
