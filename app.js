@@ -33,7 +33,7 @@ server.use(session({
     saveUninitialized: true, 
     resave: false,
     store: new mongoStore({ 
-      uri: 'mongodb+srv://andreiviguilla:<password>@ccapdev.ka765zq.mongodb.net/',
+      uri: 'mongodb+srv://andreiviguilla:test123@ccapdev.ka765zq.mongodb.net/',
       collection: 'mySession',
       expires: 1000*60*60 // 1 hour
     })
